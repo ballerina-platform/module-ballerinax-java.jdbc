@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS Customers(
   creditLimit DOUBLE,
   country  VARCHAR(300)
 );
-/
+
 CREATE TABLE IF NOT EXISTS CustomersTrx(
   customerId INTEGER,
   name  VARCHAR(300),
@@ -12,6 +12,5 @@ CREATE TABLE IF NOT EXISTS CustomersTrx(
   country  VARCHAR(300),
   PRIMARY KEY (customerId)
 );
-/
+
 INSERT INTO CustomersTrx VALUES (30, 'Oliver', 200000, 'UK');
-/
