@@ -50,9 +50,9 @@ function beforeSuite() returns @tainted error? {
             COMPLEX_QUERY_DB: "complex-test-data.sql"
         },
         'transaction: {
-            localTransaction: "local-transaction-test-data.sql",
-            xaTransaction1: "xa-transaction-test-data-1.sql",
-            xaTransaction2: "xa-transaction-test-data-2.sql"
+            LOCAL_TRANSACTION: "local-transaction-test-data.sql",
+            XA_TRANSACTION_1: "xa-transaction-test-data-1.sql",
+            XA_TRANSACTION_2: "xa-transaction-test-data-2.sql"
         }
     };
 

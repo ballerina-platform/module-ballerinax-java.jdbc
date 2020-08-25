@@ -16,14 +16,21 @@
 
 import ballerina/lang.'transaction as transactions;
 import ballerina/io;
-import ballerina/java.jdbc;
+import ballerina/sql;
+import ballerina/test;
 
-type ResultCount record {
+string localTransactionDB = "jdbc:h2:" + dbPath + "/" + "LOCAL_TRANSACTION";
+
+
+type TransactionResultCount record {
     int COUNTVAL;
 };
 
-function testLocalTransaction(string jdbcURL, string user, string password) returns @tainted [int, int, boolean, boolean]|error? {
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"]
+}
+function testLocalTransaction() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
     int retryVal = -1;
     boolean committedBlockExecuted = false;
     transactions:Info transInfo;
@@ -40,22 +47,32 @@ function testLocalTransaction(string jdbcURL, string user, string password) retu
     }
     retryVal = transInfo.retryNumber;
     //check whether update action is performed
-    int count = check getCount(dbClient, "200");
-    check dbClient.close();
-    return [retryVal, count, committedBlockExecuted];
+    int count = getCount(dbClient, "200");
+    checkpanic dbClient.close();
+
+    test:assertEquals(retryVal, 0);
+    test:assertEquals(count, 2);
+    test:assertEquals(committedBlockExecuted, true);
 }
 
 boolean stmtAfterFailureExecutedRWC = false;
 int retryValRWC = -1;
-function testTransactionRollbackWithCheck(string jdbcURL, string user, string password) returns @tainted [int, int, boolean]|error?{
-    jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testLocalTransaction"]
+}
+function testTransactionRollbackWithCheck() {
+    Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
     var result = testTransactionRollbackWithCheckHelper(dbClient);
-    int count = check getCount(dbClient, "210");
-    check dbClient.close();
-    return [retryValRWC, count, stmtAfterFailureExecutedRWC];
+    int count = getCount(dbClient, "210");
+    checkpanic dbClient.close();
+
+    test:assertEquals(retryValRWC, 1);
+    test:assertEquals(count, 0);
+    test:assertEquals(stmtAfterFailureExecutedRWC, false);
 }
 
-function testTransactionRollbackWithCheckHelper(jdbc:Client dbClient) returns error?{
+function testTransactionRollbackWithCheckHelper(Client dbClient) returns error?{
     transactions:Info transInfo;
     retry(1) transaction {
         transInfo = transactions:info();
@@ -69,8 +86,12 @@ function testTransactionRollbackWithCheckHelper(jdbc:Client dbClient) returns er
     }
 }
 
-function testTransactionRollbackWithRollback(string jdbcURL, string user, string password) returns @tainted [int, int, boolean]|error?{
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testTransactionRollbackWithCheck"]
+}
+function testTransactionRollbackWithRollback() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
     int retryVal = -1;
     boolean stmtAfterFailureExecuted = false;
     transactions:Info transInfo;
@@ -87,46 +108,61 @@ function testTransactionRollbackWithRollback(string jdbcURL, string user, string
                 rollback;
                 stmtAfterFailureExecuted  = true;
             } else {
-                check commit;
+                checkpanic commit;
             }
         }
     }
     retryVal = transInfo.retryNumber;
-    int count = check getCount(dbClient, "211");
-    check dbClient.close();
-    return [retryVal, count, stmtAfterFailureExecuted];
+    int count = getCount(dbClient, "211");
+    checkpanic dbClient.close();
+
+    test:assertEquals(retryVal, 0);
+    test:assertEquals(count, 0);
+    test:assertEquals(stmtAfterFailureExecuted, true);
+
 }
 
-function testLocalTransactionUpdateWithGeneratedKeys(string jdbcURL, string user, string password) returns @tainted [int, int]|error?{
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testTransactionRollbackWithRollback"]
+}
+function testLocalTransactionUpdateWithGeneratedKeys() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
     int returnVal = 0;
     transactions:Info transInfo;
     retry (1) transaction {
         transInfo = transactions:info();
-        var e1 = check dbClient->execute("Insert into Customers " +
+        var e1 = checkpanic dbClient->execute("Insert into Customers " +
          "(firstName,lastName,registrationID,creditLimit,country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
-        var e2 =  check dbClient->execute("Insert into Customers " +
+        var e2 =  checkpanic dbClient->execute("Insert into Customers " +
         "(firstName,lastName,registrationID,creditLimit,country) values ('James', 'Clerk', 615, 5000.75, 'USA')");
-        check commit;
+        checkpanic commit;
     }
     returnVal = transInfo.retryNumber;
     //Check whether the update action is performed.
-    int count = check getCount(dbClient, "615");
-    check dbClient.close();
-    return [returnVal, count];
+    int count = getCount(dbClient, "615");
+    checkpanic dbClient.close();
+
+    test:assertEquals(returnVal, 0);
+    test:assertEquals(count, 2);
 }
 
 int returnValRGK = 0;
-function testLocalTransactionRollbackWithGeneratedKeys(string jdbcURL, string user, string password) returns @tainted [int, int]|error?{
-    jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testLocalTransactionUpdateWithGeneratedKeys"]
+}
+function testLocalTransactionRollbackWithGeneratedKeys() {
+    Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
     var result = testLocalTransactionRollbackWithGeneratedKeysHelper(dbClient);
     //check whether update action is performed
-    int count = check getCount(dbClient, "615");
-    check dbClient.close();
-    return [returnValRGK, count];
+    int count = getCount(dbClient, "615");
+    checkpanic dbClient.close();
+    test:assertEquals(returnValRGK, 1);
+    test:assertEquals(count, 2);
 }
 
-function testLocalTransactionRollbackWithGeneratedKeysHelper(jdbc:Client dbClient) returns error? {
+function testLocalTransactionRollbackWithGeneratedKeysHelper(Client dbClient) returns error? {
     transactions:Info transInfo;
     retry(1) transaction {
         transInfo = transactions:info();
@@ -139,8 +175,12 @@ function testLocalTransactionRollbackWithGeneratedKeysHelper(jdbc:Client dbClien
     }
 }
 
-function testTransactionAbort(string jdbcURL, string user, string password) returns @tainted [int, int, int]|error?{
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testLocalTransactionRollbackWithGeneratedKeys"]
+}
+function testTransactionAbort() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
     transactions:Info transInfo;
 
     int abortVal = 0;
@@ -159,19 +199,26 @@ function testTransactionAbort(string jdbcURL, string user, string password) retu
         if (i == 0) {
             rollback;
         } else {
-            check commit;
+            checkpanic commit;
         }
     }
     int returnVal = transInfo.retryNumber;
     //Check whether the update action is performed.
-    int count = check getCount(dbClient, "220");
-    check dbClient.close();
-    return [returnVal, abortVal, count];
+    int count = getCount(dbClient, "220");
+    checkpanic dbClient.close();
+
+    test:assertEquals(returnVal, 0);
+    test:assertEquals(abortVal, -1);
+    test:assertEquals(count, 0);
 }
 
 int testTransactionErrorPanicRetVal = 0;
-function testTransactionErrorPanic(string jdbcURL, string user, string password) returns @tainted [int, int, int]|error? {
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    enable: false,
+    groups: ["transaction", "local-transaction"]
+}
+function testTransactionErrorPanic() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
     int returnVal = 0;
     int catchValue = 0;
     var ret = trap testTransactionErrorPanicHelper(dbClient);
@@ -180,12 +227,14 @@ function testTransactionErrorPanic(string jdbcURL, string user, string password)
         catchValue = -1;
     }
     //Check whether the update action is performed.
-    int count = check getCount(dbClient, "260");
-    check dbClient.close();
-    return [testTransactionErrorPanicRetVal, catchValue, count];
+    int count = getCount(dbClient, "260");
+    checkpanic dbClient.close();
+    test:assertEquals(testTransactionErrorPanicRetVal, 1);
+    test:assertEquals(catchValue, -1);
+    test:assertEquals(count, 0);
 }
 
-function testTransactionErrorPanicHelper(jdbc:Client dbClient) {
+function testTransactionErrorPanicHelper(Client dbClient) {
     int returnVal = 0;
     transactions:Info transInfo;
     retry(1) transaction {
@@ -204,8 +253,12 @@ function testTransactionErrorPanicHelper(jdbc:Client dbClient) {
     testTransactionErrorPanicRetVal = transInfo.retryNumber;
 }
 
-function testTransactionErrorPanicAndTrap(string jdbcURL, string user, string password) returns @tainted [int, int, int]|error? {
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testTransactionAbort"]
+}
+function testTransactionErrorPanicAndTrap() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
 
     int catchValue = 0;
     transactions:Info transInfo;
@@ -217,13 +270,15 @@ function testTransactionErrorPanicAndTrap(string jdbcURL, string user, string pa
         if (ret is error) {
             catchValue = -1;
         }
-        check commit;
+        checkpanic commit;
     }
     int returnVal = transInfo.retryNumber;
     //Check whether the update action is performed.
-    int count = check getCount(dbClient, "250");
-    check dbClient.close();
-    return [returnVal, catchValue, count];
+    int count = getCount(dbClient, "250");
+    checkpanic dbClient.close();
+    test:assertEquals(returnVal, 0);
+    test:assertEquals(catchValue, -1);
+    test:assertEquals(count, 1);
 }
 
 function testTransactionErrorPanicAndTrapHelper(int i) {
@@ -233,18 +288,22 @@ function testTransactionErrorPanicAndTrapHelper(int i) {
     }
 }
 
-function testTwoTransactions(string jdbcURL, string user, string password) returns @tainted [int, int, int]|error? {
-    jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testTransactionErrorPanicAndTrap"]
+}
+function testTwoTransactions() {
+    Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
 
      transactions:Info transInfo1;
      transactions:Info transInfo2;
      retry (1) transaction {
          transInfo1 = transactions:info();
-         var e1 = check dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+         var e1 = checkpanic dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
                              "values ('James', 'Clerk', 400, 5000.75, 'USA')");
-         var e2 = check dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+         var e2 = checkpanic dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
                              "values ('James', 'Clerk', 400, 5000.75, 'USA')");
-         check commit;
+         checkpanic commit;
      }
      int returnVal1 = transInfo1.retryNumber;
 
@@ -254,33 +313,43 @@ function testTwoTransactions(string jdbcURL, string user, string password) retur
                              "values ('James', 'Clerk', 400, 5000.75, 'USA')");
          var e2 = dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
                              "values ('James', 'Clerk', 400, 5000.75, 'USA')");
-         check commit;
+         checkpanic commit;
      }
      int returnVal2 = transInfo2.retryNumber;
 
      //Check whether the update action is performed.
-     int count = check getCount(dbClient, "400");
-     check dbClient.close();
-     return [returnVal1, returnVal2, count];
+     int count = getCount(dbClient, "400");
+     checkpanic dbClient.close();
+    test:assertEquals(returnVal1, 0);
+    test:assertEquals(returnVal2, 0);
+    test:assertEquals(count, 4);
  }
 
-function testTransactionWithoutHandlers(string jdbcURL, string user, string password) returns @tainted [int]|error? {
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testTwoTransactions"]
+}
+function testTransactionWithoutHandlers() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
     transaction {
-        var e1 = check dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+        var e1 = checkpanic dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
                             "values ('James', 'Clerk', 350, 5000.75, 'USA')");
-        var e2 = check dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
+        var e2 = checkpanic dbClient->execute("Insert into Customers (firstName,lastName,registrationID,creditLimit,country) " +
                             "values ('James', 'Clerk', 350, 5000.75, 'USA')");
-        check commit;
+        checkpanic commit;
     }
     //Check whether the update action is performed.
-    int count = check getCount(dbClient, "350");
-    check dbClient.close();
-    return [count];
+    int count = getCount(dbClient, "350");
+    checkpanic dbClient.close();
+    test:assertEquals(count, 2);
 }
 
-function testLocalTransactionFailed(string jdbcURL, string user, string password) returns @tainted [string, int]|error? {
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testTransactionWithoutHandlers"]
+}
+function testLocalTransactionFailed() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
 
     string a = "beforetx";
 
@@ -291,12 +360,13 @@ function testLocalTransactionFailed(string jdbcURL, string user, string password
         a = ret.message() + " trapped";
     }
     a = a + " afterTrx";
-    int count = check getCount(dbClient, "111");
-    check dbClient.close();
-    return [a, count];
+    int count = getCount(dbClient, "111");
+    checkpanic dbClient.close();
+    test:assertEquals(a, "beforetx inTrx trxAborted inTrx trxAborted inTrx trapped afterTrx");
+    test:assertEquals(count, 0);
 }
 
-function testLocalTransactionFailedHelper(string status,jdbc:Client dbClient) returns string|error {
+function testLocalTransactionFailedHelper(string status,Client dbClient) returns string|error {
     string a = status;
     transactions:Info transInfo;
     int i = 0;
@@ -325,8 +395,12 @@ function getError(string message) returns error? {
     return error(message);
 }
 
-function testLocalTransactionSuccessWithFailed(string jdbcURL, string user, string password) returns @tainted [string, int]|error? {
-   jdbc:Client dbClient = check new (url = jdbcURL, user = user, password = password);
+@test:Config {
+    groups: ["transaction", "local-transaction"],
+    dependsOn: ["testLocalTransactionFailed"]
+}
+function testLocalTransactionSuccessWithFailed() {
+   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
 
     string a = "beforetx";
     string | error ret = trap testLocalTransactionSuccessWithFailedHelper(a, dbClient);
@@ -336,12 +410,13 @@ function testLocalTransactionSuccessWithFailed(string jdbcURL, string user, stri
         a = a + "trapped";
     }
     a = a + " afterTrx";
-    int count = check getCount(dbClient, "222");
-    check dbClient.close();
-    return [a, count];
+    int count = getCount(dbClient, "222");
+    checkpanic dbClient.close();
+     test:assertEquals(a, "beforetx inTrx inTrx inTrx committed afterTrx");
+    test:assertEquals(count, 2);
 }
 
-function testLocalTransactionSuccessWithFailedHelper(string status,jdbc:Client dbClient) returns string|error {
+function testLocalTransactionSuccessWithFailedHelper(string status,Client dbClient) returns string|error {
     int i = 0;
     string a = status;
     retry (3) transaction {
@@ -362,14 +437,14 @@ function testLocalTransactionSuccessWithFailedHelper(string status,jdbc:Client d
     return a;
 }
 
-function getCount(jdbc:Client dbClient, string id) returns @tainted int|error{
-    stream<ResultCount, error> streamData = <stream<ResultCount, error>> dbClient->query("Select COUNT(*) as " +
-        "countval from Customers where registrationID = "+ id, ResultCount);
-        record {|ResultCount value;|}? data = check streamData.next();
-        check streamData.close();
-        ResultCount? value = data?.value;
-        if(value is ResultCount){
-           return value.COUNTVAL;
+function getCount(Client dbClient, string id) returns @tainted int {
+    stream<TransactionResultCount, sql:Error> streamData = <stream<TransactionResultCount, sql:Error>> dbClient->query("Select COUNT(*) as " +
+        "countval from Customers where registrationID = "+ id, TransactionResultCount);
+        record {|TransactionResultCount value;|}? data = checkpanic streamData.next();
+        checkpanic streamData.close();
+        TransactionResultCount? value = data?.value;
+        if(value is TransactionResultCount){
+           return value["COUNTVAL"];
         }
         return 0;
 }
