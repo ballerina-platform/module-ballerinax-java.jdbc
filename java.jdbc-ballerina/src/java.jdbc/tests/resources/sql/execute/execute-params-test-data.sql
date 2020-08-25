@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS DataTable(
+CREATE TABLE DataTable(
   row_id       INTEGER,
   int_type     INTEGER,
   long_type    BIGINT,
@@ -18,7 +18,7 @@ INSERT INTO DataTable (row_id) VALUES (2);
 INSERT INTO DataTable (row_id, int_type, long_type, float_type, double_type, boolean_type, string_type, decimal_type)
   VALUES(3, 1, 9372036854774807, 124.34, 29095039, false, '1', 25.45);
 
-CREATE TABLE IF NOT EXISTS ComplexTypes(
+CREATE TABLE ComplexTypes(
   row_id         INTEGER NOT NULL,
   blob_type      BLOB(1024),
   clob_type      CLOB(1024),
@@ -39,7 +39,7 @@ INSERT INTO ComplexTypes (row_id, blob_type, clob_type, binary_type, var_binary_
   (3, null, null, null, null);
 
 CREATE TABLE NumericTypes (
-   id INT IDENTITY,
+   id INT AUTO_INCREMENT,
    int_type INT,
    bigint_type BIGINT,
    smallint_type SMALLINT,
@@ -60,21 +60,19 @@ INSERT INTO NumericTypes (id, int_type, bigint_type, smallint_type, tinyint_type
     float_type, real_type) VALUES (2, 2147483647, 9223372036854774807, 32767, 127, 1, 1234, 1234, 1234,
     1234);
 
-CREATE TABLE IF NOT EXISTS DateTimeTypes(
-  row_id         INTEGER NOT NULL,
+CREATE TABLE DateTimeTypes(
+  row_id         INT,
   date_type      DATE,
   time_type      TIME,
   timestamp_type TIMESTAMP,
   datetime_type  DATETIME,
-  time_type2      TIME(6) WITH TIME ZONE,
-  timestamp_type2 TIMESTAMP(2) WITH TIME ZONE,
   PRIMARY KEY (row_id)
 );
 
-INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type, time_type2, timestamp_type2) VALUES
-  (1,'2017-02-03', '11:35:45', '2017-02-03 11:53:00', '2017-02-03 11:53:00','20:08:08-8:00','2008-08-08 20:08:08+8:00');
+INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type) VALUES
+  (1,'2017-02-03', '11:35:45', '2017-02-03 11:53:00', '2017-02-03 11:53:00');
 
-CREATE TABLE IF NOT EXISTS ArrayTypes(
+CREATE TABLE ArrayTypes(
   row_id        INTEGER NOT NULL,
   int_array     ARRAY,
   long_array    ARRAY,
@@ -103,39 +101,3 @@ INSERT INTO ArrayTypes (row_id, int_array, long_array, float_array, double_array
 INSERT INTO ArrayTypes (row_id, int_array, long_array, float_array, double_array, decimal_array, boolean_array, string_array, blob_array)
   VALUES (4, ARRAY[NULL, NULL, NULL], ARRAY[NULL, NULL, NULL], ARRAY[NULL, NULL, NULL],
   ARRAY[NULL, NULL, NULL], ARRAY[NULL , NULL, NULL], ARRAY[NULL , NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL]);
-
-CREATE TABLE UUIDTable(
-    id INTEGER PRIMARY KEY ,
-    data UUID DEFAULT random_uuid()
-);
-
-INSERT INTO UUIDTable(id) VALUES (1);
-
-CREATE TABLE ENUMTable (
-    id integer NOT NULL,
-    enum_type ENUM('admin','doctor','housekeeper') DEFAULT NULL,
-    PRIMARY KEY (id)
-);
-
-INSERT INTO ENUMTable(id, enum_type) VALUES (1, 'doctor');
-
-CREATE TABLE GEOTable(
-    id INTEGER NOT NULL ,
-    geom GEOMETRY
-);
-
-INSERT INTO GEOTable (id, geom) values (1, 'POINT(7 52)');
-
-CREATE TABLE JsonTable(
-    id INTEGER NOT NULL ,
-    json_type JSON
-);
-
-INSERT INTO JsonTable (id, json_type) values (1, JSON_OBJECT('id': 100, 'name': 'Joe', 'groups': '[2,5]' FORMAT JSON));
-
-CREATE TABLE IntervalTable (
-    id INTEGER,
-    interval_type INTERVAL HOUR TO MINUTE
-);
-
-INSERT INTO IntervalTable(id, interval_type) values (1, INTERVAL 2 HOUR);
