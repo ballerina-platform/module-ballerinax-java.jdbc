@@ -23,6 +23,9 @@ string libPath = checkpanic filepath:absolute("lib");
 string dbPath = checkpanic filepath:absolute("target/databases");
 string scriptPath = checkpanic filepath:absolute("src/java.jdbc/tests/resources/sql");
 
+string user = "test";
+string password = "Test123";
+
 @test:BeforeSuite
 function beforeSuite() returns @tainted error? {
 
@@ -60,6 +63,8 @@ function beforeSuite() returns @tainted error? {
             process = checkpanic system:exec(
             "java", {}, libPath, "-cp", "h2-1.4.200.jar", "org.h2.tools.RunScript",
             "-url", "jdbc:h2:" + dbPath + "/" + database,
+            "-user", user,
+            "-password", password,
             "-script", checkpanic filepath:build(scriptPath, category, script));
             exitCode = checkpanic process.waitForExit();
             test:assertExactEquals(exitCode, 0, database + " test H2 database creation failed!");
@@ -69,11 +74,6 @@ function beforeSuite() returns @tainted error? {
     io:println("Finished initialising H2 databases.");
 }
 
-@test:Config {}
-function testDefault() {
-    io:println("Dummy test case.");
-}
-
 @test:AfterSuite {}
 function afterSuite() {
     system:Process process = checkpanic system:exec("rm", {}, ".", "-r", dbPath);
@@ -81,4 +81,3 @@ function afterSuite() {
     test:assertExactEquals(exitCode, 0, "Clean up of H2 databases failed!");
     io:println("Clean up databases.");
 }
-
