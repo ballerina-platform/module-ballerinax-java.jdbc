@@ -62,13 +62,11 @@ CREATE TABLE IF NOT EXISTS DateTimeTypes(
   time_type      TIME,
   timestamp_type TIMESTAMP,
   datetime_type  DATETIME,
-  time_type2      TIME(6) WITH TIME ZONE,
-  timestamp_type2 TIMESTAMP(2) WITH TIME ZONE,
   PRIMARY KEY (row_id)
 );
 
-INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type, time_type2, timestamp_type2) VALUES
-  (1,'2017-02-03', '11:35:45', '2017-02-03 11:53:00', '2017-02-03 11:53:00','20:08:08-8:00','2008-08-08 20:08:08+8:00');
+INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type) VALUES
+  (1,'2017-02-03', '11:35:45', '2017-02-03 11:53:00', '2017-02-03 11:53:00');
 
 CREATE TABLE IF NOT EXISTS ArrayTypes(
   row_id        INTEGER NOT NULL,
@@ -122,12 +120,12 @@ CREATE TABLE GEOTable(
 
 INSERT INTO GEOTable (id, geom) values (1, 'POINT(7 52)');
 
-CREATE TABLE JsonTable(
-    id INTEGER NOT NULL ,
-    json_type JSON
-);
+-- CREATE TABLE JsonTable(
+--     id INTEGER NOT NULL ,
+--     json_type JSON
+-- );
 
-INSERT INTO JsonTable (id, json_type) values (1, JSON_OBJECT('id': 100, 'name': 'Joe', 'groups': '[2,5]' FORMAT JSON));
+-- INSERT INTO JsonTable (id, json_type) values (1, JSON_OBJECT('id': 100, 'name': 'Joe', 'groups': '[2,5]' FORMAT JSON));
 
 CREATE TABLE IntervalTable (
     id INTEGER,
