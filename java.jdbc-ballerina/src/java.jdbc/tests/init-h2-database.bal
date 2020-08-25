@@ -34,7 +34,8 @@ function beforeSuite() returns @tainted error? {
             CONNECT_DB: "connector-init-test-data.sql"
         },
         pool: {
-            pool: "connection-pool-test-data.sql"
+            POOL_DB_1: "connection-pool-test-data.sql",
+            POOL_DB_2: "connection-pool-test-data.sql"
         },
         execute: {
             EXECUTE_DB: "execute-test-data.sql",
