@@ -2,6 +2,7 @@ Ballerina JDBC library
 ===================
 
   [![Build](https://github.com/ballerina-platform/module-ballerina-java.jdbc/workflows/Build/badge.svg)](https://github.com/ballerina-platform/module-ballerina-java.jdbc/actions?query=workflow%3ABuild)
+  [![Daily build](https://github.com/ballerina-platform/module-ballerina-java.jdbc/workflows/Daily%20build/badge.svg)](https://github.com/ballerina-platform/module-ballerina-java.jdbc/actions?query=workflow%3ABuild)
   [![GitHub Release](https://img.shields.io/github/release/ballerina-platform/module-ballerina-java.jdbc.svg)](https://central.ballerina.io/ballerina/java.jdbc)
   [![GitHub Release Date](https://img.shields.io/github/release-date/ballerina-platform/module-ballerina-java.jdbc.svg)](https://central.ballerina.io/ballerina/java.jdbc)
   [![GitHub Open Issues](https://img.shields.io/github/issues-raw/ballerina-platform/module-ballerina-java.jdbc.svg)](https://github.com/ballerina-platform/module-ballerina-java.jdbc/issues)
