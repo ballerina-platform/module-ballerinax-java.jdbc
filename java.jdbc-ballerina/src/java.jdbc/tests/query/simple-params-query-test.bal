@@ -173,8 +173,8 @@ function queryTypeVarCharIntegerParam() {
         test:assertEquals(returnData["BOOLEAN_TYPE"], false);
         test:assertEquals(returnData["DECIMAL_TYPE"], decimalVal);
         test:assertEquals(returnData["STRING_TYPE"], "1");
-        test:assertTrue(returnData["FLOAT_TYPE"] is float); 
-        test:assertEquals(returnData["ROW_ID"], 3);  
+        test:assertTrue(returnData["FLOAT_TYPE"] is float);
+        test:assertEquals(returnData["ROW_ID"], 3);
     }
 }
 
@@ -456,7 +456,7 @@ function queryTypeNClobReadableCharChannelParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryDateStringParam() {
     sql:DateValue typeVal = new ("2017-02-03");
@@ -465,7 +465,7 @@ function queryDateStringParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryDateString2Param() {
     sql:DateValue typeVal = new ("2017-2-3");
@@ -474,16 +474,24 @@ function queryDateString2Param() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryDateStringInvalidParam() {
     sql:DateValue typeVal = new ("2017/2/3");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE date_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
+    record{}|error? result = trap queryJdbcClient(sqlQuery);
+    test:assertTrue(result is error);
+
+    if (result is sql:ApplicationError) {
+        test:assertTrue(result.message().startsWith("Error while executing SQL query: SELECT * from " +
+                "DateTimeTypes WHERE date_type =  ? . java.lang.IllegalArgumentException"));
+    } else {
+        test:assertFail("ApplicationError Error expected.");
+    }
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryDateLongParam() {
     time:Time date = checkpanic time:parse("2017-02-03", "yyyy-MM-dd");
@@ -493,7 +501,7 @@ function queryDateLongParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryDateTimeRecordParam() {
     time:Time date = checkpanic time:parse("2017-02-03", "yyyy-MM-dd");
@@ -503,7 +511,7 @@ function queryDateTimeRecordParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryDateTimeRecordWithTimeZoneParam() {
     time:Time date = checkpanic time:parse("2017-02-03T09:46:22.444-0500", "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -513,7 +521,7 @@ function queryDateTimeRecordWithTimeZoneParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimeStringParam() {
     sql:TimeValue typeVal = new ("11:35:45");
@@ -522,16 +530,23 @@ function queryTimeStringParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimeStringInvalidParam() {
     sql:TimeValue typeVal = new ("11-35-45");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE time_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
-}
+    record{}|error? result = trap queryJdbcClient(sqlQuery);
+    test:assertTrue(result is error);
+
+    if (result is sql:ApplicationError) {
+        test:assertTrue(result.message().startsWith("Error while executing SQL query: SELECT * from " +
+                "DateTimeTypes WHERE time_type =  ? . java.lang.IllegalArgumentException"));
+    } else {
+        test:assertFail("ApplicationError Error expected.");
+    }}
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimeLongParam() {
     time:Time date = checkpanic time:parse("11:35:45", "HH:mm:ss");
@@ -541,7 +556,7 @@ function queryTimeLongParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimeTimeRecordParam() {
     time:Time date = checkpanic time:parse("11:35:45", "HH:mm:ss");
@@ -551,7 +566,7 @@ function queryTimeTimeRecordParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimeTimeRecordWithTimeZoneParam() {
     time:Time date = checkpanic time:parse("2017-02-03T11:35:45", "yyyy-MM-dd'T'HH:mm:ss");
@@ -561,7 +576,7 @@ function queryTimeTimeRecordWithTimeZoneParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimestampStringParam() {
     sql:TimestampValue typeVal = new ("2017-02-03 11:53:00");
@@ -570,16 +585,23 @@ function queryTimestampStringParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimestampStringInvalidParam() {
     sql:TimestampValue typeVal = new ("2017/02/03 11:53:00");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE timestamp_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
-}
+    record{}|error? result = trap queryJdbcClient(sqlQuery);
+    test:assertTrue(result is error);
+
+    if (result is sql:ApplicationError) {
+        test:assertEquals(result.message(), "Error while executing SQL query: SELECT * from " +
+        "DateTimeTypes WHERE timestamp_type =  ? . Timestamp format must be yyyy-mm-dd hh:mm:ss[.fffffffff]");
+    } else {
+        test:assertFail("ApplicationError Error expected.");
+    }}
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimestampLongParam() {
     time:Time date = checkpanic time:parse("2017-02-03 11:53:00", "yyyy-MM-dd HH:mm:ss");
@@ -589,7 +611,7 @@ function queryTimestampLongParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimestampTimeRecordParam() {
     time:Time date = checkpanic time:parse("2017-02-03 11:53:00", "yyyy-MM-dd HH:mm:ss");
@@ -599,7 +621,7 @@ function queryTimestampTimeRecordParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryTimestampTimeRecordWithTimeZoneParam() {
     time:Time date = checkpanic time:parse("2017-02-03 11:53:00", "yyyy-MM-dd HH:mm:ss");
@@ -609,7 +631,7 @@ function queryTimestampTimeRecordWithTimeZoneParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query", "params-query"]
 }
 function queryDateTimeTimeRecordWithTimeZoneParam() {
     time:Time date = checkpanic time:parse("2017-02-03 11:53:00", "yyyy-MM-dd HH:mm:ss");
