@@ -19,7 +19,7 @@ import ballerina/test;
 string executeDb = "jdbc:h2:" + dbPath + "/" + "EXECUTE_DB";
 
 @test:Config {
-    groups: ["execute"]
+    groups: ["execute", "execute-basic"]
 }
 function testCreateTable() {
     Client dbClient = checkpanic new (url = executeDb, user = user, password = password);
@@ -31,7 +31,7 @@ function testCreateTable() {
 }
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testCreateTable"]
 }
 function testInsertTable() {
@@ -49,7 +49,7 @@ function testInsertTable() {
 }
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertTable"]
 }
 function testInsertTableWithoutGeneratedKeys() {
@@ -62,7 +62,7 @@ function testInsertTableWithoutGeneratedKeys() {
 }
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertTableWithoutGeneratedKeys"]
 }
 function testInsertTableWithGeneratedKeys() {
@@ -92,7 +92,7 @@ type NumericType record {
 };
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertTableWithGeneratedKeys"]
 }
 function testInsertAndSelectTableWithGeneratedKeys() {
@@ -117,7 +117,7 @@ function testInsertAndSelectTableWithGeneratedKeys() {
 }
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertAndSelectTableWithGeneratedKeys"]
 }
 function testInsertWithAllNilAndSelectTableWithGeneratedKeys() {
@@ -155,7 +155,7 @@ type StringData record {
 };
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertWithAllNilAndSelectTableWithGeneratedKeys"]
 }
 function testInsertWithStringAndSelectTable() {
@@ -192,7 +192,7 @@ function testInsertWithStringAndSelectTable() {
 }
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertWithStringAndSelectTable"]
 }
 function testInsertWithEmptyStringAndSelectTable() {
@@ -239,7 +239,7 @@ type StringNilData record {
 };
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertWithEmptyStringAndSelectTable"]
 }
 function testInsertWithNilStringAndSelectTable() {
@@ -274,7 +274,7 @@ function testInsertWithNilStringAndSelectTable() {
 }
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertWithNilStringAndSelectTable"]
 }
 function testInsertTableWithDatabaseError() {
@@ -296,7 +296,7 @@ function testInsertTableWithDatabaseError() {
 }
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertTableWithDatabaseError"]
 }
 function testInsertTableWithDataTypeError() {
@@ -324,7 +324,7 @@ type ResultCount record {
 };
 
 @test:Config {
-    groups: ["execute"],
+    groups: ["execute", "execute-basic"],
     dependsOn: ["testInsertTableWithDataTypeError"]
 }
 function testUpdateData() {

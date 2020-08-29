@@ -37,7 +37,21 @@ For a quick sample on demonstrating the usage see [Ballerina By Example](https:/
 
         ./gradlew clean build -x test
 
-4. To debug the tests,
+4. To run only specific tests,
+
+        ./gradlew clean build -Pgroups=<Comma separated groups/test cases>
+
+   The following groups of test cases are available,<br>
+   Groups | Test Cases
+   ---| ---
+   connection | connection
+   pool | pool
+   transaction | local-transaction <br> xa-transaction
+   execute | execute-basic <br> execute-params
+   batch-execute | batch-execute 
+   query | query-simple-params<br>query-numerical-params<br>query-complex-params
+
+5. To debug the tests,
 
         ./gradlew clean build -Pdebug=<port>
 
