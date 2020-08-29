@@ -22,7 +22,7 @@ import ballerina/test;
 string simpleParamsDb = "jdbc:h2:" + dbPath + "/" + "QUERY_PARAMS_DB";
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function querySingleIntParam() {
     int rowId = 1;
@@ -31,7 +31,7 @@ function querySingleIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryDoubleIntParam() {
     int rowId = 1;
@@ -41,7 +41,7 @@ function queryDoubleIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryIntAndLongParam() {
     int rowId = 1;
@@ -51,7 +51,7 @@ function queryIntAndLongParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryStringParam() {
     string stringType = "Hello";
@@ -60,7 +60,7 @@ function queryStringParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryIntAndStringParam() {
     string stringType = "Hello";
@@ -70,7 +70,7 @@ function queryIntAndStringParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryDoubleParam() {
     float doubleType = 2139095039.0;
@@ -79,7 +79,7 @@ function queryDoubleParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryFloatParam() {
     float floatType = 123.34;
@@ -88,7 +88,7 @@ function queryFloatParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryDoubleAndFloatParam() {
     float floatType = 123.34;
@@ -99,7 +99,7 @@ function queryDoubleAndFloatParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryDecimalParam() {
     decimal decimalValue = 23.45;
@@ -108,7 +108,7 @@ function queryDecimalParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryDecimalAnFloatParam() {
     decimal decimalValue = 23.45;
@@ -118,7 +118,7 @@ function queryDecimalAnFloatParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeVarcharStringParam() {
     sql:VarcharValue typeVal = new ("Hello");
@@ -127,7 +127,7 @@ function queryTypeVarcharStringParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeCharStringParam() {
     sql:CharValue typeVal = new ("Hello");
@@ -136,7 +136,7 @@ function queryTypeCharStringParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeNCharStringParam() {
     sql:NCharValue typeVal = new ("Hello");
@@ -145,7 +145,7 @@ function queryTypeNCharStringParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeNVarCharStringParam() {
     sql:NVarcharValue typeVal = new ("Hello");
@@ -154,7 +154,7 @@ function queryTypeNVarCharStringParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeVarCharIntegerParam() {
     int intVal = 1;
@@ -173,13 +173,13 @@ function queryTypeVarCharIntegerParam() {
         test:assertEquals(returnData["BOOLEAN_TYPE"], false);
         test:assertEquals(returnData["DECIMAL_TYPE"], decimalVal);
         test:assertEquals(returnData["STRING_TYPE"], "1");
-        test:assertTrue(returnData["FLOAT_TYPE"] is float); 
-        test:assertEquals(returnData["ROW_ID"], 3);  
+        test:assertTrue(returnData["FLOAT_TYPE"] is float);
+        test:assertEquals(returnData["ROW_ID"], 3);
     }
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypBooleanBooleanParam() {
     sql:BooleanValue typeVal = new (true);
@@ -188,7 +188,7 @@ function queryTypBooleanBooleanParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypBitIntParam() {
     sql:BitValue typeVal = new (1);
@@ -197,7 +197,7 @@ function queryTypBitIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypBitStringParam() {
     sql:BitValue typeVal = new (true);
@@ -206,7 +206,7 @@ function queryTypBitStringParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypBitInvalidIntParam() {
     sql:BitValue typeVal = new (12);
@@ -218,7 +218,7 @@ function queryTypBitInvalidIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeIntIntParam() {
     sql:IntegerValue typeVal = new (2147483647);
@@ -227,7 +227,7 @@ function queryTypeIntIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeTinyIntIntParam() {
     sql:SmallIntValue typeVal = new (127);
@@ -236,7 +236,7 @@ function queryTypeTinyIntIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeSmallIntIntParam() {
     sql:SmallIntValue typeVal = new (32767);
@@ -245,7 +245,7 @@ function queryTypeSmallIntIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeBigIntIntParam() {
     sql:BigIntValue typeVal = new (9223372036854774807);
@@ -254,7 +254,7 @@ function queryTypeBigIntIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeDoubleDoubleParam() {
     sql:DoubleValue typeVal = new (1234.567);
@@ -263,7 +263,7 @@ function queryTypeDoubleDoubleParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeDoubleIntParam() {
     sql:DoubleValue typeVal = new (1234);
@@ -281,7 +281,7 @@ function queryTypeDoubleIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeDoubleDecimalParam() {
     decimal decimalVal = 1234.567;
@@ -291,7 +291,7 @@ function queryTypeDoubleDecimalParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeFloatDoubleParam() {
     sql:DoubleValue typeVal = new (1234.567);
@@ -300,7 +300,7 @@ function queryTypeFloatDoubleParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeRealDoubleParam() {
     sql:RealValue typeVal = new (1234.567);
@@ -309,7 +309,7 @@ function queryTypeRealDoubleParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeNumericDoubleParam() {
     sql:NumericValue typeVal = new (1234.567);
@@ -318,7 +318,7 @@ function queryTypeNumericDoubleParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeNumericIntParam() {
     sql:NumericValue typeVal = new (1234);
@@ -335,7 +335,7 @@ function queryTypeNumericIntParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeNumericDecimalParam() {
     decimal decimalVal = 1234.567;
@@ -345,7 +345,7 @@ function queryTypeNumericDecimalParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeDecimalDoubleParam() {
     sql:DecimalValue typeVal = new (1234.567);
@@ -354,7 +354,7 @@ function queryTypeDecimalDoubleParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeDecimalDecimalParam() {
     decimal decimalVal = 1234.567;
@@ -365,7 +365,7 @@ function queryTypeDecimalDecimalParam() {
 
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryByteArrayParam() {
     record {}|error? value = queryJdbcClient("Select * from ComplexTypes where row_id = 1");
@@ -375,7 +375,7 @@ function queryByteArrayParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeBinaryByteParam() {
     record {}|error? value = queryJdbcClient("Select * from ComplexTypes where row_id = 1");
@@ -386,7 +386,7 @@ function queryTypeBinaryByteParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeBinaryReadableByteChannelParam() {
     io:ReadableByteChannel byteChannel = getByteColumnChannel();
@@ -396,7 +396,7 @@ function queryTypeBinaryReadableByteChannelParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeVarBinaryReadableByteChannelParam() {
     io:ReadableByteChannel byteChannel = getByteColumnChannel();
@@ -406,7 +406,7 @@ function queryTypeVarBinaryReadableByteChannelParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeTinyBlobByteParam() {
     record {}|error? value = queryJdbcClient("Select * from ComplexTypes where row_id = 1");
@@ -417,7 +417,7 @@ function queryTypeTinyBlobByteParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeBlobReadableByteChannelParam() {
     io:ReadableByteChannel byteChannel = getBlobColumnChannel();
@@ -427,7 +427,7 @@ function queryTypeBlobReadableByteChannelParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeClobStringParam() {
     sql:ClobValue typeVal = new ("very long text");
@@ -436,7 +436,7 @@ function queryTypeClobStringParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeClobReadableCharChannelParam() {
     io:ReadableCharacterChannel clobChannel = getClobColumnChannel();
@@ -446,7 +446,7 @@ function queryTypeClobReadableCharChannelParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTypeNClobReadableCharChannelParam() {
     io:ReadableCharacterChannel clobChannel = getClobColumnChannel();
@@ -456,7 +456,7 @@ function queryTypeNClobReadableCharChannelParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryDateStringParam() {
     sql:DateValue typeVal = new ("2017-02-03");
@@ -465,7 +465,7 @@ function queryDateStringParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryDateString2Param() {
     sql:DateValue typeVal = new ("2017-2-3");
@@ -474,16 +474,24 @@ function queryDateString2Param() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryDateStringInvalidParam() {
     sql:DateValue typeVal = new ("2017/2/3");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE date_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
+    record{}|error? result = trap queryJdbcClient(sqlQuery);
+    test:assertTrue(result is error);
+
+    if (result is sql:ApplicationError) {
+        test:assertTrue(result.message().startsWith("Error while executing SQL query: SELECT * from " +
+                "DateTimeTypes WHERE date_type =  ? . java.lang.IllegalArgumentException"));
+    } else {
+        test:assertFail("ApplicationError Error expected.");
+    }
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryDateLongParam() {
     time:Time date = checkpanic time:parse("2017-02-03", "yyyy-MM-dd");
@@ -493,7 +501,7 @@ function queryDateLongParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryDateTimeRecordParam() {
     time:Time date = checkpanic time:parse("2017-02-03", "yyyy-MM-dd");
@@ -503,7 +511,7 @@ function queryDateTimeRecordParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryDateTimeRecordWithTimeZoneParam() {
     time:Time date = checkpanic time:parse("2017-02-03T09:46:22.444-0500", "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -513,7 +521,7 @@ function queryDateTimeRecordWithTimeZoneParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimeStringParam() {
     sql:TimeValue typeVal = new ("11:35:45");
@@ -522,16 +530,23 @@ function queryTimeStringParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimeStringInvalidParam() {
     sql:TimeValue typeVal = new ("11-35-45");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE time_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
-}
+    record{}|error? result = trap queryJdbcClient(sqlQuery);
+    test:assertTrue(result is error);
+
+    if (result is sql:ApplicationError) {
+        test:assertTrue(result.message().startsWith("Error while executing SQL query: SELECT * from " +
+                "DateTimeTypes WHERE time_type =  ? . java.lang.IllegalArgumentException"));
+    } else {
+        test:assertFail("ApplicationError Error expected.");
+    }}
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimeLongParam() {
     time:Time date = checkpanic time:parse("11:35:45", "HH:mm:ss");
@@ -541,7 +556,7 @@ function queryTimeLongParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimeTimeRecordParam() {
     time:Time date = checkpanic time:parse("11:35:45", "HH:mm:ss");
@@ -551,7 +566,7 @@ function queryTimeTimeRecordParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimeTimeRecordWithTimeZoneParam() {
     time:Time date = checkpanic time:parse("2017-02-03T11:35:45", "yyyy-MM-dd'T'HH:mm:ss");
@@ -561,7 +576,7 @@ function queryTimeTimeRecordWithTimeZoneParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimestampStringParam() {
     sql:TimestampValue typeVal = new ("2017-02-03 11:53:00");
@@ -570,16 +585,23 @@ function queryTimestampStringParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimestampStringInvalidParam() {
     sql:TimestampValue typeVal = new ("2017/02/03 11:53:00");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE timestamp_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
-}
+    record{}|error? result = trap queryJdbcClient(sqlQuery);
+    test:assertTrue(result is error);
+
+    if (result is sql:ApplicationError) {
+        test:assertEquals(result.message(), "Error while executing SQL query: SELECT * from " +
+        "DateTimeTypes WHERE timestamp_type =  ? . Timestamp format must be yyyy-mm-dd hh:mm:ss[.fffffffff]");
+    } else {
+        test:assertFail("ApplicationError Error expected.");
+    }}
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimestampLongParam() {
     time:Time date = checkpanic time:parse("2017-02-03 11:53:00", "yyyy-MM-dd HH:mm:ss");
@@ -589,7 +611,7 @@ function queryTimestampLongParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimestampTimeRecordParam() {
     time:Time date = checkpanic time:parse("2017-02-03 11:53:00", "yyyy-MM-dd HH:mm:ss");
@@ -599,7 +621,7 @@ function queryTimestampTimeRecordParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryTimestampTimeRecordWithTimeZoneParam() {
     time:Time date = checkpanic time:parse("2017-02-03 11:53:00", "yyyy-MM-dd HH:mm:ss");
@@ -609,7 +631,7 @@ function queryTimestampTimeRecordWithTimeZoneParam() {
 }
 
 @test:Config {
-    enable: false
+    groups: ["query","query-simple-params"]
 }
 function queryDateTimeTimeRecordWithTimeZoneParam() {
     time:Time date = checkpanic time:parse("2017-02-03 11:53:00", "yyyy-MM-dd HH:mm:ss");
@@ -620,7 +642,7 @@ function queryDateTimeTimeRecordWithTimeZoneParam() {
 
 @test:Config {
     enable: false,
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryTimestampTimeRecordWithTimeZone2Param() {
     time:Time date = checkpanic time:parse("2008-08-08 20:08:08+0800", "yyyy-MM-dd HH:mm:ssZ");
@@ -630,7 +652,7 @@ function queryTimestampTimeRecordWithTimeZone2Param() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryArrayBasicParams() {
     int[] dataint = [1, 2, 3];
@@ -671,7 +693,7 @@ function queryArrayBasicParams() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryArrayBasicNullParams() {
     sql:ParameterizedQuery sqlQuery =
@@ -700,7 +722,7 @@ type UUIDResult record {|
 |};
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryUUIDParam() {
     sql:ParameterizedQuery sqlQuery = `SELECT * from UUIDTable WHERE id = 1`;
@@ -721,7 +743,7 @@ function queryUUIDParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryEnumStringParam() {
     string enumVal = "doctor";
@@ -735,7 +757,7 @@ type EnumResult record {|
 |};
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryEnumStringParam2() {
     string enumVal = "doctor";
@@ -744,7 +766,7 @@ function queryEnumStringParam2() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryGeoParam() {
     sql:ParameterizedQuery sqlQuery = `SELECT * from GEOTable`;
@@ -752,7 +774,7 @@ function queryGeoParam() {
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryGeoParam2() {
     string geoParam = "POINT (7 52)";
@@ -762,7 +784,7 @@ function queryGeoParam2() {
 
 @test:Config {
     enable: false,
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryJsonParam() {
     sql:ParameterizedQuery sqlQuery = `SELECT * from JsonTable`;
@@ -776,29 +798,56 @@ type JsonResult record {|
 
 @test:Config {
     enable: false,
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
-function queryJsonParam2(string url, string user, string password) returns @tainted record {}|error? {
+function queryJsonParam2() {
     sql:ParameterizedQuery sqlQuery = `SELECT * from JsonTable`;
-    return queryJdbcClient(sqlQuery, resultType = JsonResult);
+    record{}? returnData = queryJdbcClient(sqlQuery, resultType = JsonResult);
+    if (returnData is ()) {
+        test:assertFail("Query returns nil result");
+    } else {
+        JsonResult expectedData = {
+            id: 1,
+            json_type: {
+                id: 100,
+                name: "Joe",
+                groups: [2,5]
+            }
+        };
+        test:assertEquals(returnData, expectedData);
+    }
 }
 
 @test:Config {
     enable: false,
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
-function queryJsonParam3(string url, string user, string password) returns @tainted record {}|error? {
+function queryJsonParam3() {
     json jsonType = {"id": 100, "name": "Joe", "groups": [2, 5]};
     int id = 100;
     string name = "Joe";
     string arrayVal = "[2, 5]";
     sql:ParameterizedQuery sqlQuery =
             `SELECT * from JsonTable where json_type=JSON_OBJECT('id': ${id}, 'name':${name}, 'groups': ${arrayVal}FORMAT JSON)`;
-    return queryJdbcClient(sqlQuery, resultType = JsonResult);
+    record{}? returnData = queryJdbcClient(sqlQuery, resultType = JsonResult);
+
+    if (returnData is ()) {
+        test:assertFail("Query returns nil result");
+    } else {
+        JsonResult expectedData = {
+            id: 1,
+            json_type: {
+                id: 100,
+                name: "Joe",
+                groups: [2,5]
+            }
+        };
+        test:assertEquals(returnData, expectedData);
+    }
 }
 
 @test:Config {
-    groups: ["query", "params-query"]
+    groups: ["query","query-simple-params"]
 }
 function queryIntervalParam() {
     sql:ParameterizedQuery sqlQuery = `SELECT * from IntervalTable`;

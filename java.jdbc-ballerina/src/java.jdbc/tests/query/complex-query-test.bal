@@ -29,7 +29,7 @@ type SelectTestAlias record {
 };
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 
 function testGetPrimitiveTypes() {
@@ -53,7 +53,7 @@ function testGetPrimitiveTypes() {
 }
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 function testToJson() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
@@ -76,7 +76,7 @@ function testToJson() {
 }
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 function testToJsonComplexTypes() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
@@ -96,7 +96,7 @@ function testToJsonComplexTypes() {
 }
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 function testComplexTypesNil() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
@@ -115,7 +115,7 @@ function testComplexTypesNil() {
 }
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 function testArrayRetrieval() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
@@ -153,7 +153,7 @@ type TestTypeData record {
 };
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 function testComplexWithStructDef() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
@@ -186,7 +186,7 @@ type ResultMap record {
 };
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 function testMultipleRecoredRetrieval() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
@@ -225,7 +225,7 @@ type ResultDates record {
 };
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 function testDateTime() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
@@ -275,7 +275,7 @@ type ResultSetTestAlias record {
 };
 
 @test:Config {
-    groups: ["query", "complex-query"]
+    groups: ["query","query-complex-params"]
 }
 function testColumnAlias() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
