@@ -21,6 +21,12 @@ import ballerina/test;
 
 string localTransactionDB = "jdbc:h2:" + dbPath + "/" + "LOCAL_TRANSACTION";
 
+@test:BeforeGroups {
+    value: ["local-transaction"]
+}
+function initLocalTransactionDB() {
+    initializeDatabase("LOCAL_TRANSACTION", "transaction", "local-transaction-test-data.sql");
+}
 
 type TransactionResultCount record {
     int COUNTVAL;

@@ -19,7 +19,14 @@ import ballerina/sql;
 import ballerina/time;
 import ballerina/test;
 
-string simpleParamsDb = "jdbc:h2:" + dbPath + "/" + "QUERY_PARAMS_DB";
+string simpleParamsDb = "jdbc:h2:" + dbPath + "/" + "QUERY_SIMPLE_PARAMS_DB";
+
+@test:BeforeGroups {
+    value: ["query-simple-params"]
+}
+function initQuerySimpleParamsDB() {
+    initializeDatabase("QUERY_SIMPLE_PARAMS_DB", "query", "simple-params-test-data.sql");
+}
 
 @test:Config {
     groups: ["query","query-simple-params"]

@@ -21,6 +21,13 @@ string xaDatasourceName = "org.h2.jdbcx.JdbcDataSource";
 string xaTransactionDB1 = "jdbc:h2:" + dbPath + "/" + "XA_TRANSACTION_1";
 string xaTransactionDB2 = "jdbc:h2:" + dbPath + "/" + "XA_TRANSACTION_2";
 
+@test:BeforeGroups {
+    value: ["xa-transaction"]
+}
+function initXATransactionDB() {
+    initializeDatabase("XA_TRANSACTION_1", "transaction", "xa-transaction-test-data-1.sql");
+    initializeDatabase("XA_TRANSACTION_2", "transaction", "xa-transaction-test-data-2.sql");
+}
 
 type XAResultCount record {
     int COUNTVAL;
