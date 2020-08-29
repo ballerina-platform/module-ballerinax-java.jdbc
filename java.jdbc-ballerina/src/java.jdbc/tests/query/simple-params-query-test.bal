@@ -778,23 +778,50 @@ type JsonResult record {|
     enable: false,
     groups: ["query", "params-query"]
 }
-function queryJsonParam2(string url, string user, string password) returns @tainted record {}|error? {
+function queryJsonParam2() {
     sql:ParameterizedQuery sqlQuery = `SELECT * from JsonTable`;
-    return queryJdbcClient(sqlQuery, resultType = JsonResult);
+    record{}? returnData = queryJdbcClient(sqlQuery, resultType = JsonResult);
+    if (returnData is ()) {
+        test:assertFail("Query returns nil result");
+    } else {
+        JsonResult expectedData = {
+            id: 1,
+            json_type: {
+                id: 100,
+                name: "Joe",
+                groups: [2,5]
+            }
+        };
+        test:assertEquals(returnData, expectedData);
+    }
 }
 
 @test:Config {
     enable: false,
     groups: ["query", "params-query"]
 }
-function queryJsonParam3(string url, string user, string password) returns @tainted record {}|error? {
+function queryJsonParam3() {
     json jsonType = {"id": 100, "name": "Joe", "groups": [2, 5]};
     int id = 100;
     string name = "Joe";
     string arrayVal = "[2, 5]";
     sql:ParameterizedQuery sqlQuery =
             `SELECT * from JsonTable where json_type=JSON_OBJECT('id': ${id}, 'name':${name}, 'groups': ${arrayVal}FORMAT JSON)`;
-    return queryJdbcClient(sqlQuery, resultType = JsonResult);
+    record{}? returnData = queryJdbcClient(sqlQuery, resultType = JsonResult);
+
+    if (returnData is ()) {
+        test:assertFail("Query returns nil result");
+    } else {
+        JsonResult expectedData = {
+            id: 1,
+            json_type: {
+                id: 100,
+                name: "Joe",
+                groups: [2,5]
+            }
+        };
+        test:assertEquals(returnData, expectedData);
+    }
 }
 
 @test:Config {
