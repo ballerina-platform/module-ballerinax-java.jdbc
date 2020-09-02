@@ -88,7 +88,7 @@ task copyStdlibs(type: Copy) {
     into distributionPath
     /* Standard Libraries */
     configurations.ballerinaStdLibs.resolvedConfiguration.resolvedArtifacts.each { artifact ->
-        def artifactExtractedPath = "${buildDir}/target/extracted-distributions/" + artifact.name + "-zip"
+        def artifactExtractedPath = "${buildDir}/target/" + artifact.name + "-zip"
         into("bir-cache/") {
             from "${artifactExtractedPath}/caches/bir"
         }
@@ -113,9 +113,29 @@ task copyStdlibs(type: Copy) {
 
 task updateTomlFile {
     doLast {
+        def stdlibDependentSqlVersion = project.stdlibSqlVersion.split('-')[0]
+        def stdlibDependentIoVersion = project.stdlibIoVersion.split('-')[0]
+        def stdlibTimeVersion = project.stdlibTimeVersion.split("-")[0]
+        def stdlibConfigVersion = project.stdlibConfigVersion.split("-")[0]
+        def stdlibDependentStringUtilsVersion = project.stdlibStringUtilsVersion.split("-")[0]
+        def stdlibFilepathVersion = project.stdlibFilepathVersion.split("-")[0]
+        def stdlibSystemVersion = project.stdlibSystemVersion.split("-")[0]
+        def stdlibLogVersion = project.stdlibLogVersion.split("-")[0]
+
         def newConfig = ballerinaConfigFile.text.replace("@project.version@", project.version)
         newConfig = newConfig.replace("@toml.version@", tomlVersion)
         newConfig = newConfig.replace("@project.path@", distributionPath)
+        newConfig = newConfig.replace("@stdlib.sql.native.version@", project.stdlibSqlVersion)
+
+        newConfig = newConfig.replace("@stdlib.sql.version@", stdlibDependentSqlVersion)
+        newConfig = newConfig.replace("@stdlib.io.version@", stdlibDependentIoVersion)
+        newConfig = newConfig.replace("@stdlib.time.version@", stdlibTimeVersion)
+        newConfig = newConfig.replace("@stdlib.config.version@", stdlibConfigVersion)
+        newConfig = newConfig.replace("@stdlib.stringutils.version@", stdlibDependentStringUtilsVersion)
+        newConfig = newConfig.replace("@stdlib.filepath.version@", stdlibFilepathVersion)
+        newConfig = newConfig.replace("@stdlib.system.version@", stdlibSystemVersion)
+        newConfig = newConfig.replace("@stdlib.log.version@", stdlibLogVersion)
+
         ballerinaConfigFile.text = newConfig
     }
 }
@@ -161,7 +181,7 @@ test {
 }
 
 task ballerinaBuild {
-    dependsOn(unpackJballerinaTools)
+    dependsOn(copyStdlibs)
     dependsOn(":java.jdbc-native:build")
     dependsOn(test)
     dependsOn(updateTomlFile)
@@ -244,7 +264,7 @@ task ballerinaPush {
     doLast {
         // Publish to central
         if (!project.hasProperty("publishToCentral")) {
-            return;
+            return
         }
 
         if (project.version.endsWith('-SNAPSHOT')) {
