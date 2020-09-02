@@ -21,7 +21,6 @@ description = 'Ballerina - Java.Jdbc Ballerina Generator'
 
 configurations {
     jbalTools
-    externalJars
 }
 
 dependencies {
@@ -29,9 +28,7 @@ dependencies {
         transitive = false
     }
     compile project(':java.jdbc-native')
-    externalJars (group: 'com.h2database', name: 'h2', version: "1.4.200") {
-        transitive = false
-    }
+
  }
 
 clean {

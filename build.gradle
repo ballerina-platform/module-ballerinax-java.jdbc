@@ -62,6 +62,20 @@ allprojects {
 subprojects {
     apply plugin: 'java'
 
+    configurations {
+        externalJars
+    }
+
+    dependencies {
+        compile group: 'org.ballerinalang', name: 'ballerina-lang', version: "${ballerinaLangVersion}"
+        compile group: 'org.ballerinalang', name: 'ballerina-runtime', version: "${ballerinaLangVersion}"
+        compile group: 'org.ballerinalang', name: 'ballerina-sql', version: "${ballerinaLangVersion}"
+
+        externalJars (group: 'com.h2database', name: 'h2', version: "1.4.200") {
+            transitive = false
+        }
+    }
+
     release {
         // Disable check snapshots temporarily
         buildTasks = []
