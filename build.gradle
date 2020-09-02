@@ -146,7 +146,7 @@ subprojects {
         ballerinaStdLibs "org.ballerinalang:stringutils-ballerina:${stdlibStringUtilsVersion}"
         ballerinaStdLibs "org.ballerinalang:system-ballerina:${stdlibSystemVersion}"
         ballerinaStdLibs "org.ballerinalang:filepath-ballerina:${stdlibFilepathVersion}"
-        ballerinaStdLibs "org.ballerinalang:runtime-api-ballerina:${stdlibRuntimeVersion}"
+        ballerinaStdLibs "org.ballerinalang:runtime-ballerina:${stdlibRuntimeVersion}"
         ballerinaStdLibs "org.ballerinalang:log-ballerina:${stdlibLogVersion}"
         ballerinaStdLibs "org.ballerinalang:config-ballerina:${stdlibConfigVersion}"
 
