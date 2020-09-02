@@ -9,11 +9,12 @@ target = "java8"
 "ballerina/sql" = "@stdlib.sql.version@"
 "ballerina/io" = "@stdlib.io.version@"
 "ballerina/time" = "@stdlib.time.version@"
-"ballerina/config" = "@stdlib.config.version@"
 "ballerina/stringutils" = "@stdlib.stringutils.version@"
 "ballerina/filepath" = "@stdlib.filepath.version@"
+"ballerina/runtime" = "@stdlib.runtime.version@"
 "ballerina/system" = "@stdlib.system.version@"
 "ballerina/log" = "@stdlib.log.version@"
+"ballerina/config" = "@stdlib.config.version@"
 
     [[platform.libraries]]
     artifactId = "jdbc"
