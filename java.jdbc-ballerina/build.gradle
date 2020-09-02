@@ -52,7 +52,19 @@ task unpackJballerinaTools(type: Copy) {
     dependsOn(copyToLib)
     configurations.jbalTools.resolvedConfiguration.resolvedArtifacts.each { artifact ->
         from zipTree(artifact.getFile())
-        into new File("${buildDir}/target/extracted-distributions")
+        into new File("${buildDir}/target")
+    }
+}
+
+task unpackStdLibs() {
+    dependsOn(unpackJballerinaTools)
+    doLast {
+        configurations.ballerinaStdLibs.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+            copy {
+                from project.zipTree(artifact.getFile())
+                into new File("${buildDir}/target", artifact.name + "-zip")
+            }
+        }
     }
 }
 
@@ -70,6 +82,35 @@ def distributionPath =  project.projectDir.absolutePath + "/build/target/extract
 def distributionBinPath = distributionPath + "/bin"
 def originalConfig = ballerinaConfigFile.text
 
+task copyStdlibs(type: Copy) {
+    dependsOn(unpackStdLibs)
+
+    into distributionPath
+    /* Standard Libraries */
+    configurations.ballerinaStdLibs.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+        def artifactExtractedPath = "${buildDir}/target/extracted-distributions/" + artifact.name + "-zip"
+        into("bir-cache/") {
+            from "${artifactExtractedPath}/caches/bir"
+        }
+        into("bre/lib/") {
+            from "${artifactExtractedPath}/libs"
+        }
+        into("docs/") {
+            from "${artifactExtractedPath}/docs"
+        }
+        // pack to new cache
+        into("cache/bir/") {
+            from "${artifactExtractedPath}/caches/bir"
+        }
+        into("cache/balo/") {
+            from "${artifactExtractedPath}/caches/balo"
+        }
+        into("cache/jar/") {
+            from "${artifactExtractedPath}/caches/jar"
+        }
+    }
+}
+
 task updateTomlFile {
     doLast {
         def newConfig = ballerinaConfigFile.text.replace("@project.version@", project.version)
@@ -86,7 +127,7 @@ task revertTomlFile {
 }
 
 task ballerinaTest {
-    dependsOn(unpackJballerinaTools)
+    dependsOn(copyStdlibs)
     dependsOn(":java.jdbc-native:build")
     dependsOn(updateTomlFile)
     finalizedBy(revertTomlFile)
