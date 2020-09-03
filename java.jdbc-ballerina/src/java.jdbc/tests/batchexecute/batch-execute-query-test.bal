@@ -19,6 +19,13 @@ import ballerina/test;
 
 string batchExecuteDB = "jdbc:h2:" + dbPath + "/" + "BATCH_EXECUTE_DB";
 
+@test:BeforeGroups {
+    value: ["batch-execute"]
+}
+function initBatchExecuteDB() {
+    initializeDatabase("BATCH_EXECUTE_DB", "batchexecute", "batch-execute-test-data.sql");
+}
+
 @test:Config {
     groups: ["batch-execute"]
 }

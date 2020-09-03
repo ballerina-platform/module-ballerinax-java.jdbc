@@ -22,6 +22,14 @@ import ballerina/test;
 string poolDB_1 = "jdbc:h2:" + dbPath + "/" + "POOL_DB_1";
 string poolDB_2 = "jdbc:h2:" + dbPath + "/" + "POOL_DB_2";
 
+@test:BeforeGroups {
+    value: ["pool"]
+}
+function initPoolDB() {
+    initializeDatabase("POOL_DB_1", "pool", "connection-pool-test-data.sql");
+    initializeDatabase("POOL_DB_2", "pool", "connection-pool-test-data.sql");
+}
+
 public type Result record {
     int val;
 };

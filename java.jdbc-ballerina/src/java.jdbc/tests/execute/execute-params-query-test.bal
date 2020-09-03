@@ -20,6 +20,13 @@ import ballerina/test;
 
 string executeParamsDb = "jdbc:h2:" + dbPath + "/" + "EXECUTE_PARAMS_DB";
 
+@test:BeforeGroups {
+    value: ["execute-params"]
+}
+function initExecuteParamsDB() {
+    initializeDatabase("EXECUTE_PARAMS_DB", "execute", "execute-params-test-data.sql");
+}
+
 @test:Config {
     groups: ["execute", "execute-params"]
 }

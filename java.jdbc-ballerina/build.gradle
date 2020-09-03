@@ -21,7 +21,6 @@ description = 'Ballerina - Java.Jdbc Ballerina Generator'
 
 configurations {
     jbalTools
-    externalJars
 }
 
 dependencies {
@@ -29,9 +28,7 @@ dependencies {
         transitive = false
     }
     compile project(':java.jdbc-native')
-    externalJars (group: 'com.h2database', name: 'h2', version: "1.4.200") {
-        transitive = false
-    }
+
  }
 
 clean {
@@ -55,7 +52,19 @@ task unpackJballerinaTools(type: Copy) {
     dependsOn(copyToLib)
     configurations.jbalTools.resolvedConfiguration.resolvedArtifacts.each { artifact ->
         from zipTree(artifact.getFile())
-        into new File("${buildDir}/target/extracted-distributions")
+        into new File("${buildDir}/target")
+    }
+}
+
+task unpackStdLibs() {
+    dependsOn(unpackJballerinaTools)
+    doLast {
+        configurations.ballerinaStdLibs.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+            copy {
+                from project.zipTree(artifact.getFile())
+                into new File("${buildDir}/target", artifact.name + "-zip")
+            }
+        }
     }
 }
 
@@ -73,11 +82,62 @@ def distributionPath =  project.projectDir.absolutePath + "/build/target/extract
 def distributionBinPath = distributionPath + "/bin"
 def originalConfig = ballerinaConfigFile.text
 
+task copyStdlibs(type: Copy) {
+    dependsOn(unpackStdLibs)
+
+    into distributionPath
+    /* Standard Libraries */
+    configurations.ballerinaStdLibs.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+        def artifactExtractedPath = "${buildDir}/target/" + artifact.name + "-zip"
+        into("bir-cache/") {
+            from "${artifactExtractedPath}/caches/bir"
+        }
+        into("bre/lib/") {
+            from "${artifactExtractedPath}/libs"
+        }
+        into("docs/") {
+            from "${artifactExtractedPath}/docs"
+        }
+        // pack to new cache
+        into("cache/bir/") {
+            from "${artifactExtractedPath}/caches/bir"
+        }
+        into("cache/balo/") {
+            from "${artifactExtractedPath}/caches/balo"
+        }
+        into("cache/jar/") {
+            from "${artifactExtractedPath}/caches/jar"
+        }
+    }
+}
+
 task updateTomlFile {
     doLast {
+        def stdlibDependentSqlVersion = project.stdlibSqlVersion.split('-')[0]
+        def stdlibDependentIoVersion = project.stdlibIoVersion.split('-')[0]
+        def stdlibTimeVersion = project.stdlibTimeVersion.split("-")[0]
+        def stdlibDependentStringUtilsVersion = project.stdlibStringUtilsVersion.split("-")[0]
+        def stdlibFilepathVersion = project.stdlibFilepathVersion.split("-")[0]
+        def stdlibRuntimeVersion = project.stdlibRuntimeVersion.split("-")[0]
+        def stdlibSystemVersion = project.stdlibSystemVersion.split("-")[0]
+        def stdlibLogVersion = project.stdlibLogVersion.split("-")[0]
+        def stdlibConfigVersion = project.stdlibConfigVersion.split("-")[0]
+
         def newConfig = ballerinaConfigFile.text.replace("@project.version@", project.version)
         newConfig = newConfig.replace("@toml.version@", tomlVersion)
         newConfig = newConfig.replace("@project.path@", distributionPath)
+        newConfig = newConfig.replace("@stdlib.sql.native.version@", project.stdlibSqlVersion)
+
+        newConfig = newConfig.replace("@stdlib.sql.version@", stdlibDependentSqlVersion)
+        newConfig = newConfig.replace("@stdlib.io.version@", stdlibDependentIoVersion)
+        newConfig = newConfig.replace("@stdlib.time.version@", stdlibTimeVersion)
+        newConfig = newConfig.replace("@stdlib.stringutils.version@", stdlibDependentStringUtilsVersion)
+        newConfig = newConfig.replace("@stdlib.runtime.version@", stdlibRuntimeVersion)
+        newConfig = newConfig.replace("@stdlib.filepath.version@", stdlibFilepathVersion)
+        newConfig = newConfig.replace("@stdlib.system.version@", stdlibSystemVersion)
+        newConfig = newConfig.replace("@stdlib.log.version@", stdlibLogVersion)
+        newConfig = newConfig.replace("@stdlib.config.version@", stdlibConfigVersion)
+
         ballerinaConfigFile.text = newConfig
     }
 }
@@ -89,7 +149,7 @@ task revertTomlFile {
 }
 
 task ballerinaTest {
-    dependsOn(unpackJballerinaTools)
+    dependsOn(copyStdlibs)
     dependsOn(":java.jdbc-native:build")
     dependsOn(updateTomlFile)
     finalizedBy(revertTomlFile)
@@ -123,7 +183,7 @@ test {
 }
 
 task ballerinaBuild {
-    dependsOn(unpackJballerinaTools)
+    dependsOn(copyStdlibs)
     dependsOn(":java.jdbc-native:build")
     dependsOn(test)
     dependsOn(updateTomlFile)
@@ -206,7 +266,7 @@ task ballerinaPush {
     doLast {
         // Publish to central
         if (!project.hasProperty("publishToCentral")) {
-            return;
+            return
         }
 
         if (project.version.endsWith('-SNAPSHOT')) {

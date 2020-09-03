@@ -18,6 +18,13 @@ import ballerina/test;
 
 string jdbcUrl = "jdbc:h2:" + dbPath + "/" + "CONNECT_DB";
 
+@test:BeforeGroups {
+    value: ["connection"]
+}
+function initConnectionDB() {
+    initializeDatabase("CONNECT_DB", "connection", "connector-init-test-data.sql");
+}
+
 @test:Config {
     groups: ["connection"]
 }
@@ -44,7 +51,7 @@ function testConnectionInvalidUrl() {
     if (!(dbClient is sql:Error)) {
         checkpanic dbClient.close();
         test:assertFail("Invalid does not throw DatabaseError");
-    } 
+    }
 }
 
 @test:Config {
@@ -55,7 +62,7 @@ function testConnectionNoUserPassword() {
     if (!(dbClient is sql:Error)) {
         checkpanic dbClient.close();
         test:assertFail("No username does not throw DatabaseError");
-    } 
+    }
 }
 
 @test:Config {
@@ -108,7 +115,7 @@ function testConnectionWithDatasourceInvalidProperty() {
     };
     Client|sql:Error dbClient = new (jdbcUrl, user, password, options);
     if (dbClient is sql:Error) {
-        test:assertEquals(dbClient.message(), 
+        test:assertEquals(dbClient.message(),
         "Error in SQL connector configuration: Property invalidProperty does not exist on target class org.h2.jdbcx.JdbcDataSource");
     } else {
         checkpanic dbClient.close();

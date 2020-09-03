@@ -18,7 +18,14 @@ import ballerina/stringutils;
 import ballerina/test;
 import ballerina/time;
 
-string complexQueryDb = "jdbc:h2:" + dbPath + "/" + "COMPLEX_QUERY_DB";
+string complexQueryDb = "jdbc:h2:" + dbPath + "/" + "QUERY_COMPLEX_PARAMS_DB";
+
+@test:BeforeGroups {
+    value: ["query-complex-params"]
+}
+function initQueryComplexParamsDB() {
+    initializeDatabase("QUERY_COMPLEX_PARAMS_DB", "query", "complex-test-data.sql");
+}
 
 type SelectTestAlias record {
     int INT_TYPE;
