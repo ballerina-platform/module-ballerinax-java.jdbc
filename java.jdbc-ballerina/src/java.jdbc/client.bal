@@ -19,7 +19,7 @@ import ballerina/sql;
 
 # Represents a JDBC client.
 #
-public type Client client object {
+public client class Client {
     *sql:Client;
     private boolean clientActive = true;
 
@@ -118,7 +118,7 @@ public type Client client object {
         self.clientActive = false;
         return close(self);
     }
-};
+}
 
 # Provides a set of configuration related to database.
 # 
@@ -146,29 +146,29 @@ type ClientConfiguration record {|
 
 function createClient(Client jdbcClient, ClientConfiguration clientConf,
     sql:ConnectionPool globalConnPool) returns sql:Error? = @java:Method {
-    class: "org.ballerinalang.jdbc.NativeImpl"
+    'class: "org.ballerinalang.jdbc.NativeImpl"
 } external;
 
 function nativeQuery(Client sqlClient, string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? rowType)
 returns stream <record {}, sql:Error> = @java:Method {
-    class: "org.ballerinalang.sql.utils.QueryUtils"
+    'class: "org.ballerinalang.sql.utils.QueryUtils"
 } external;
 
 function nativeExecute(Client sqlClient, string|sql:ParameterizedQuery sqlQuery)
 returns sql:ExecutionResult|sql:Error = @java:Method {
-    class: "org.ballerinalang.sql.utils.ExecuteUtils"
+    'class: "org.ballerinalang.sql.utils.ExecuteUtils"
 } external;
 
 function nativeBatchExecute(Client sqlClient, sql:ParameterizedQuery[] sqlQueries)
 returns sql:ExecutionResult[]|sql:Error = @java:Method {
-    class: "org.ballerinalang.sql.utils.ExecuteUtils"
+    'class: "org.ballerinalang.sql.utils.ExecuteUtils"
 } external;
 
 function nativeCall(Client sqlClient, string|sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes)
 returns sql:ProcedureCallResult|sql:Error = @java:Method {
-    class: "org.ballerinalang.sql.utils.CallUtils"
+    'class: "org.ballerinalang.sql.utils.CallUtils"
 } external;
 
 function close(Client jdbcClient) returns sql:Error? = @java:Method {
-    class: "org.ballerinalang.jdbc.NativeImpl"
+    'class: "org.ballerinalang.jdbc.NativeImpl"
 } external;
