@@ -148,9 +148,12 @@ task revertTomlFile {
     }
 }
 
-task ballerinaTest {
-    dependsOn(copyStdlibs)
+assemble {
     dependsOn(":java.jdbc-native:build")
+    dependsOn(copyStdlibs)
+}
+
+task ballerinaTest {
     dependsOn(updateTomlFile)
     finalizedBy(revertTomlFile)
 
@@ -183,8 +186,6 @@ test {
 }
 
 task ballerinaBuild {
-    dependsOn(copyStdlibs)
-    dependsOn(":java.jdbc-native:build")
     dependsOn(test)
     dependsOn(updateTomlFile)
     finalizedBy(revertTomlFile)
@@ -262,7 +263,7 @@ build {
 }
 
 task ballerinaPush {
-    dependsOn(ballerinaBuild)
+    dependsOn(build)
     doLast {
         // Publish to central
         if (!project.hasProperty("publishToCentral")) {
@@ -289,7 +290,10 @@ task ballerinaPush {
         }
     }
 }
-tasks.publish.dependsOn ballerinaPush
+
+publish {
+    dependsOn(ballerinaPush)
+}
 
 task createArtifactZip(type: Zip) {
     destinationDirectory = file("$buildDir/distributions")
