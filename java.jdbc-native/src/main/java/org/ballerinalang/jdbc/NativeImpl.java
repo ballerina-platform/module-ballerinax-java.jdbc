@@ -17,9 +17,9 @@
  */
 package org.ballerinalang.jdbc;
 
-import org.ballerinalang.jvm.values.MapValue;
-import org.ballerinalang.jvm.values.ObjectValue;
-import org.ballerinalang.jvm.values.api.BString;
+import org.ballerinalang.jvm.api.values.BMap;
+import org.ballerinalang.jvm.api.values.BObject;
+import org.ballerinalang.jvm.api.values.BString;
 import org.ballerinalang.sql.datasource.SQLDatasource;
 import org.ballerinalang.sql.utils.ClientUtils;
 import org.ballerinalang.sql.utils.ErrorGenerator;
@@ -34,8 +34,8 @@ import java.util.Properties;
  */
 public class NativeImpl {
 
-    public static Object createClient(ObjectValue client, MapValue<BString, Object> clientConfig,
-                                      MapValue<BString, Object> globalPool) {
+    public static Object createClient(BObject client, BMap<BString, Object> clientConfig,
+                                      BMap<BString, Object> globalPool) {
         String url = clientConfig.getStringValue(Constants.ClientConfiguration.URL).getValue();
         if (!isJdbcUrlValid(url)) {
             return ErrorGenerator.getSQLApplicationError("Invalid JDBC URL: " + url);
@@ -44,8 +44,8 @@ public class NativeImpl {
         String user = userVal == null ? null : userVal.getValue();
         BString passwordVal = clientConfig.getStringValue(Constants.ClientConfiguration.PASSWORD);
         String password = passwordVal == null ? null : passwordVal.getValue();
-        MapValue options = clientConfig.getMapValue(Constants.ClientConfiguration.OPTIONS);
-        MapValue properties = null;
+        BMap options = clientConfig.getMapValue(Constants.ClientConfiguration.OPTIONS);
+        BMap properties = null;
         String datasourceName = null;
         Properties poolProperties = null;
         if (options != null) {
@@ -62,7 +62,7 @@ public class NativeImpl {
                 }
             }
         }
-        MapValue connectionPool = clientConfig.getMapValue(Constants.ClientConfiguration.CONNECTION_POOL_OPTIONS);
+        BMap connectionPool = clientConfig.getMapValue(Constants.ClientConfiguration.CONNECTION_POOL_OPTIONS);
 
         SQLDatasource.SQLDatasourceParams sqlDatasourceParams = new SQLDatasource.SQLDatasourceParams()
                 .setUrl(url)
@@ -80,7 +80,7 @@ public class NativeImpl {
         return !jdbcUrl.isEmpty() && jdbcUrl.trim().startsWith("jdbc:");
     }
 
-    public static Object close(ObjectValue client) {
+    public static Object close(BObject client) {
         return ClientUtils.close(client);
     }
 }
