@@ -2,7 +2,6 @@ Ballerina JDBC Library
 ===================
 
   [![Build](https://github.com/ballerina-platform/module-ballerina-java.jdbc/workflows/Build/badge.svg)](https://github.com/ballerina-platform/module-ballerina-java.jdbc/actions?query=workflow%3ABuild)
-  [![Daily build](https://github.com/ballerina-platform/module-ballerina-java.jdbc/workflows/Daily%20build/badge.svg)](https://github.com/ballerina-platform/module-ballerina-java.jdbc/actions?query=workflow%3A%22Daily+build%22)
   [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerina-java.jdbc.svg)](https://github.com/ballerina-platform/module-ballerina-java.jdbc/commits/master)
   [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -25,6 +24,19 @@ For more information on the operations supported by the `jdbc:Client`, which inc
 For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/swan-lake/learn/by-example/jdbc-init-options.html).
 
 ## Building from the Source
+
+### Prerequisites
+
+1. Download and install Java SE Development Kit (JDK) version 11 (from one of the following locations).
+   * [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+   * [OpenJDK](http://openjdk.java.net/install/index.html)
+
+2. Export Github Access Tokens with read package permissions.
+        
+        export packageUser=<Your github username>
+        export packagePAT=<Your personnel access token>
+
+### Building the Source
 
 Execute the commands below to build from the source.
 
