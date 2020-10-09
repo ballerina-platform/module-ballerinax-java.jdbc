@@ -25,6 +25,17 @@ For example demonstrations of the usage, go to [Ballerina By Examples](https://b
 
 ## Building from the Source
 
+### Prerequisites
+
+1. [Java 11.0](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+   
+2. Export Github Access Tokens with read package permissions.
+        
+        export packageUser=<Your github username>
+        export packagePAT=<Your personnel access token>
+
+### Building the Source
+
 Execute the commands below to build from the source.
 
 1. To build the library:
