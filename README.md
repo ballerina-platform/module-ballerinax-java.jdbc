@@ -31,10 +31,10 @@ For example demonstrations of the usage, go to [Ballerina By Examples](https://b
    * [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
    * [OpenJDK](http://openjdk.java.net/install/index.html)
 
-3. Export Github Access Tokens with read package permissions as follows,
+3. Export Github Personal access token with read package permissions as follows,
         
         export packageUser=<Username>
-        export packagePAT=<Access token>
+        export packagePAT=<Personal access token>
 
 ### Building the Source
 
