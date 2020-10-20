@@ -18,8 +18,8 @@
 
 package org.ballerinalang.jdbc;
 
-import org.ballerinalang.jvm.api.BStringUtils;
-import org.ballerinalang.jvm.api.values.BString;
+import io.ballerina.runtime.api.StringUtils;
+import io.ballerina.runtime.api.values.BString;
 
 /**
  * Constants for JDBC client.
@@ -31,13 +31,13 @@ public final class Constants {
      * Constants for Endpoint Configs.
      */
     public static final class ClientConfiguration {
-        static final BString URL = BStringUtils.fromString("url");
-        static final BString USER = BStringUtils.fromString("user");
-        static final BString PASSWORD = BStringUtils.fromString("password");
-        static final BString DATASOURCE_NAME = BStringUtils.fromString("datasourceName");
-        static final BString CONNECTION_POOL_OPTIONS = BStringUtils.fromString("connectionPool");
-        static final BString OPTIONS = BStringUtils.fromString("options");
-        static final BString PROPERTIES = BStringUtils.fromString("properties");
+        static final BString URL = StringUtils.fromString("url");
+        static final BString USER = StringUtils.fromString("user");
+        static final BString PASSWORD = StringUtils.fromString("password");
+        static final BString DATASOURCE_NAME = StringUtils.fromString("datasourceName");
+        static final BString CONNECTION_POOL_OPTIONS = StringUtils.fromString("connectionPool");
+        static final BString OPTIONS = StringUtils.fromString("options");
+        static final BString PROPERTIES = StringUtils.fromString("properties");
     }
 
     public static final String CONNECT_TIMEOUT = ".*(connect).*(timeout).*";
