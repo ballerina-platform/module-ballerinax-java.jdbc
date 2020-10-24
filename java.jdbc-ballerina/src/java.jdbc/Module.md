@@ -78,7 +78,7 @@ You can find more details about each property in the
 [jdbc:Client](https://ballerina.io/swan-lake/learn/api-docs/ballerina/java.jdbc/clients/Client.html) constructor. 
 
 The [jdbc:Client](https://ballerina.io/swan-lake/learn/api-docs/ballerina/java.jdbc/clients/Client.html) references 
-[sql:Client](https://ballerina.io/swan-lake/learn/api-docs/ballerina/sql/abstractobjects/Client.html) and 
+[sql:Client](https://ballerina.io/swan-lake/learn/api-docs/ballerina/sql/classes/Client.html) and 
 all the operations defined by the `sql:Client` will be supported by the `jdbc:Client` as well. 
 
 For more information on all the operations supported by the `jdbc:Client`, which include the below, see the
