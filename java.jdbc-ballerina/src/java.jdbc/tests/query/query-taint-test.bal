@@ -35,7 +35,7 @@ type Person record {|
 @test:Config {
     groups: ["query","query-taint-analysis"]
 }
-public function main() returns @tainted error? {
+public function testTaintAnalysis() returns @tainted error? {
     boolean testPassed = true;
     string[] nicknameList = [<@tainted>"Matty", <@tainted>"Tom"];
     Person p1 = {id: 17, name: "Matty", age: 23};
