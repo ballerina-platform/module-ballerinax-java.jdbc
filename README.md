@@ -71,7 +71,7 @@ Execute the commands below to build from the source.
    transaction | local-transaction <br> xa-transaction
    execute | execute-basic <br> execute-params
    batch-execute | batch-execute 
-   query | query-simple-params<br>query-numeric-params<br>query-complex-params
+   query | query-simple-params<br>query-numeric-params<br>query-complex-params<br>query-taint-analysis
 
 5. To debug the tests:
 
