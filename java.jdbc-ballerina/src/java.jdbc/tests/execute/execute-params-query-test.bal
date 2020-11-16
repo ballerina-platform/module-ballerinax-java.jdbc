@@ -420,7 +420,7 @@ function queryJDBCClient(@untainted string|sql:ParameterizedQuery sqlQuery) retu
     return value;
 }
 
-function validateResult(sql:ExecutionResult result, int rowCount, int? lastId = ()) {
+isolated function validateResult(sql:ExecutionResult result, int rowCount, int? lastId = ()) {
     test:assertExactEquals(result.affectedRowCount, rowCount, "Affected row count is different.");
 
     if (lastId is ()) {
