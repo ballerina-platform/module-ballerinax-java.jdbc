@@ -73,7 +73,11 @@ Execute the commands below to build from the source.
    batch-execute | batch-execute 
    query | query-simple-params<br>query-numeric-params<br>query-complex-params<br>query-taint-analysis
 
-5. To debug the tests:
+5. To disable some specific test groups:
+
+        ./gradlew clean build -Pdisable-groups=<Comma separated groups/test cases>
+
+6. To debug the tests:
 
         ./gradlew clean build -Pdebug=<port>
 
