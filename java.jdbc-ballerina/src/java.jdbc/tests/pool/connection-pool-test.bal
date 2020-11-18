@@ -492,7 +492,7 @@ function getCombinedReturnValue([stream<record{}, error>, stream<record{}, error
     }
 }
 
-function getIntVariableValue(stream<record{}, error> queryResult) returns int|error {
+isolated function getIntVariableValue(stream<record{}, error> queryResult) returns int|error {
     int count = -1;
     record {|record {} value;|}? data = check queryResult.next();
     if (data is record {|record {} value;|}) {
@@ -550,7 +550,7 @@ function drainGlobalPool(string jdbcUrl) {
     validateConnectionTimeoutError(returnArray[10]);
 }
 
-function getReturnValue(stream<record{}, error> queryResult) returns int|error {
+isolated function getReturnValue(stream<record{}, error> queryResult) returns int|error {
     int count = -1;
     record {|record {} value;|}? data = check queryResult.next();
     if (data is record {|record {} value;|}) {

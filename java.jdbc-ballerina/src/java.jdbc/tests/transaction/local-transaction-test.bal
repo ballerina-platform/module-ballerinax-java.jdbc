@@ -287,7 +287,7 @@ function testTransactionErrorPanicAndTrap() {
     test:assertEquals(count, 1);
 }
 
-function testTransactionErrorPanicAndTrapHelper(int i) {
+isolated function testTransactionErrorPanicAndTrapHelper(int i) {
     if (i == 0) {
         error err = error("error");
         panic err;
@@ -397,7 +397,7 @@ function testLocalTransactionFailedHelper(string status,Client dbClient) returns
     return a;
 }
 
-function getError(string message) returns error? {
+isolated function getError(string message) returns error? {
     return error(message);
 }
 
