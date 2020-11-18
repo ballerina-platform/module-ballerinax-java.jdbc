@@ -17,11 +17,11 @@
 import ballerina/io;
 import ballerina/system;
 import ballerina/test;
-import ballerina/filepath;
+import ballerina/file;
 
-string libPath = checkpanic filepath:absolute("lib");
-string dbPath = checkpanic filepath:absolute("target/databases");
-string scriptPath = checkpanic filepath:absolute("src/java.jdbc/tests/resources/sql");
+string libPath = checkpanic file:getAbsolutePath("lib");
+string dbPath = checkpanic file:getAbsolutePath("target/databases");
+string scriptPath = checkpanic file:getAbsolutePath("src/java.jdbc/tests/resources/sql");
 
 string user = "test";
 string password = "Test123";
@@ -30,10 +30,10 @@ function initializeDatabase(string database, string category, string script) {
 
     system:Process process = checkpanic system:exec(
             "java", {}, libPath, "-cp", "h2-1.4.200.jar", "org.h2.tools.RunScript",
-            "-url", "jdbc:h2:" + dbPath + "/" + database,
+            "-url", "jdbc:h2:" + checkpanic file:joinPath(dbPath, database),
             "-user", user,
             "-password", password,
-            "-script", checkpanic filepath:build(scriptPath, category, script));
+            "-script", checkpanic file:joinPath(scriptPath, category, script));
     int exitCode = checkpanic process.waitForExit();
     test:assertExactEquals(exitCode, 0, "H2 " + database + " database creation failed!");
 
