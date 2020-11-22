@@ -67,7 +67,7 @@ task unpackStdLibs() {
     }
 }
 
-def packageName = "java.jdbc"
+def packageName = "jdbc"
 def packageOrg = "ballerina"
 def ballerinaConfigFile = new File("$project.projectDir/Ballerina.toml")
 def artifactBallerinaDocs = file("$project.projectDir/build/docs_parent/")
