@@ -21,7 +21,7 @@ import ballerina/file;
 
 string libPath = checkpanic file:getAbsolutePath("lib");
 string dbPath = checkpanic file:getAbsolutePath("target/databases");
-string scriptPath = checkpanic file:getAbsolutePath("src/java.jdbc/tests/resources/sql");
+string scriptPath = checkpanic file:getAbsolutePath("tests/resources/sql");
 
 string user = "test";
 string password = "Test123";
