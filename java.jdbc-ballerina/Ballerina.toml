@@ -1,23 +1,21 @@
-[project]
-org-name = "ballerina"
+[package]
+org = "ballerina"
+name = "jdbc"
 version = "@toml.version@"
 
-[platform]
-target = "java11"
+[[dependency]]
+org = "ballerina"
+name = "sql"
+version = "@stdlib.sql.version@"
 
-[dependencies]
-"ballerina/sql" = "@stdlib.sql.version@"
+[[platform.java11.dependency]]
+path = "../java.jdbc-native/build/libs/java.jdbc-native-@project.version@.jar"
+groupId = "org.ballerinalang"
+artifactId = "jdbc"
+version = "@project.version@"
 
-    [[platform.libraries]]
-    artifactId = "jdbc"
-    version = "@project.version@"
-    path = "../java.jdbc-native/build/libs/java.jdbc-native-@project.version@.jar"
-    groupId = "org.ballerinalang"
-    modules = ["java.jdbc"]
-
-    [[platform.libraries]]
-    artifactId = "sql-native"
-    version = "@stdlib.sql.native.version@"
-    path = "@project.path@/bre/lib/sql-native-@stdlib.sql.native.version@.jar"
-    groupId = "org.ballerinalang"
-    modules = ["java.jdbc"]
+[[platform.java11.dependency]]
+path = "@project.path@/repo/balo/ballerina/sql/@stdlib.sql.version@/platform/java11/sql-native-@stdlib.sql.native.version@.jar"
+groupId = "org.ballerinalang"
+artifactId = "sql-native"
+version = "@stdlib.sql.native.version@"
