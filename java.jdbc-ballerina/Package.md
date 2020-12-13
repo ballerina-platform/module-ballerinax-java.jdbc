@@ -4,8 +4,8 @@ This module provides the functionality required to access and manipulate data st
 that is accessible via Java Database Connectivity (JDBC). 
 
 **Prerequisite:** Add the JDBC driver corresponding to the database you are trying to interact with
-as a native library dependency in your Ballerina project. Then, once you build the project with the `ballerina build`
-command, you should be able to run the resultant JAR by executing the `java -jar` command.
+as a native library dependency in your Ballerina project. Then, once you build the project by executing the `ballerina build`
+command, you should be able to run the resultant by executing the `ballerina run` command.
 
 E.g., The `Ballerina.toml` content.
 Change the path to the JDBC driver appropriately.
