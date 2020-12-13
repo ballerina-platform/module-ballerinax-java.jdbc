@@ -21,7 +21,6 @@ artafactId = "h2"
 version = "1.4.200"
 path = "/path/to/com.h2database.h2-1.4.200.jar"
 groupId = "com.h2database"
-modules = ["samplemodule"]
 ``` 
 
 ### Client
