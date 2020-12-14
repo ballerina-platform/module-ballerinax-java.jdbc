@@ -4,30 +4,24 @@ This module provides the functionality required to access and manipulate data st
 that is accessible via Java Database Connectivity (JDBC). 
 
 **Prerequisite:** Add the JDBC driver corresponding to the database you are trying to interact with
-as a native library dependency in your Ballerina project. Then, once you build the project with the `ballerina build`
-command, you should be able to run the resultant JAR by executing the `java -jar` command.
+as a native library dependency in your Ballerina project. Then, once you build the project by executing the `ballerina build`
+command, you should be able to run the resultant by executing the `ballerina run` command.
 
 E.g., The `Ballerina.toml` content.
 Change the path to the JDBC driver appropriately.
 
 ```toml
-[project]
-org-name= "sample"
+[package]
+org = "sample"
+name = "jdbc"
 version= "0.1.0"
 
-[platform]
-target = "java8"
-
-    [[platform.libraries]]
-    artafactId = "h2"
-    version = "1.4.200"
-    path = "/path/to/com.h2database.h2-1.4.200.jar"
-    groupId = "com.h2database"
-    modules = ["samplemodule"]
+[[platform.java11.dependency]]
+artafactId = "h2"
+version = "1.4.200"
+path = "/path/to/com.h2database.h2-1.4.200.jar"
+groupId = "com.h2database"
 ``` 
-
-Else, if you're trying to run a single BAL file, you can copy the JDBC driver into the `<BALLERINA_HOME>/bre/lib/distributions/jballerina-<VERSION>/bre/lib` directory and 
-run the BAL file by executing the `ballerina run` command.
 
 ### Client
 To access a database, you must first create a 
