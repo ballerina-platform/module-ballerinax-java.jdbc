@@ -15,7 +15,7 @@
 // under the License.
 
 import ballerina/io;
-import ballerina/system;
+import ballerina/os;
 import ballerina/test;
 import ballerina/file;
 
@@ -28,7 +28,7 @@ string password = "Test123";
 
 function initializeDatabase(string database, string category, string script) {
 
-    system:Process process = checkpanic system:exec(
+    os:Process process = checkpanic os:exec(
             "java", {}, libPath, "-cp", "h2-1.4.200.jar", "org.h2.tools.RunScript",
             "-url", "jdbc:h2:" + checkpanic file:joinPath(dbPath, database),
             "-user", user,
@@ -42,7 +42,7 @@ function initializeDatabase(string database, string category, string script) {
 
 @test:AfterSuite {}
 function afterSuite() {
-    system:Process process = checkpanic system:exec("rm", {}, ".", "-r", dbPath);
+    os:Process process = checkpanic os:exec("rm", {}, ".", "-r", dbPath);
     int exitCode = checkpanic process.waitForExit();
     test:assertExactEquals(exitCode, 0, "Clean up of H2 databases failed!");
     io:println("Clean up databases.");
