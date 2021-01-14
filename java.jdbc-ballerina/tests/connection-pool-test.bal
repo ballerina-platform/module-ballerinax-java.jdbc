@@ -13,7 +13,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/runtime;
+import ballerina/lang.runtime as runtime;
 import ballerina/sql;
 import ballerina/stringutils;
 import ballerina/test;
@@ -306,13 +306,13 @@ function testLocalSharedConnectionPoolStopInitInterleave() {
 function testLocalSharedConnectionPoolStopInitInterleaveHelper1(sql:ConnectionPool pool, string jdbcUrl)
 returns error? {
     Client dbClient = check new (jdbcUrl, user, password, options, pool);
-    runtime:sleep(10);
+    runtime:sleep(1);
     check dbClient.close();
 }
 
 function testLocalSharedConnectionPoolStopInitInterleaveHelper2(sql:ConnectionPool pool, string jdbcUrl)
 returns @tainted int|error {
-    runtime:sleep(10);
+    runtime:sleep(1);
     Client dbClient = check new (jdbcUrl, user, password, options, pool);
     var dt = dbClient->query("SELECT COUNT(*) as val from Customers where registrationID = 1", Result);
     int|error count = getReturnValue(dt);
