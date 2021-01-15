@@ -48,7 +48,7 @@ function insertIntoDataTable() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoDataTable"]
+    dependsOn: [insertIntoDataTable]
 }
 function insertIntoDataTable2() {
     int rowId = 5;
@@ -58,7 +58,7 @@ function insertIntoDataTable2() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoDataTable2"]
+    dependsOn: [insertIntoDataTable2]
 }
 function insertIntoDataTable3() {
     int rowId = 6;
@@ -78,7 +78,7 @@ function insertIntoDataTable3() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoDataTable3"]
+    dependsOn: [insertIntoDataTable3]
 }
 function insertIntoDataTable4() {
     sql:IntegerValue rowId = new (7);
@@ -99,7 +99,7 @@ function insertIntoDataTable4() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoDataTable4"]
+    dependsOn: [insertIntoDataTable4]
 }
 function deleteDataTable1() {
     int rowId = 1;
@@ -120,7 +120,7 @@ function deleteDataTable1() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["deleteDataTable1"]
+    dependsOn: [deleteDataTable1]
 }
 function deleteDataTable2() {
     int rowId = 2;
@@ -130,7 +130,7 @@ function deleteDataTable2() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["deleteDataTable2"]
+    dependsOn: [deleteDataTable2]
 }
 function deleteDataTable3() {
     sql:IntegerValue rowId = new (3);
@@ -166,7 +166,7 @@ function insertIntoComplexTable() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoComplexTable"]
+    dependsOn: [insertIntoComplexTable]
 }
 function insertIntoComplexTable2() {
     io:ReadableByteChannel blobChannel = getBlobColumnChannel();
@@ -186,7 +186,7 @@ function insertIntoComplexTable2() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoComplexTable2"]
+    dependsOn: [insertIntoComplexTable2]
 }
 function insertIntoComplexTable3() {
     int rowId = 7;
@@ -199,7 +199,7 @@ function insertIntoComplexTable3() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoComplexTable3"]
+    dependsOn: [insertIntoComplexTable3]
 }
 function deleteComplexTable() {
     record {}|error? value = queryJDBCClient("Select * from ComplexTypes where row_id = 1");
@@ -213,7 +213,7 @@ function deleteComplexTable() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["deleteComplexTable"]
+    dependsOn: [deleteComplexTable]
 }
 function deleteComplexTable2() {
     sql:BlobValue blobType = new ();
@@ -248,7 +248,7 @@ function insertIntoNumericTable() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoNumericTable"]
+    dependsOn: [insertIntoNumericTable]
 }
 function insertIntoNumericTable2() {
     int rowId = 4;
@@ -262,7 +262,7 @@ function insertIntoNumericTable2() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoNumericTable2"]
+    dependsOn: [insertIntoNumericTable2]
 }
 function insertIntoNumericTable3() {
     sql:IntegerValue id = new (5);
@@ -302,7 +302,7 @@ function insertIntoDateTimeTable() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoDateTimeTable"]
+    dependsOn: [insertIntoDateTimeTable]
 }
 function insertIntoDateTimeTable2() {
     sql:DateValue dateVal = new ("2017-02-03");
@@ -319,7 +319,7 @@ function insertIntoDateTimeTable2() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoDateTimeTable2"]
+    dependsOn: [insertIntoDateTimeTable2]
 }
 function insertIntoDateTimeTable3() {
     sql:DateValue dateVal = new ();
@@ -336,7 +336,7 @@ function insertIntoDateTimeTable3() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoDateTimeTable3"]
+    dependsOn: [insertIntoDateTimeTable3]
 }
 function insertIntoDateTimeTable4() {
     int rowId = 5;
@@ -382,7 +382,7 @@ function insertIntoArrayTable() {
 
 @test:Config {
     groups: ["execute", "execute-params"],
-    dependsOn: ["insertIntoArrayTable"]
+    dependsOn: [insertIntoArrayTable]
 }
 function insertIntoArrayTable2() {
     sql:ArrayValue paraInt = new ();
