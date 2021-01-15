@@ -43,7 +43,7 @@ function batchInsertIntoDataTable() {
 
 @test:Config {
     groups: ["batch-execute"],
-    dependsOn: ["batchInsertIntoDataTable"]
+    dependsOn: [batchInsertIntoDataTable]
 }
 function batchInsertIntoDataTable2() {
     int intType = 6;
@@ -54,7 +54,7 @@ function batchInsertIntoDataTable2() {
 
 @test:Config {
     groups: ["batch-execute"],
-    dependsOn: ["batchInsertIntoDataTable2"]
+    dependsOn: [batchInsertIntoDataTable2]
 }
 function batchInsertIntoDataTableFailure() {
     var data = [
