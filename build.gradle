@@ -78,7 +78,7 @@ allprojects {
         }
 
         maven {
-            url = 'https://maven.pkg.github.com/ballerina-platform/module-ballerina-stringutils'
+            url = 'https://maven.pkg.github.com/ballerina-platform/module-ballerina-regex'
             credentials {
                 username System.getenv("packageUser")
                 password System.getenv("packagePAT")
@@ -167,6 +167,14 @@ allprojects {
         }
 
         maven {
+            url = 'https://maven.pkg.github.com/ballerina-platform/module-ballerina-reflect'
+            credentials {
+                username System.getenv("packageUser")
+                password System.getenv("packagePAT")
+            }
+        }
+
+        maven {
             url = 'https://maven.pkg.github.com/ballerina-platform/module-ballerina-uuid'
             credentials {
                 username System.getenv("packageUser")
@@ -223,7 +231,7 @@ subprojects {
         ballerinaStdLibs "org.ballerinalang:sql-ballerina:${stdlibSqlVersion}"
         ballerinaStdLibs "org.ballerinalang:io-ballerina:${stdlibIoVersion}"
         ballerinaStdLibs "org.ballerinalang:time-ballerina:${stdlibTimeVersion}"
-        ballerinaStdLibs "org.ballerinalang:stringutils-ballerina:${stdlibStringUtilsVersion}"
+        ballerinaStdLibs "org.ballerinalang:regex-ballerina:${stdlibRegexVersion}"
         ballerinaStdLibs "org.ballerinalang:os-ballerina:${stdlibOsVersion}"
         ballerinaStdLibs "org.ballerinalang:log-ballerina:${stdlibLogVersion}"
         ballerinaStdLibs "org.ballerinalang:config-ballerina:${stdlibConfigVersion}"
@@ -232,6 +240,7 @@ subprojects {
         ballerinaStdLibs "org.ballerinalang:transaction-ballerina:${stdlibTransactionVersion}"
         ballerinaStdLibs "org.ballerinalang:task-ballerina:${stdlibTaskVersion}"
         ballerinaStdLibs "org.ballerinalang:crypto-ballerina:${stdlibCryptoVersion}"
+        ballerinaStdLibs "org.ballerinalang:reflect-ballerina:${stdlibReflectVersion}"
         ballerinaStdLibs "org.ballerinalang:uuid-ballerina:${stdlibUuidVersion}"
         ballerinaStdLibs "org.ballerinalang:mime-ballerina:${stdlibMimeVersion}"
         ballerinaStdLibs "org.ballerinalang:cache-ballerina:${stdlibCacheVersion}"
