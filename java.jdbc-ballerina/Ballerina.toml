@@ -1,6 +1,6 @@
 [package]
-org = "ballerina"
-name = "jdbc"
+org = "ballerinax"
+name = "java.jdbc"
 version = "@toml.version@"
 
 [[dependency]]
