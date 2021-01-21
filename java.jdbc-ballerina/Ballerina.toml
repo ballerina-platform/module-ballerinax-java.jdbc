@@ -3,11 +3,6 @@ org = "ballerina"
 name = "jdbc"
 version = "@toml.version@"
 
-[[dependency]]
-org = "ballerina"
-name = "sql"
-version = "@stdlib.sql.version@"
-
 [[platform.java11.dependency]]
 path = "../java.jdbc-native/build/libs/java.jdbc-native-@project.version@.jar"
 groupId = "org.ballerinalang"

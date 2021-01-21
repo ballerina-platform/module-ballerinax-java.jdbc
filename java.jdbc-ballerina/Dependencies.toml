@@ -1,0 +1,4 @@
+[[dependency]]
+org = "ballerina"
+name = "sql"
+version = "@stdlib.sql.version@"
