@@ -76,7 +76,7 @@ The [jdbc:Client](https://ballerina.io/swan-lake/learn/api-docs/ballerina/#/java
 all the operations defined by the `sql:Client` will be supported by the `jdbc:Client` as well. 
 
 For more information on all the operations supported by the `jdbc:Client`, which include the below, see the
-[SQL Module](https://ballerina.io/swan-lake/learn/api-docs/ballerina/#/java.jdbc/clients/Client).
+[SQL Module]((https://ballerina.io/swan-lake/learn/api-docs/ballerina/#/sql)).
 
 1. Connection Pooling
 2. Querying data
@@ -86,3 +86,11 @@ For more information on all the operations supported by the `jdbc:Client`, which
 6. Batch insert and update data
 7. Execute stored procedures
 8. Closing client
+
+For examples on the usage of the connector, see the following.
+* [Client Initialization Example](https://ballerina.io/swan-lake/learn/by-example/jdbc-init-options.html) 
+* [Select Query Operations Example](https://ballerina.io/swan-lake/learn/by-example/jdbc-query-operation.html)
+* [Query with Complex Types Example](https://ballerina.io/swan-lake/learn/by-example/jdbc-complex-type-queries.html)
+* [DDL and DML Operations Example](https://ballerina.io/swan-lake/learn/by-example/jdbc-execute-operation.html)
+* [Batch Execute Operations Example](https://ballerina.io/swan-lake/learn/by-example/jdbc-batch-execute-operation.html)
+* [Parameterized Query Example](https://ballerina.io/swan-lake/learn/by-example/jdbc-parameterized-query.html)
