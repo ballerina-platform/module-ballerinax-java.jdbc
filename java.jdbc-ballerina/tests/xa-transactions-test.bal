@@ -15,6 +15,7 @@
 // under the License.
 
 import ballerina/test;
+import ballerina/sql;
 
 string xaDatasourceName = "org.h2.jdbcx.JdbcDataSource";
 
@@ -84,19 +85,19 @@ function testXATransactionSuccessWithDataSource() {
 }
 
 function getCustomerCount(Client dbClient, string id) returns @tainted int|error{
-    stream<XAResultCount, error> streamData = <stream<XAResultCount, error>> dbClient->query("Select COUNT(*) as " +
+    stream<XAResultCount, sql:Error> streamData = <stream<XAResultCount,  sql:Error>> dbClient->query("Select COUNT(*) as " +
         "countval from Customers where customerId = "+ id, XAResultCount);
     return getResult(streamData);
 }
 
 function getSalaryCount(Client dbClient, string id) returns @tainted int|error{
-    stream<XAResultCount, error> streamData =
-    <stream<XAResultCount, error>> dbClient->query("Select COUNT(*) as countval " +
+    stream<XAResultCount,  sql:Error> streamData =
+    <stream<XAResultCount,  sql:Error>> dbClient->query("Select COUNT(*) as countval " +
     "from Salary where id = "+ id, XAResultCount);
     return getResult(streamData);
 }
 
-isolated function getResult(stream<XAResultCount, error> streamData) returns int{
+isolated function getResult(stream<XAResultCount,  sql:Error> streamData) returns int{
     record {|XAResultCount value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     XAResultCount? value = data?.value;
