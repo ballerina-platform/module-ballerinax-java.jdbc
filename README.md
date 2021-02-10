@@ -11,7 +11,7 @@ The JDBC library is one of the standard library modules of the<a target="_blank"
 It provides the functionality required to access and manipulate data stored in any type of relational database 
 that is accessible via Java Database Connectivity (JDBC). 
 
-For more information on the operations supported by the `jdbc:Client`, which include the below, go to [The JDBC Module](https://ballerina.io/swan-lake/learn/api-docs/ballerina/java.jdbc/).
+For more information on the operations supported by the `jdbc:Client`, which include the below, go to [The JDBC Module](https://ballerina.io/learn/api-docs/ballerina/java.jdbc/).
 
 - Pooling connections
 - Querying data
@@ -22,7 +22,7 @@ For more information on the operations supported by the `jdbc:Client`, which inc
 - Executing stored procedures
 - Closing the client
 
-For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/swan-lake/learn/by-example/jdbc-init-options.html).
+For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/learn/by-example/jdbc-init-options.html).
 
 ## Issues and Projects 
 
