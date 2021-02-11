@@ -251,7 +251,7 @@ build {
     dependsOn(ballerinaBuild)
 }
 
-task ballerinaPush {
+task ballerinaPublish {
     dependsOn(build)
     doLast {
         // Publish to central
@@ -281,7 +281,7 @@ task ballerinaPush {
 }
 
 publish {
-    dependsOn(ballerinaPush)
+    dependsOn(ballerinaPublish)
 }
 
 task createArtifactZip(type: Zip) {
