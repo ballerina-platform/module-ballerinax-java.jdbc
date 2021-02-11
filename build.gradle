@@ -22,6 +22,11 @@ plugins {
     id "net.researchgate.release" version "${researchgateReleaseVersion}"
 }
 
+description = 'Ballerina - jdbc'
+
+def packageName = "java.jdbc"
+def snapshotVersion = "-SNAPSHOT"
+
 allprojects {
     group = 'org.ballerinalang'
     version = project.version
@@ -246,7 +251,7 @@ subprojects {
 
 def moduleVersion = project.version
 if (moduleVersion.indexOf('-') != -1) {
-    moduleVersion = moduleVersion.substring(0, moduleVersion.indexOf('-'))
+    moduleVersion = moduleVersion.replace("${snapshotVersion}", "")
 }
 
 release {
@@ -263,28 +268,5 @@ release {
 }
 
 task build {
-    dependsOn('java.jdbc-ballerina:build')
+    dependsOn("${packageName}-ballerina:build")
 }
-
-task codeCoverageReport(type: JacocoReport) {
-    executionData fileTree(project.rootDir.absolutePath).include("**/build/coverage-reports/*.exec")
-
-    subprojects.each {
-        sourceSets it.sourceSets.main
-    }
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-        csv.enabled = true
-        xml.destination = new File("${buildDir}/reports/jacoco/report.xml")
-        html.destination = new File("${buildDir}/reports/jacoco/report.html")
-        csv.destination = new File("${buildDir}/reports/jacoco/report.csv")
-    }
-
-    onlyIf = {
-        true
-    }
-}
-
-description = 'Ballerina - jdbc'
