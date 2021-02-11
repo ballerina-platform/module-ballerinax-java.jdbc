@@ -1,6 +1,6 @@
-## Module overview
+## Package overview
 
-This module provides the functionality required to access and manipulate data stored in any type of relational database 
+This package provides the functionality required to access and manipulate data stored in any type of relational database 
 that is accessible via Java Database Connectivity (JDBC). 
 
 **Prerequisite:** Add the JDBC driver corresponding to the database you are trying to interact with
@@ -40,7 +40,7 @@ The `dbClient3` uses the named params to pass all the attributes and provides th
 [jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options) 
 and also uses the unshared connection pool in the type of 
 [sql:ConnectionPool](https://ballerina.io/learn/api-docs/ballerina/#/sql/records/ConnectionPool). 
-For more information about connection pooling, see [SQL Module](https://ballerina.io/learn/api-docs/ballerina/#/sql).
+For more information about connection pooling, see [SQL Package](https://ballerina.io/learn/api-docs/ballerina/#/sql).
 
 The `dbClient4` receives some custom properties within the 
 [jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options)
@@ -76,7 +76,7 @@ The [jdbc:Client](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/clie
 all the operations defined by the `sql:Client` will be supported by the `jdbc:Client` as well. 
 
 For more information on all the operations supported by the `jdbc:Client`, which include the below, see the
-[SQL Module]((https://ballerina.io/learn/api-docs/ballerina/#/sql)).
+[SQL Package]((https://ballerina.io/learn/api-docs/ballerina/#/sql)).
 
 1. Connection Pooling
 2. Querying data
