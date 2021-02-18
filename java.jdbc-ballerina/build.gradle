@@ -47,8 +47,7 @@ dependencies {
         transitive = false
     }
     compile project(":${packageName}-native")
-
- }
+}
 
 clean {
     delete "$project.projectDir/target"
@@ -106,7 +105,7 @@ task updateTomlFile {
         newConfig = newConfig.replace("@project.path@", distributionPath)
         newConfig = newConfig.replace("@stdlib.sql.native.version@", project.stdlibSqlVersion.toString())
         newConfig = newConfig.replace("@stdlib.sql.version@", stdlibDependentSqlVersion)
-        
+
         ballerinaConfigFile.text = newConfig
 
         def newDependencyConfig = ballerinaDependencyFile.text.replace("@stdlib.sql.version@", stdlibDependentSqlVersion)
@@ -142,8 +141,12 @@ task initializeVariables {
     }
 
     gradle.taskGraph.whenReady { graph ->
-        if (graph.hasTask(":${packageName}-ballerina:build") || graph.hasTask(":${packageName}-ballerina:publish")) {
+        if (graph.hasTask(":${packageName}-ballerina:build") ||
+                graph.hasTask(":${packageName}-ballerina:publish") ||
+                graph.hasTask(":${packageName}-ballerina:publishToMavenLocal")) {
             ballerinaTest.enabled = false
+        } else {
+            ballerinaTest.enabled = true
         }
 
         if (graph.hasTask(":${packageName}-ballerina:test")) {
@@ -157,7 +160,6 @@ task initializeVariables {
         } else {
             ballerinaPublish.enabled = false
         }
-
     }
 }
 
@@ -225,18 +227,7 @@ task ballerinaBuild {
 
 task ballerinaPublish {
     doLast {
-        // Publish to central
-        if (!project.hasProperty("publishToCentral")) {
-            return
-        }
-
-        if (project.version.endsWith('-SNAPSHOT')) {
-            throw new GradleException("Stdlib not pushed to central for snapshot version '${project.version}'.")
-        } else {
-            if (ballerinaCentralAccessToken == null) {
-                throw new GradleException("Central push failed invalid access token.")
-            }
-
+        if (ballerinaCentralAccessToken != null) {
             println("Publishing to the ballerina central..")
             exec {
                 workingDir project.projectDir
@@ -247,6 +238,8 @@ task ballerinaPublish {
                     commandLine 'sh', '-c', "$distributionBinPath/bal push"
                 }
             }
+        } else {
+            println("Central Access Token is not present")
         }
     }
 }
@@ -294,4 +287,8 @@ ballerinaBuild.finalizedBy revertTomlFile
 build.dependsOn ballerinaBuild
 
 ballerinaPublish.dependsOn ballerinaBuild
+ballerinaPublish.dependsOn updateTomlFile
+ballerinaPublish.dependsOn initializeVariables
+ballerinaPublish.dependsOn ":${packageName}-native:build"
+ballerinaPublish.finalizedBy revertTomlFile
 publish.dependsOn ballerinaPublish
