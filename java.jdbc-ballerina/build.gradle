@@ -425,10 +425,17 @@ task createTestDatabases {
                 Database db = dbList[dbCount]
                 try {
                     exec {
-                        commandLine 'sh', '-c', "java -cp $project.projectDir/lib/h2-1.4.200.jar " +
-                                "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir/target/databases/${db.getDb()}" +
-                                " -user test -password Test123 -script " +
-                                "$project.projectDir/tests/resources/sql/${db.getCategory()}/${db.getScript()}"
+                        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                            commandLine 'cmd', '/c', "java -classpath $project.projectDir\\lib\\h2-1.4.200.jar " +
+                                    "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir\\target\\databases\\${db.getDb()}" +
+                                    " -user test -password Test123 -script " +
+                                    "$project.projectDir\\tests\\resources\\sql\\${db.getCategory()}\\${db.getScript()}"
+                        } else {
+                            commandLine 'sh', '-c', "java -cp $project.projectDir/lib/h2-1.4.200.jar " +
+                                    "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir/target/databases/${db.getDb()}" +
+                                    " -user test -password Test123 -script " +
+                                    "$project.projectDir/tests/resources/sql/${db.getCategory()}/${db.getScript()}"
+                        }
                     }
                     sleep(5 * 1000)
                 } catch (all) {
@@ -445,10 +452,12 @@ task createTestDatabases {
 task removeTestDatabases() {
     doLast {
         try {
-            def stdOut = new ByteArrayOutputStream()
             exec {
-                commandLine 'sh', '-c', "rm -r $project.projectDir/target/databases"
-                standardOutput = stdOut
+                if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                    commandLine 'cmd', '/c', "rmdir $project.projectDir\\target\\databases /s /q"
+                } else {
+                    commandLine 'sh', '-c', "rm -r $project.projectDir/target/databases"
+                }
             }
         } catch (all) {
             println("Process can safely ignore the removeTestDatabases task")
