@@ -390,84 +390,68 @@ publishing {
     }
 }
 
-def checkExecResult(execResult, failText, standardOutput){
-    if (execResult) {
-        if (execResult.getExitValue() != 0) {
-            throw new GradleException('Non-zero exit value: ' + execResult.getExitValue())
-        }
-        if (standardOutput.toString().contains(failText)){
-            throw new GradleException('"' + failText + '" string in output: ' + standardOutput.toString())
-        }
-    } else {
-        throw new GradleException('Returned a null execResult object')
-    }
-}
-
 task createTestDatabases {
-    if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-        List<DatabaseMeta> dbsNeeded = new ArrayList<DatabaseMeta>();
-        def MainGroupList = ["connection", "pool", "transaction", "execute", "batch-execute", "query"]
-        String[] tempGroups;
-        if (project.hasProperty("groups")) {
-            tempGroups = project.findProperty("groups").toString().split(",")
-        } else {
-            tempGroups = MainGroupList;
+    List<DatabaseMeta> dbsNeeded = new ArrayList<DatabaseMeta>();
+    def MainGroupList = ["connection", "pool", "transaction", "execute", "batch-execute", "query"]
+    String[] tempGroups;
+    if (project.hasProperty("groups")) {
+        tempGroups = project.findProperty("groups").toString().split(",")
+    } else {
+        tempGroups = MainGroupList;
+    }
+    def count = 0
+    def dbCount;
+    while (count < tempGroups.length) {
+        dbCount = 0
+        while (dbCount < testDatabasesList.size()) {
+            DatabaseMeta val = testDatabasesList[dbCount]
+            if (val.getGroup().equalsIgnoreCase(tempGroups[count])
+                    && (val.getGroup().equalsIgnoreCase(val.getMainGroup()) ||
+                    !tempGroups.contains(val.getMainGroup()))) {
+                dbsNeeded.add(val)
+            }
+            dbCount = dbCount + 1
         }
-        def count = 0
-        def dbCount;
-        while (count < tempGroups.length) {
+        count = count + 1
+    }
+    doLast {
+        println("Databses will be created for :" + tempGroups + " groups")
+        count = 0
+        while (count < dbsNeeded.size()) {
+            DatabaseMeta dbMeta = dbsNeeded[count]
+            List<Database> dbList = dbMeta.getDatabases();
             dbCount = 0
-            while (dbCount < testDatabasesList.size()) {
-                DatabaseMeta val = testDatabasesList[dbCount]
-                if (val.getGroup().equalsIgnoreCase(tempGroups[count])
-                        && (val.getGroup().equalsIgnoreCase(val.getMainGroup()) ||
-                        !tempGroups.contains(val.getMainGroup()))) {
-                    dbsNeeded.add(val)
+            while (dbCount < dbList.size()) {
+                Database db = dbList[dbCount]
+                try {
+                    exec {
+                        commandLine 'sh', '-c', "java -cp $project.projectDir/lib/h2-1.4.200.jar " +
+                                "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir/target/databases/${db.getDb()}" +
+                                " -user test -password Test123 -script " +
+                                "$project.projectDir/tests/resources/sql/${db.getCategory()}/${db.getScript()}"
+                    }
+                    sleep(5 * 1000)
+                } catch (all) {
+                    println(all.cause)
+                    throw new GradleException("could not create test databases")
                 }
                 dbCount = dbCount + 1
             }
             count = count + 1
-        }
-        doLast {
-            println("Databses will be created for :" + tempGroups + " groups")
-            count = 0
-            while (count < dbsNeeded.size()) {
-                DatabaseMeta dbMeta = dbsNeeded[count]
-                List<Database> dbList = dbMeta.getDatabases();
-                dbCount = 0
-                while (dbCount < dbList.size()) {
-                    Database db = dbList[dbCount]
-                    try {
-                        exec {
-                            commandLine 'sh', '-c', "java -cp $project.projectDir/lib/h2-1.4.200.jar " +
-                                    "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir/target/databases/${db.getDb()}" +
-                                    " -user test -password Test123 -script " +
-                                    "$project.projectDir/tests/resources/sql/${db.getCategory()}/${db.getScript()}"
-                        }
-                        sleep(5 * 1000)
-                    } catch (all) {
-                        println(all.cause)
-                    }
-                    dbCount = dbCount + 1
-                }
-                count = count + 1
-            }
         }
     }
 }
 
 task removeTestDatabases() {
     doLast {
-        if (!Os.isFamily(Os.FAMILY_WINDOWS)) {
-            try {
-                def stdOut = new ByteArrayOutputStream()
-                exec {
-                    commandLine 'sh', '-c', "rm -r $project.projectDir/target/databases"
-                    standardOutput = stdOut
-                }
-            } catch (all) {
-                println("Process can safely ignore the removeTestDatabases task")
+        try {
+            def stdOut = new ByteArrayOutputStream()
+            exec {
+                commandLine 'sh', '-c', "rm -r $project.projectDir/target/databases"
+                standardOutput = stdOut
             }
+        } catch (all) {
+            println("Process can safely ignore the removeTestDatabases task")
         }
     }
 }
