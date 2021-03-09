@@ -39,7 +39,7 @@ def distributionBinPath = distributionPath + "/bin"
 def originalConfig = ballerinaConfigFile.text
 def originalDependencies = ballerinaDependencyFile.text
 
-class Database{
+class Database {
     String db;
     String category;
     String script;
@@ -63,7 +63,7 @@ class Database{
     }
 }
 
-class DatabaseMeta{
+class DatabaseMeta {
     String group;
     String mainGroup;
     List<Database> databases;
