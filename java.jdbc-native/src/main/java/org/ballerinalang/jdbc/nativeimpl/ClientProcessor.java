@@ -15,13 +15,13 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.ballerinalang.jdbc;
+package org.ballerinalang.jdbc.nativeimpl;
 
 import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
+import org.ballerinalang.jdbc.Constants;
 import org.ballerinalang.sql.datasource.SQLDatasource;
-import org.ballerinalang.sql.utils.ClientUtils;
 import org.ballerinalang.sql.utils.ErrorGenerator;
 
 import java.util.Locale;
@@ -30,9 +30,9 @@ import java.util.Properties;
 /**
  * This class will include the native method implementation for the JDBC client.
  *
- * @since 1.2.0
+ * @since 0.6.0
  */
-public class NativeImpl {
+public class ClientProcessor {
 
     public static Object createClient(BObject client, BMap<BString, Object> clientConfig,
                                       BMap<BString, Object> globalPool) {
@@ -72,7 +72,7 @@ public class NativeImpl {
                 .setOptions(properties)
                 .setPoolProperties(poolProperties)
                 .setConnectionPool(connectionPool, globalPool);
-        return ClientUtils.createClient(client, sqlDatasourceParams);
+        return org.ballerinalang.sql.nativeimpl.ClientProcessor.createClient(client, sqlDatasourceParams);
     }
 
     // Unable to perform a complete validation since URL differs based on the database.
@@ -81,6 +81,6 @@ public class NativeImpl {
     }
 
     public static Object close(BObject client) {
-        return ClientUtils.close(client);
+        return org.ballerinalang.sql.nativeimpl.ClientProcessor.close(client);
     }
 }

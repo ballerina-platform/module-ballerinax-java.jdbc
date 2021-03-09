@@ -21,6 +21,7 @@ description = 'Ballerina - Java.Jdbc Ballerina Generator'
 
 def packageName = "java.jdbc"
 def packageOrg = "ballerinax"
+def platform = "java11"
 def ballerinaConfigFile = new File("$project.projectDir/Ballerina.toml")
 def ballerinaDependencyFile = new File("$project.projectDir/Dependencies.toml")
 def artifactBallerinaDocs = file("$project.projectDir/build/docs_parent/")
@@ -37,6 +38,119 @@ if (Os.isFamily(Os.FAMILY_WINDOWS)) {
 def distributionBinPath = distributionPath + "/bin"
 def originalConfig = ballerinaConfigFile.text
 def originalDependencies = ballerinaDependencyFile.text
+def testCoverageParam = "--code-coverage --includes=org.ballerinalang.jdbc.*:ballerinax.*"
+
+class Database {
+    String db;
+    String category;
+    String script;
+
+    Database(String db, String category, String script) {
+        this.db = db;
+        this.category = category;
+        this.script = script;
+    }
+
+    String getDb() {
+        return this.db
+    }
+
+    String getCategory() {
+        return this.category
+    }
+
+    String getScript() {
+        return this.script
+    }
+}
+
+class DatabaseMeta {
+    String group;
+    String mainGroup;
+    List<Database> databases;
+
+    DatabaseMeta(String group, String mainGroup, List<Database> databases){
+        this.group = group
+        this.mainGroup = mainGroup
+        this.databases = databases
+    }
+
+    String getGroup() {
+        return this.group
+    }
+
+    String getMainGroup() {
+        return this.mainGroup
+    }
+
+    List<Database> getDatabases() {
+        return this.databases
+    }
+}
+
+List<DatabaseMeta> testDatabasesList = new ArrayList<DatabaseMeta>()
+
+List<Database> connectionDbs = new ArrayList<Database>()
+connectionDbs.add(new Database("CONNECT_DB", "connection", "connector-init-test-data.sql"))
+testDatabasesList.add(new DatabaseMeta("connection", "connection", connectionDbs))
+
+List<Database> poolDbs = new ArrayList<Database>()
+poolDbs.add(new Database("POOL_DB_1", "pool", "connection-pool-test-data.sql"))
+poolDbs.add(new Database("POOL_DB_2", "pool", "connection-pool-test-data.sql"))
+testDatabasesList.add(new DatabaseMeta("pool", "pool", poolDbs))
+
+List<Database> transactionDbs = new ArrayList<Database>()
+Database xa1Tran = new Database("XA_TRANSACTION_1", "transaction", "xa-transaction-test-data-1.sql")
+Database xa2Tran = new Database("XA_TRANSACTION_2", "transaction", "xa-transaction-test-data-2.sql")
+Database localTran = new Database("LOCAL_TRANSACTION", "transaction", "local-transaction-test-data.sql")
+transactionDbs.add(xa1Tran)
+transactionDbs.add(xa2Tran)
+transactionDbs.add(localTran)
+testDatabasesList.add(new DatabaseMeta("transaction", "transaction", transactionDbs))
+List<Database> xaTransactionDbs = new ArrayList<Database>()
+xaTransactionDbs.add(xa1Tran)
+xaTransactionDbs.add(xa2Tran)
+testDatabasesList.add(new DatabaseMeta("xa-transaction", "transaction", xaTransactionDbs))
+List<Database> localTransactionDbs = new ArrayList<Database>()
+localTransactionDbs.add(localTran)
+testDatabasesList.add(new DatabaseMeta("local-transaction", "transaction", localTransactionDbs))
+
+List<Database> executeDbs = new ArrayList<Database>()
+Database exeBasic = new Database("EXECUTE_DB", "execute", "execute-test-data.sql")
+Database exeParam = new Database("EXECUTE_PARAMS_DB", "execute", "execute-params-test-data.sql")
+executeDbs.add(exeBasic)
+executeDbs.add(exeParam)
+testDatabasesList.add(new DatabaseMeta("execute", "execute", executeDbs))
+List<Database> exeBasicDbs = new ArrayList<Database>()
+exeBasicDbs.add(exeBasic)
+testDatabasesList.add(new DatabaseMeta("execute-basic", "execute", exeBasicDbs))
+List<Database> exeParamDbs = new ArrayList<Database>()
+exeParamDbs.add(exeParam)
+testDatabasesList.add(new DatabaseMeta("execute-params", "execute", exeParamDbs))
+
+List<Database> batchExeDbs = new ArrayList<Database>()
+batchExeDbs.add(new Database("BATCH_EXECUTE_DB", "batchexecute", "batch-execute-test-data.sql"))
+testDatabasesList.add(new DatabaseMeta("batch-execute", "batch-execute", batchExeDbs))
+
+List<Database> queryDbs = new ArrayList<Database>()
+Database queryTaint = new Database("QUERY_TAINT_DB", "query", "query-taint-analysis-data.sql")
+Database querySimple = new Database("QUERY_SIMPLE_PARAMS_DB", "query", "simple-params-test-data.sql")
+Database queryNumeric = new Database("QUERY_NUMERIC_PARAMS_DB", "query", "numerical-test-data.sql")
+Database queryComplex = new Database("QUERY_COMPLEX_PARAMS_DB", "query", "complex-test-data.sql")
+queryDbs.add(queryTaint);
+queryDbs.add(querySimple);
+queryDbs.add(queryNumeric);
+queryDbs.add(queryComplex);
+testDatabasesList.add(new DatabaseMeta("query", "query", queryDbs))
+List<Database> querySimDbs = new ArrayList<Database>()
+querySimDbs.add(querySimple)
+testDatabasesList.add(new DatabaseMeta("execute-params", "query", querySimDbs))
+List<Database> queryNumDbs = new ArrayList<Database>()
+queryNumDbs.add(queryNumeric)
+testDatabasesList.add(new DatabaseMeta("execute-params", "query", queryNumDbs))
+List<Database> queryComDbs = new ArrayList<Database>()
+queryComDbs.add(queryComplex)
+testDatabasesList.add(new DatabaseMeta("execute-params", "query", queryComDbs))
 
 configurations {
     jbalTools
@@ -151,7 +265,7 @@ task initializeVariables {
         }
 
         if (graph.hasTask(":${packageName}-ballerina:test")) {
-            testParams = "--code-coverage --includes=*"
+            testParams = "${testCoverageParam}"
         } else {
             testParams = "--skip-tests"
         }
@@ -172,9 +286,9 @@ task ballerinaTest {
             environment "JAVA_OPTS", "-DBALLERINA_DEV_COMPILE_BALLERINA_ORG=true"
             environment "STDLIB_VERSION", tomlVersion
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-                commandLine 'cmd', '/c', "$balJavaDebugParam $distributionBinPath/bal.bat test --code-coverage --includes=* ${groupParams} ${disableGroups} ${debugParams} && exit %%ERRORLEVEL%%"
+                commandLine 'cmd', '/c', "$balJavaDebugParam $distributionBinPath/bal.bat test ${testCoverageParam} ${groupParams} ${disableGroups} ${debugParams} && exit %%ERRORLEVEL%%"
             } else {
-                commandLine 'sh', '-c', "$balJavaDebugParam $distributionBinPath/bal test --code-coverage --includes=* ${groupParams} ${disableGroups} ${debugParams}"
+                commandLine 'sh', '-c', "$balJavaDebugParam $distributionBinPath/bal test ${testCoverageParam} ${groupParams} ${disableGroups} ${debugParams}"
             }
         }
     }
@@ -195,9 +309,12 @@ task ballerinaBuild {
                 commandLine 'sh', '-c', "$balJavaDebugParam $distributionBinPath/bal build ${testParams} ${debugParams}"
             }
         }
-        copy {
-            from file("$project.projectDir/target/bala")
-            into file("$artifactCacheParent/bala/${packageOrg}/${packageName}/${tomlVersion}")
+        // extract bala file to artifact cache directory
+        file("$project.projectDir/target/bala").eachFileMatch(~/.*.bala/) { balaFile ->
+            copy {
+                from zipTree(balaFile)
+                into file("$artifactCacheParent/bala/${packageOrg}/${packageName}/${tomlVersion}/${platform}")
+            }
         }
         copy {
             from file("$project.projectDir/target/cache")
@@ -274,15 +391,93 @@ publishing {
     }
 }
 
+task createTestDatabases {
+    List<DatabaseMeta> dbsNeeded = new ArrayList<DatabaseMeta>();
+    def MainGroupList = ["connection", "pool", "transaction", "execute", "batch-execute", "query"]
+    String[] tempGroups;
+    if (project.hasProperty("groups")) {
+        tempGroups = project.findProperty("groups").toString().split(",")
+    } else {
+        tempGroups = MainGroupList;
+    }
+    def count = 0
+    def dbCount;
+    while (count < tempGroups.length) {
+        dbCount = 0
+        while (dbCount < testDatabasesList.size()) {
+            DatabaseMeta val = testDatabasesList[dbCount]
+            if (val.getGroup().equalsIgnoreCase(tempGroups[count])
+                    && (val.getGroup().equalsIgnoreCase(val.getMainGroup()) ||
+                    !tempGroups.contains(val.getMainGroup()))) {
+                dbsNeeded.add(val)
+            }
+            dbCount = dbCount + 1
+        }
+        count = count + 1
+    }
+    doLast {
+        println("Databses will be created for :" + tempGroups + " groups")
+        count = 0
+        while (count < dbsNeeded.size()) {
+            DatabaseMeta dbMeta = dbsNeeded[count]
+            List<Database> dbList = dbMeta.getDatabases();
+            dbCount = 0
+            while (dbCount < dbList.size()) {
+                Database db = dbList[dbCount]
+                try {
+                    exec {
+                        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                            commandLine 'cmd', '/c', "java -classpath $project.projectDir\\lib\\h2-1.4.200.jar " +
+                                    "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir\\target\\databases\\${db.getDb()}" +
+                                    " -user test -password Test123 -script " +
+                                    "$project.projectDir\\tests\\resources\\sql\\${db.getCategory()}\\${db.getScript()}"
+                        } else {
+                            commandLine 'sh', '-c', "java -cp $project.projectDir/lib/h2-1.4.200.jar " +
+                                    "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir/target/databases/${db.getDb()}" +
+                                    " -user test -password Test123 -script " +
+                                    "$project.projectDir/tests/resources/sql/${db.getCategory()}/${db.getScript()}"
+                        }
+                    }
+                    sleep(5 * 1000)
+                } catch (all) {
+                    println(all.cause)
+                    throw new GradleException("could not create test databases")
+                }
+                dbCount = dbCount + 1
+            }
+            count = count + 1
+        }
+    }
+}
+
+task removeTestDatabases() {
+    doLast {
+        try {
+            exec {
+                if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                    commandLine 'cmd', '/c', "rmdir $project.projectDir\\target\\databases /s /q"
+                } else {
+                    commandLine 'sh', '-c', "rm -r $project.projectDir/target/databases"
+                }
+            }
+        } catch (all) {
+            println("Process can safely ignore the removeTestDatabases task")
+        }
+    }
+}
+
 unpackJballerinaTools.dependsOn copyToLib
 unpackStdLibs.dependsOn unpackJballerinaTools
 copyStdlibs.dependsOn unpackStdLibs
 updateTomlFile.dependsOn copyStdlibs
+createTestDatabases.dependsOn updateTomlFile
 
 ballerinaTest.dependsOn updateTomlFile
 ballerinaTest.dependsOn initializeVariables
+ballerinaTest.dependsOn createTestDatabases
 ballerinaTest.dependsOn ":${packageName}-native:build"
 ballerinaTest.finalizedBy revertTomlFile
+ballerinaTest.finalizedBy removeTestDatabases
 test.dependsOn ballerinaTest
 
 ballerinaBuild.dependsOn test
@@ -290,6 +485,7 @@ ballerinaBuild.dependsOn updateTomlFile
 ballerinaBuild.dependsOn initializeVariables
 ballerinaBuild.dependsOn ":${packageName}-native:build"
 ballerinaBuild.finalizedBy revertTomlFile
+ballerinaBuild.finalizedBy removeTestDatabases
 build.dependsOn ballerinaBuild
 
 ballerinaPublish.finalizedBy revertTomlFile
