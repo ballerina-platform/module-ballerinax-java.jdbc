@@ -642,7 +642,7 @@ function queryTimestampTimeRecordWithTimeZoneParam() {
 }
 function queryDateTimeTimeRecordWithTimeZoneParam() {
     time:Civil date = {year: 2017, month:2, day: 3, hour: 11, minute: 53, second:0};
-    sql:TimestampValue typeVal = new (date);
+    sql:DateTimeValue typeVal = new (date);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE datetime_type = ${typeVal}`;
     validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
 }
