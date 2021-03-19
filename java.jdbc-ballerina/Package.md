@@ -17,7 +17,7 @@ name = "jdbc"
 version= "0.1.0"
 
 [[platform.java11.dependency]]
-artafactId = "h2"
+artifactId = "h2"
 version = "1.4.200"
 path = "/path/to/com.h2database.h2-1.4.200.jar"
 groupId = "com.h2database"
