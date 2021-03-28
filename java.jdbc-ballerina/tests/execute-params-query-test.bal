@@ -23,7 +23,7 @@ string executeParamsDb = "jdbc:h2:" + dbPath + "/" + "EXECUTE_PARAMS_DB";
 @test:BeforeGroups {
     value: ["execute-params"]
 }
-function initExecuteParamsDB() {
+isolated function initExecuteParamsDB() {
     initializeDatabase("EXECUTE_PARAMS_DB", "execute", "execute-params-test-data.sql");
 }
 

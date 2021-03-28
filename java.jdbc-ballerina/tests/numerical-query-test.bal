@@ -21,7 +21,7 @@ string jdbcURL = "jdbc:h2:" + dbPath + "/" + "QUERY_NUMERIC_PARAMS_DB";
 @test:BeforeGroups {
     value: ["query-numeric-params"]
 }
-function initQueryNumericParamsDB() {
+isolated function initQueryNumericParamsDB() {
     initializeDatabase("QUERY_NUMERIC_PARAMS_DB", "query", "numerical-test-data.sql");
 }
 

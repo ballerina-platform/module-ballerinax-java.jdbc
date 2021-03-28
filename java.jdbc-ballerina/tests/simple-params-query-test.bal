@@ -24,7 +24,7 @@ string simpleParamsDb = "jdbc:h2:" + dbPath + "/" + "QUERY_SIMPLE_PARAMS_DB";
 @test:BeforeGroups {
     value: ["query-simple-params"]
 }
-function initQuerySimpleParamsDB() {
+isolated function initQuerySimpleParamsDB() {
     initializeDatabase("QUERY_SIMPLE_PARAMS_DB", "query", "simple-params-test-data.sql");
 }
 
@@ -307,6 +307,7 @@ function queryTypeFloatDoubleParam() {
 }
 
 @test:Config {
+    enable: false,
     groups: ["query","query-simple-params"]
 }
 function queryTypeRealDoubleParam() {
@@ -500,16 +501,6 @@ function queryDateStringInvalidParam() {
 @test:Config {
     groups: ["query","query-simple-params"]
 }
-function queryDateLongParam() {
-     // 1486080000000: 2017:02:03
-    sql:DateValue typeVal = new (1486080000000);
-    sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE date_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
-}
-
-@test:Config {
-    groups: ["query","query-simple-params"]
-}
 function queryDateTimeRecordParam() {
     time:Date date = {year: 2017, month:2, day: 3};
     sql:DateValue typeVal = new (date);
@@ -545,22 +536,12 @@ function queryTimeStringInvalidParam() {
     record{}|error? result = trap queryJdbcClient(sqlQuery);
     test:assertTrue(result is error);
 
-    if (result is sql:ApplicationError) {
-        test:assertTrue(result.message().startsWith("Error while executing SQL query: SELECT * from " +
-                "DateTimeTypes WHERE time_type =  ? . java.lang.IllegalArgumentException"));
+    if (result is sql:DatabaseError) {
+        test:assertTrue(result.message().startsWith("Error while executing SQL query: SELECT * from DateTimeTypes " +
+        "WHERE time_type =  ? . Cannot parse \"TIME\" constant \"11-35-45\""));
     } else {
-        test:assertFail("ApplicationError Error expected.");
+        test:assertFail("DatabaseError Error expected.");
     }}
-
-@test:Config {
-    groups: ["query","query-simple-params"]
-}
-function queryTimeLongParam() {
-    //1577878545000: 2020:01:01 11:35:45
-    sql:TimeValue typeVal = new (1577878545000);
-    sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE time_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
-}
 
 @test:Config {
     groups: ["query","query-simple-params"]
@@ -600,22 +581,12 @@ function queryTimestampStringInvalidParam() {
     record{}|error? result = trap queryJdbcClient(sqlQuery);
     test:assertTrue(result is error);
 
-    if (result is sql:ApplicationError) {
-        test:assertEquals(result.message(), "Error while executing SQL query: SELECT * from " +
-        "DateTimeTypes WHERE timestamp_type =  ? . Timestamp format must be yyyy-mm-dd hh:mm:ss[.fffffffff]");
+    if (result is sql:DatabaseError) {
+        test:assertTrue(result.message().startsWith("Error while executing SQL query: SELECT * from DateTimeTypes" +
+        " WHERE timestamp_type =  ? . Cannot parse \"TIMESTAMP\" constant \"2017/02/03 11:53:00\""));
     } else {
-        test:assertFail("ApplicationError Error expected.");
+        test:assertFail("DatabaseError Error expected.");
     }}
-
-@test:Config {
-    groups: ["query","query-simple-params"]
-}
-function queryTimestampLongParam() {
-    //1486122780000 : 2017-02-03 11:53:00
-    sql:TimestampValue typeVal = new (1486122780000);
-    sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE timestamp_type = ${typeVal}`;
-    validateDateTimeTypesTableResult(queryJdbcClient(sqlQuery));
-}
 
 @test:Config {
     groups: ["query","query-simple-params"]

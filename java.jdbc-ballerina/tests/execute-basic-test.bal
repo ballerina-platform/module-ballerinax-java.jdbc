@@ -21,7 +21,7 @@ string executeDb = "jdbc:h2:" + dbPath + "/" + "EXECUTE_DB";
 @test:BeforeGroups {
     value: ["execute-basic"]
 }
-function initExecuteDB() {
+isolated function initExecuteDB() {
     initializeDatabase("EXECUTE_DB", "execute", "execute-test-data.sql");
 }
 

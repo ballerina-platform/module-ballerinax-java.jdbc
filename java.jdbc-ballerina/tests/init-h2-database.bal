@@ -25,11 +25,11 @@ string scriptPath = checkpanic file:getAbsolutePath("tests/resources/sql");
 string user = "test";
 string password = "Test123";
 
-function initializeDatabase(string database, string category, string script) {
+isolated function initializeDatabase(string database, string category, string script) {
     io:println("Finished initialising H2 '" + database + "' databases.");
 }
 
 @test:AfterSuite {}
-function afterSuite() {
+isolated function afterSuite() {
     io:println("Clean up databases.");
 }
