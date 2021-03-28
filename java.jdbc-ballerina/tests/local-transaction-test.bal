@@ -175,7 +175,7 @@ int returnValRGK = 0;
 }
 function testLocalTransactionRollbackWithGeneratedKeys() returns error? {
     Client dbClient = check new (url = localTransactionDB, user = user, password = password);
-    error? result = check testLocalTransactionRollbackWithGeneratedKeysHelper(dbClient);
+    error? result = testLocalTransactionRollbackWithGeneratedKeysHelper(dbClient);
     //check whether update action is performed
     int count = getCount(dbClient, "615");
     check dbClient.close();
