@@ -25,7 +25,7 @@ string xaTransactionDB2 = "jdbc:h2:" + dbPath + "/" + "XA_TRANSACTION_2";
 @test:BeforeGroups {
     value: ["xa-transaction"]
 }
-function initXATransactionDB() {
+isolated function initXATransactionDB() {
     initializeDatabase("XA_TRANSACTION_1", "transaction", "xa-transaction-test-data-1.sql");
     initializeDatabase("XA_TRANSACTION_2", "transaction", "xa-transaction-test-data-2.sql");
 }
@@ -84,13 +84,13 @@ function testXATransactionSuccessWithDataSource() {
     checkpanic dbClient2.close();
 }
 
-function getCustomerCount(Client dbClient, string id) returns @tainted int|error{
+isolated function getCustomerCount(Client dbClient, string id) returns @tainted int|error{
     stream<XAResultCount, sql:Error> streamData = <stream<XAResultCount,  sql:Error>> dbClient->query("Select COUNT(*) as " +
         "countval from Customers where customerId = "+ id, XAResultCount);
     return getResult(streamData);
 }
 
-function getSalaryCount(Client dbClient, string id) returns @tainted int|error{
+isolated function getSalaryCount(Client dbClient, string id) returns @tainted int|error{
     stream<XAResultCount,  sql:Error> streamData =
     <stream<XAResultCount,  sql:Error>> dbClient->query("Select COUNT(*) as countval " +
     "from Salary where id = "+ id, XAResultCount);

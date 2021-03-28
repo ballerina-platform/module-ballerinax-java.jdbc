@@ -22,7 +22,7 @@ string taintQueryDb = "jdbc:h2:" + dbPath + "/" + "QUERY_TAINT_DB";
 @test:BeforeGroups {
     value: ["query-taint-analysis"]
 }
-function initTaintQueryDB() {
+isolated function initTaintQueryDB() {
     initializeDatabase("QUERY_TAINT_DB", "query", "query-taint-analysis-data.sql");
 }
 
