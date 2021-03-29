@@ -24,7 +24,7 @@ string poolDB_2 = "jdbc:h2:" + dbPath + "/" + "POOL_DB_2";
 @test:BeforeGroups {
     value: ["pool"]
 }
-function initPoolDB() {
+isolated function initPoolDB() {
     initializeDatabase("POOL_DB_1", "pool", "connection-pool-test-data.sql");
     initializeDatabase("POOL_DB_2", "pool", "connection-pool-test-data.sql");
 }
@@ -494,7 +494,7 @@ function testGlobalConnectionPoolConcurrentHelper2(string jdbcUrl) returns @tain
     return returnArray;
 }
 
-function getCombinedReturnValue([stream<record{}, error>, stream<record{}, error>]|error queryResult) returns
+isolated function getCombinedReturnValue([stream<record{}, error>, stream<record{}, error>]|error queryResult) returns
  (int|error)[]|error {
     if (queryResult is error) {
         return queryResult;
@@ -580,13 +580,13 @@ isolated function getReturnValue(stream<record{}, error> queryResult) returns in
     return count;
 }
 
-function validateApplicationError(int|error dbError) {
+isolated function validateApplicationError(int|error dbError) {
     test:assertTrue(dbError is error);
     sql:ApplicationError sqlError = <sql:ApplicationError> dbError;
     test:assertTrue(strings:includes(sqlError.message(), "Client is already closed"), sqlError.message());
 }
 
-function validateConnectionTimeoutError(int|error dbError) {
+isolated function validateConnectionTimeoutError(int|error dbError) {
     test:assertTrue(dbError is error);
     sql:DatabaseError sqlError = <sql:DatabaseError> dbError;
     test:assertTrue(strings:includes(sqlError.message(), "request timed out after"), sqlError.message());
