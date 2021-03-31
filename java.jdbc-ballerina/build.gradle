@@ -344,7 +344,7 @@ task ballerinaBuild {
 
 task ballerinaPublish {
 
-    ext.balPush { additionalParams ->
+    ext.balPush = { additionalParams ->
         exec {
             workingDir project.projectDir
             environment "JAVA_OPTS", "-DBALLERINA_DEV_COMPILE_BALLERINA_ORG=true"
