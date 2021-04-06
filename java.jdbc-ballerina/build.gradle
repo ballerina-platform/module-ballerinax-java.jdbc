@@ -144,13 +144,13 @@ queryDbs.add(queryComplex);
 testDatabasesList.add(new DatabaseMeta("query", "query", queryDbs))
 List<Database> querySimDbs = new ArrayList<Database>()
 querySimDbs.add(querySimple)
-testDatabasesList.add(new DatabaseMeta("execute-params", "query", querySimDbs))
+testDatabasesList.add(new DatabaseMeta("query-simple-params", "query", querySimDbs))
 List<Database> queryNumDbs = new ArrayList<Database>()
 queryNumDbs.add(queryNumeric)
-testDatabasesList.add(new DatabaseMeta("execute-params", "query", queryNumDbs))
+testDatabasesList.add(new DatabaseMeta("query-numeric-params", "query", queryNumDbs))
 List<Database> queryComDbs = new ArrayList<Database>()
 queryComDbs.add(queryComplex)
-testDatabasesList.add(new DatabaseMeta("execute-params", "query", queryComDbs))
+testDatabasesList.add(new DatabaseMeta("query-complex-params", "query", queryComDbs))
 
 configurations {
     jbalTools
