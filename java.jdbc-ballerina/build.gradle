@@ -355,7 +355,8 @@ task ballerinaBuild {
         }
 
         if (needPublishToCentral) {
-            if (project.version.endsWith('-SNAPSHOT')) {
+            if (project.version.endsWith('-SNAPSHOT') ||
+                    project.version.matches(project.ext.timestampedVersionRegex)) {
                 throw new InvalidUserDataException("Cannot push SNAPSHOT version to central")
             }
             if (ballerinaCentralAccessToken != null) {
