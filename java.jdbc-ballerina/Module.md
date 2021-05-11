@@ -46,7 +46,7 @@ The `dbClient4` receives some custom properties within the
 [jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options)
 and those properties will be used by the defined `datasourceName`.
 As per the provided example, the `org.h2.jdbcx.JdbcDataSource` datasource  will be configured with a `loginTimeout`
-of `2000` milli seconds.
+of `2000` milliseconds.
 
 ```ballerina
 jdbc:Client|sql:Error dbClient1 = new ("jdbc:h2:~/path/to/database");
