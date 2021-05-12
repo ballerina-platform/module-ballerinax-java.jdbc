@@ -1,4 +1,4 @@
-## Module overview
+## Module Overview
 
 This module provides the functionality required to access and manipulate data stored in any type of relational database
 that is accessible via Java Database Connectivity (JDBC).
