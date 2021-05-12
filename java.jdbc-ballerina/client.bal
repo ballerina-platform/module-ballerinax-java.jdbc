@@ -46,7 +46,7 @@ public client class Client {
 
     # Queries the database with the query provided by the user, and returns the result as stream.
     #
-    # + sqlQuery - The query which needs to be executed as `string`, or `ParameterizedQuery` when the SQL query has
+    # + sqlQuery - The query which needs to be executed as `string`, or `sql:ParameterizedQuery` when the SQL query has
     #              params to be passed in
     # + rowType - The `typedesc` of the record that should be returned as a result. If this is not provided the default
     #             column names of the query result set be used for the record attributes
@@ -63,9 +63,9 @@ public client class Client {
 
     # Executes the DDL or DML sql queries provided by the user, and returns summary of the execution.
     #
-    # + sqlQuery - The DDL or DML query such as INSERT, DELETE, UPDATE, etc as `string`, or `ParameterizedQuery`
+    # + sqlQuery - The DDL or DML query such as INSERT, DELETE, UPDATE, etc as `string`, or `sql:ParameterizedQuery`
     #              when the query has params to be passed in
-    # + return - Summary of the sql update query as `ExecutionResult` or an `Error`
+    # + return - Summary of the sql update query as `sql:ExecutionResult` or an `sql:Error`
     #           if any error occurred when executing the query
     remote isolated function execute(@untainted string|sql:ParameterizedQuery sqlQuery) returns sql:ExecutionResult|sql:Error {
         if (self.clientActive) {
@@ -78,11 +78,11 @@ public client class Client {
     # Executes a batch of parameterized DDL or DML sql query provided by the user,
     # and returns the summary of the execution.
     #
-    # + sqlQueries - The DDL or DML query such as INSERT, DELETE, UPDATE, etc as `ParameterizedQuery` with an array
+    # + sqlQueries - The DDL or DML query such as INSERT, DELETE, UPDATE, etc as `sql:ParameterizedQuery` with an array
     #                of values passed in
-    # + return - Summary of the executed SQL queries as `ExecutionResult[]` which includes details such as
+    # + return - Summary of the executed SQL queries as `sql:ExecutionResult[]` which includes details such as
     #            `affectedRowCount` and `lastInsertId`. If one of the commands in the batch fails, this function
-    #            will return `BatchExecuteError`, however the JDBC driver may or may not continue to process the
+    #            will return `sql:BatchExecuteError`, however the JDBC driver may or may not continue to process the
     #            remaining commands in the batch after a failure. The summary of the executed queries in case of error
     #            can be accessed as `(<sql:BatchExecuteError> result).detail()?.executionResults`
     remote isolated function batchExecute(@untainted sql:ParameterizedQuery[] sqlQueries) returns sql:ExecutionResult[]|sql:Error {
@@ -101,7 +101,7 @@ public client class Client {
     # + sqlQuery - The query to execute the SQL stored procedure
     # + rowTypes - The array of `typedesc` of the records that should be returned as a result. If this is not provided
     #               the default column names of the query result set be used for the record attributes
-    # + return - Summary of the execution is returned in `ProcedureCallResult`, or `sql:Error`
+    # + return - Summary of the execution is returned in `sql:ProcedureCallResult`, or `sql:Error`
     remote isolated function call(@untainted string|sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes = [])
     returns sql:ProcedureCallResult|sql:Error {
         if (self.clientActive) {
@@ -134,7 +134,7 @@ public type Options record {|
 # + url - URL of the database to connect
 # + user - Username for the database connection
 # + password - Password for the database connection
-# + options - A map of DB specific `Options`
+# + options - A map of DB specific `java.jdbc:Options`
 # + connectionPool - Properties for the connection pool configuration. Refer `sql:ConnectionPool` for more details
 type ClientConfiguration record {|
     string? url;
