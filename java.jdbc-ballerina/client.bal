@@ -46,7 +46,7 @@ public client class Client {
 
     # Queries the database with the query provided by the user, and returns the result as stream.
     #
-    # + sqlQuery - The query which needs to be executed as `string`, or `sql:ParameterizedQuery` when the SQL query has
+    # + sqlQuery - The query which needs to be executed as `string` or `sql:ParameterizedQuery` when the SQL query has
     #              params to be passed in
     # + rowType - The `typedesc` of the record that should be returned as a result. If this is not provided the default
     #             column names of the query result set be used for the record attributes
@@ -63,7 +63,7 @@ public client class Client {
 
     # Executes the DDL or DML sql queries provided by the user, and returns summary of the execution.
     #
-    # + sqlQuery - The DDL or DML query such as INSERT, DELETE, UPDATE, etc as `string`, or `sql:ParameterizedQuery`
+    # + sqlQuery - The DDL or DML query such as INSERT, DELETE, UPDATE, etc as `string` or `sql:ParameterizedQuery`
     #              when the query has params to be passed in
     # + return - Summary of the sql update query as `sql:ExecutionResult` or an `sql:Error`
     #           if any error occurred when executing the query
@@ -101,7 +101,7 @@ public client class Client {
     # + sqlQuery - The query to execute the SQL stored procedure
     # + rowTypes - The array of `typedesc` of the records that should be returned as a result. If this is not provided
     #               the default column names of the query result set be used for the record attributes
-    # + return - Summary of the execution is returned in `sql:ProcedureCallResult`, or `sql:Error`
+    # + return - Summary of the execution is returned in `sql:ProcedureCallResult` or `sql:Error`
     remote isolated function call(@untainted string|sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes = [])
     returns sql:ProcedureCallResult|sql:Error {
         if (self.clientActive) {
@@ -134,7 +134,7 @@ public type Options record {|
 # + url - URL of the database to connect
 # + user - Username for the database connection
 # + password - Password for the database connection
-# + options - A map of DB specific `java.jdbc:Options`
+# + options - A map of DB specific `jdbc:Options`
 # + connectionPool - Properties for the connection pool configuration. Refer `sql:ConnectionPool` for more details
 type ClientConfiguration record {|
     string? url;

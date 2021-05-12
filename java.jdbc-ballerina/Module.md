@@ -28,7 +28,7 @@ To access a database, you must first create a
 [jdbc:Client](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/clients/Client) object.
 The examples for creating a JDBC client can be found below.
 
-#### Creating a client
+#### Creating a Client
 This example shows the different ways of creating the `jdbc:Client`. The client can be created by passing
 the JDBC URL, which is a mandatory property and all other fields are optional.
 
