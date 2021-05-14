@@ -49,8 +49,6 @@ jdbc:Client|sql:Error dbClient = new ("jdbc:h2:~/path/to/database",
                             "root", "root");
 ```
 
-
-
 The `dbClient` uses the named params to pass all the attributes and provides the `options` property in the type of
 [jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options)
 and also uses the unshared connection pool in the type of
