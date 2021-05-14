@@ -1,4 +1,4 @@
-## Module Overview
+## Overview
 
 This module provides the functionality required to access and manipulate data stored in any type of relational database
 that is accessible via Java Database Connectivity (JDBC).
@@ -7,7 +7,7 @@ that is accessible via Java Database Connectivity (JDBC).
 as a native library dependency in your Ballerina project. Then, once you build the project by executing the `ballerina build`
 command, you should be able to run the resultant by executing the `ballerina run` command.
 
-E.g., The `Ballerina.toml` content.
+E.g., The `Ballerina.toml` content for h2 database.
 Change the path to the JDBC driver appropriately.
 
 ```toml
@@ -48,6 +48,7 @@ and those properties will be used by the defined `datasourceName`.
 As per the provided example, the `org.h2.jdbcx.JdbcDataSource` datasource  will be configured with a `loginTimeout`
 of `2000` milliseconds.
 
+E.g., db clients creation for h2 database.
 ```ballerina
 jdbc:Client|sql:Error dbClient1 = new ("jdbc:h2:~/path/to/database");
 jdbc:Client|sql:Error dbClient2 = new ("jdbc:h2:~/path/to/database", 
@@ -86,11 +87,3 @@ For more information on all the operations supported by the `jdbc:Client`, which
 6. Batch insert and update data
 7. Execute stored procedures
 8. Closing client
-
-For examples on the usage of the connector, see the following.
-* [Client Initialization Example](https://ballerina.io/learn/by-example/jdbc-init-options.html)
-* [Select Query Operations Example](https://ballerina.io/learn/by-example/jdbc-query-operation.html)
-* [Query with Complex Types Example](https://ballerina.io/learn/by-example/jdbc-complex-type-queries.html)
-* [DDL and DML Operations Example](https://ballerina.io/learn/by-example/jdbc-execute-operation.html)
-* [Batch Execute Operations Example](https://ballerina.io/learn/by-example/jdbc-batch-execute-operation.html)
-* [Parameterized Query Example](https://ballerina.io/learn/by-example/jdbc-parameterized-query.html)
