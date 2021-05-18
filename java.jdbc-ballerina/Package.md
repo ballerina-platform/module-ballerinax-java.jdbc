@@ -1,13 +1,13 @@
 ## Package Overview
 
-The JDBC library is one of the external library packages of the<a target="_blank" href="https://ballerina.io/"> Ballerina</a> language. This external package is maintained by the ballerina team.
+The `jdbc` library is one of the external library packages of the<a target="_blank" href="https://ballerina.io/"> Ballerina</a> language. This external package is maintained by the Ballerina team.
 
 It provides the functionality required to access and manipulate data stored in any type of relational database
 that is accessible via Java Database Connectivity (JDBC).
 
 ### Report Issues
 
-To report bugs, request new features, start new discussions, view project boards, etc. please visit Ballerina Standard Library [parent repository](https://github.com/ballerina-platform/ballerina-standard-library).
+To report bugs, request new features, start new discussions, view project boards, etc., go to the [Ballerina Standard Library parent repository](https://github.com/ballerina-platform/ballerina-standard-library).
 
 ### Useful Links
 - Discuss code changes of the Ballerina project in ballerina-dev@googlegroups.com.

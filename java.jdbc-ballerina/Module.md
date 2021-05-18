@@ -1,13 +1,13 @@
 ## Overview
 
-This module provides the functionality required to access and manipulate data stored in any type of relational database
-that is accessible via Java Database Connectivity (JDBC).
+This module provides the functionality that is required to access and manipulate data stored in any type of relational database,
+which is accessible via Java Database Connectivity (JDBC).
 
 **Prerequisite:** Add the JDBC driver corresponding to the database you are trying to interact with
 as a native library dependency in your Ballerina project. Then, once you build the project by executing the `ballerina build`
 command, you should be able to run the resultant by executing the `ballerina run` command.
 
-E.g., The `Ballerina.toml` content for h2 database.
+E.g., The `Ballerina.toml` content for an H2 database will be as follows.
 Change the path to the JDBC driver appropriately.
 
 ```toml
@@ -34,28 +34,28 @@ the JDBC URL, which is a mandatory property and all other fields are optional.
 
 The `dbClient` receives only the database URL.
 
-E.g., db client creation for h2 database.
+E.g., The DB client creation for an H2 database will be as follows.
 ```ballerina
 jdbc:Client|sql:Error dbClient = new ("jdbc:h2:~/path/to/database");
 ```
 
 The `dbClient` receives the username and password in addition to the URL.
-If the properties are passed in the same order as it is defined in the `jdbc:Client`, you can pass it
+If the properties are passed in the same order as they are defined in the `jdbc:Client`, you can pass them
 without named params.
 
-E.g., db client creation for h2 database.
+E.g., The DB client creation for an H2 database will be as follows.
 ```ballerina
 jdbc:Client|sql:Error dbClient = new ("jdbc:h2:~/path/to/database", 
                             "root", "root");
 ```
 
 The `dbClient` uses the named params to pass all the attributes and provides the `options` property in the type of
-[jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options)
+[jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options),
 and also uses the unshared connection pool in the type of
 [sql:ConnectionPool](https://ballerina.io/learn/api-docs/ballerina/#/sql/records/ConnectionPool).
-For more information about connection pooling, see [SQL Module](https://ballerina.io/learn/api-docs/ballerina/#/sql).
+For more information about connection pooling, see the [`sql` module](https://ballerina.io/learn/api-docs/ballerina/#/sql).
 
-E.g., db client creation for h2 database.
+E.g., The DB client creation for an H2 database will be as follows.
 ```ballerina
 jdbc:Client|sql:Error dbClient = new (url =  "jdbc:h2:~/path/to/database",
                              user = "root", password = "root",
@@ -68,12 +68,12 @@ jdbc:Client|sql:Error dbClient = new (url =  "jdbc:h2:~/path/to/database",
 ```
 
 The `dbClient` receives some custom properties within the
-[jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options)
+[jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options),   
 and those properties will be used by the defined `datasourceName`.
 As per the provided example, the `org.h2.jdbcx.JdbcDataSource` datasource  will be configured with a `loginTimeout`
 of `2000` milliseconds.
 
-E.g., db client creation for h2 database.
+E.g., The DB client creation for an H2 database will be as follows.
 ```ballerina
 jdbc:Client|sql:Error dbClient = new (url =  "jdbc:h2:~/path/to/database", 
                              user = "root", password = "root",
@@ -92,7 +92,7 @@ all the operations defined by the `sql:Client` will be supported by the `jdbc:Cl
 
 #### Connection Pool Handling
 
-All ballerina database modules share the same connection pooling concept and there are 3 possible scenarios for
+All ballerina database modules share the same connection pooling concept and there are three possible scenarios for
 connection pool handling.  For its properties and possible values, see the `sql:ConnectionPool`.
 
 1. Global shareable default connection pool
@@ -101,7 +101,7 @@ connection pool handling.  For its properties and possible values, see the `sql:
    created for your database unless a connection pool matching with the properties you provided already exists.
    The JDBC module example below shows how the global connection pool is used.
 
-   E.g., db client creation for h2 database.
+   E.g., The DB client creation for an H2 database is as follows.
    ```ballerina
     jdbc:Client|sql:Error dbClient = 
                                new ("jdbc:h2:~/path/to/database", 
@@ -114,7 +114,7 @@ connection pool handling.  For its properties and possible values, see the `sql:
    an unsharable connection pool will be created. The JDBC module example below shows how the global
    connection pool is used.
 
-   E.g., db client creation for h2 database.
+   E.g., The DB client creation for an H2 database is as follows.
     ```ballerina
     jdbc:Client|sql:Error dbClient = 
                                new (url = "jdbc:h2:~/path/to/database", 
@@ -124,10 +124,10 @@ connection pool handling.  For its properties and possible values, see the `sql:
 3. Local, shareable connection pool
 
    If you create a record of type `sql:ConnectionPool` and reuse that in the configuration of multiple clients,
-   for each  set of clients that connects to the same database instance with the same set of properties, a shared
+   for each set of clients that connects to the same database instance with the same set of properties, a shared
    connection pool will be created. The JDBC module example below shows how the global connection pool is used.
 
-   E.g., db client creation for h2 database.
+   E.g., The DB client creation for an H2 database is as follows.
     ```ballerina
     sql:ConnectionPool connPool = {maxOpenConnections: 5};
     
@@ -164,18 +164,18 @@ updating, and batch updating data.
 #### Creating Tables
 
 This sample creates a table with two columns. One column is of type `int` and the other is of type `varchar`.
-The CREATE statement is executed via the `execute` remote function of the client.
+The `CREATE` statement is executed via the `execute` remote function of the client.
 
 ```ballerina
-// Create the ‘Students’ table with the  ‘id’, 'name' and ‘age’ fields.
+// Create the ‘Students’ table with the  ‘id’, 'name', and ‘age’ fields.
 sql:ExecutionResult ret = check dbClient->execute("CREATE TABLE student(id INT AUTO_INCREMENT, " +
                          "age INT, name VARCHAR(255), PRIMARY KEY (id))");
-//A value of type sql:ExecutionResult is returned for 'ret'. 
+//A value of the sql:ExecutionResult type is returned for 'ret'. 
 ```
 
 #### Inserting Data
 
-This sample shows three examples of data insertion by executing an INSERT statement using the `execute` remote function
+This sample shows three examples of data insertion by executing an `INSERT` statement using the `execute` remote function
 of the client.
 
 In the first example, the query parameter values are passed directly into the query statement of the `execute`
@@ -201,7 +201,7 @@ sql:ExecutionResult ret = check dbClient->execute(query);
 ```
 
 In the third example, the parameter values are passed as a `sql:TypedValue` to the `execute` remote function. Use the
-corresponding subtype of the `sql:TypedValue` such as `sql:Varchar`, `sql:Char`, `sql:Integer`, etc, when you need to
+corresponding subtype of the `sql:TypedValue` such as `sql:Varchar`, `sql:Char`, `sql:Integer`, etc., when you need to
 provide more details such as the exact SQL type of the parameter.
 
 ```ballerina
@@ -216,7 +216,7 @@ sql:ExecutionResult ret = check dbClient->execute(query);
 #### Inserting Data With Auto-generated Keys
 
 This example demonstrates inserting data while returning the auto-generated keys. It achieves this by using the
-`execute` remote function to execute the INSERT statement.
+`execute` remote function to execute the `INSERT` statement.
 
 ```ballerina
 int age = 31;
@@ -238,9 +238,9 @@ This sample shows three examples to demonstrate the different usages of the `que
 database table and obtain the results.
 
 This example demonstrates querying data from a table in a database.
-First, a type is created to represent the returned result set. Note the mapping of the database column
-to the returned record's property is case-insensitive (i.e., `ID` column in the result can be mapped to the `id`
-property in the record). Next, the SELECT query is executed via the `query` remote function of the client by passing that
+First, a type is created to represent the returned result set. Note that the mapping of the database column
+to the returned record's property is case-insensitive (i.e., the `ID` column in the result can be mapped to the `id`
+property in the record). Next, the `SELECT` query is executed via the `query` remote function of the client by passing that
 result set type. Once the query is executed, each data record can be retrieved by looping the result set. The `stream`
 returned by the select operation holds a pointer to the actual data in the database and it loads data from the table
 only when it is accessed. This stream can be iterated only once.
@@ -269,7 +269,7 @@ error? e = resultStream.forEach(function(Student student) {
 });
 ```
 
-Defining the return type is optional, and you can query the database without providing the result type. Hence,
+Defining the return type is optional and you can query the database without providing the result type. Hence,
 the above example can be modified as follows with an open record type as the return type. The property name in the open record
 type will be the same as how the column is defined in the database.
 
@@ -291,7 +291,7 @@ error? e = resultStream.forEach(function(record{} student) {
 
 There are situations in which you may not want to iterate through the database and in that case, you may decide
 to only use the `next()` operation in the result `stream` and retrieve the first record. In such cases, the returned
-result stream will not be closed, and you have to explicitly invoke the `close` operation on the
+result stream will not be closed and you have to explicitly invoke the `close` operation on the
 `sql:Client` to release the connection resources and avoid a connection leak as shown below.
 
 ```ballerina
@@ -313,7 +313,7 @@ error? e = resultStream.close();
 
 #### Updating Data
 
-This example demonstrates modifying data by executing an UPDATE statement via the `execute` remote function of
+This example demonstrates modifying data by executing an `UPDATE` statement via the `execute` remote function of
 the client.
 
 ```ballerina
@@ -325,7 +325,7 @@ sql:ExecutionResult|sql:Error ret = check dbClient->execute(query);
 
 #### Deleting Data
 
-This example demonstrates deleting data by executing a DELETE statement via the `execute` remote function of
+This example demonstrates deleting data by executing a `DELETE` statement via the `execute` remote function of
 the client.
 
 ```ballerina
@@ -336,7 +336,7 @@ sql:ExecutionResult|sql:Error ret = check dbClient->execute(query);
 
 #### Batch Updating Data
 
-This example demonstrates how to insert multiple records with a single INSERT statement that is executed via the
+This example demonstrates how to insert multiple records with a single `INSERT` statement that is executed via the
 `batchExecute` remote function of the client. This is done by creating a `table` with multiple records and
 parameterized SQL query as same as the  above `execute` operations.
 
@@ -357,7 +357,7 @@ sql:ExecutionResult[] ret = check dbClient->batchExecute(batch);
 
 #### Execute SQL Stored Procedures
 
-This example demonstrates how to execute a stored procedure with a single INSERT statement that is executed via the
+This example demonstrates how to execute a stored procedure with a single `INSERT` statement that is executed via the
 `call` remote function of the client.
 
 ```ballerina
