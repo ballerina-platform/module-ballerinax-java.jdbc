@@ -60,9 +60,51 @@ def stripBallerinaExtensionVersion(String extVersion) {
 apply plugin: 'io.ballerina.plugin'
 
 ballerina {
+    packageOrganization = packageOrg
     module = packageName
     langVersion = ballerinaLangVersion
     testCoverageParam = '--code-coverage --jacoco-xml --includes=org.ballerinalang.jdbc.*:ballerinax.*'
+}
+
+task updateTomlFiles {
+    doLast {
+        def stdlibDependentSqlVersion = stripBallerinaExtensionVersion(project.stdlibSqlVersion)
+
+        def newConfig = ballerinaConfigFile.text.replace('@project.version@', project.version.toString())
+        newConfig = newConfig.replace('@toml.version@', tomlVersion)
+        newConfig = newConfig.replace('@stdlib.sql.version@', stdlibDependentSqlVersion)
+
+        ballerinaConfigFile.text = newConfig
+
+        def newDependencyConfig = ballerinaDependencyFile.text.replace('@stdlib.sql.version@', stdlibDependentSqlVersion)
+        ballerinaDependencyFile.text = newDependencyConfig
+    }
+}
+
+task revertTomlFiles {
+    doLast {
+        ballerinaConfigFile.text = originalConfig
+        ballerinaDependencyFile.text = originalDependencies
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact source: createArtifactZip, extension: 'zip'
+            artifact source: artifactCodeCoverageReport, classifier: 'jacoco'
+        }
+    }
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/ballerina-platform/module-${packageOrg}-${packageName}")
+            credentials {
+                username = System.getenv('publishUser')
+                password = System.getenv('publishPAT')
+            }
+        }
+    }
 }
 
 class Database {
@@ -181,47 +223,6 @@ List<Database> queryComDbs = new ArrayList<Database>()
 queryComDbs.add(queryComplex)
 testDatabasesList.add(new DatabaseMeta('query-complex-params', 'query', queryComDbs))
 
-task updateTomlVersions {
-    doLast {
-        def stdlibDependentSqlVersion = stripBallerinaExtensionVersion(project.stdlibSqlVersion)
-
-        def newConfig = ballerinaConfigFile.text.replace('@project.version@', project.version.toString())
-        newConfig = newConfig.replace('@toml.version@', tomlVersion)
-        newConfig = newConfig.replace('@stdlib.sql.version@', stdlibDependentSqlVersion)
-
-        ballerinaConfigFile.text = newConfig
-
-        def newDependencyConfig = ballerinaDependencyFile.text.replace('@stdlib.sql.version@', stdlibDependentSqlVersion)
-        ballerinaDependencyFile.text = newDependencyConfig
-    }
-}
-
-task revertTomlFile {
-    doLast {
-        ballerinaConfigFile.text = originalConfig
-        ballerinaDependencyFile.text = originalDependencies
-    }
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            artifact source: createArtifactZip, extension: 'zip'
-            artifact source: artifactCodeCoverageReport, classifier: 'jacoco'
-        }
-    }
-    repositories {
-        maven {
-            name = 'GitHubPackages'
-            url = uri("https://maven.pkg.github.com/ballerina-platform/module-${packageOrg}-${packageName}")
-            credentials {
-                username = System.getenv('publishUser')
-                password = System.getenv('publishPAT')
-            }
-        }
-    }
-}
-
 task createTestDatabases {
     List<DatabaseMeta> dbsNeeded = new ArrayList<DatabaseMeta>()
     def MainGroupList = ['connection', 'pool', 'transaction', 'execute', 'batch-execute', 'query']
@@ -297,8 +298,8 @@ task removeTestDatabases() {
     }
 }
 
-updateTomlVersions.dependsOn copyStdlibs
-createTestDatabases.dependsOn updateTomlVersions
+updateTomlFiles.dependsOn copyStdlibs
+createTestDatabases.dependsOn updateTomlFiles
 
 build.dependsOn ":${packageName}-native:build"
 test.dependsOn ":${packageName}-native:build"
