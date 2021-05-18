@@ -199,7 +199,6 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'java'
 
     configurations {
         externalJars
@@ -207,9 +206,6 @@ subprojects {
     }
 
     dependencies {
-        compile group: 'org.ballerinalang', name: 'ballerina-runtime', version: "${ballerinaLangVersion}"
-        compile group: 'org.ballerinalang', name: 'sql-native', version: "${stdlibSqlVersion}"
-
         ballerinaStdLibs "org.ballerinalang:sql-ballerina:${stdlibSqlVersion}"
         ballerinaStdLibs "org.ballerinalang:io-ballerina:${stdlibIoVersion}"
         ballerinaStdLibs "org.ballerinalang:time-ballerina:${stdlibTimeVersion}"
