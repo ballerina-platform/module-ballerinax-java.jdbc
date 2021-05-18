@@ -25,7 +25,7 @@ groupId = "com.h2database"
 
 ### Client
 To access a database, you must first create a
-[jdbc:Client](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/clients/Client) object.
+[jdbc:Client](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) object.
 The examples for creating a JDBC client can be found below.
 
 #### Creating a Client
@@ -50,10 +50,10 @@ jdbc:Client|sql:Error dbClient = new ("jdbc:h2:~/path/to/database",
 ```
 
 The `dbClient` uses the named params to pass all the attributes and provides the `options` property in the type of
-[jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options),
+[jdbc:Options](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/records/Options),
 and also uses the unshared connection pool in the type of
-[sql:ConnectionPool](https://ballerina.io/learn/api-docs/ballerina/#/sql/records/ConnectionPool).
-For more information about connection pooling, see the [`sql` module](https://ballerina.io/learn/api-docs/ballerina/#/sql).
+[sql:ConnectionPool](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
+For more information about connection pooling, see the [`sql` module](https://docs.central.ballerina.io/ballerina/sql/latest).
 
 E.g., The DB client creation for an H2 database will be as follows.
 ```ballerina
@@ -68,7 +68,7 @@ jdbc:Client|sql:Error dbClient = new (url =  "jdbc:h2:~/path/to/database",
 ```
 
 The `dbClient` receives some custom properties within the
-[jdbc:Options](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/records/Options),   
+[jdbc:Options](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/records/Options),   
 and those properties will be used by the defined `datasourceName`.
 As per the provided example, the `org.h2.jdbcx.JdbcDataSource` datasource  will be configured with a `loginTimeout`
 of `2000` milliseconds.
@@ -84,16 +84,16 @@ jdbc:Client|sql:Error dbClient = new (url =  "jdbc:h2:~/path/to/database",
 ```
 
 You can find more details about each property in the
-[jdbc:Client](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/clients/Client) constructor.
+[jdbc:Client](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) constructor.
 
-The [jdbc:Client](https://ballerina.io/learn/api-docs/ballerina/#/java.jdbc/clients/Client) references
-[sql:Client](https://ballerina.io/learn/api-docs/ballerina/#/sql/abstractObjects/Client) and
+The [jdbc:Client](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) references
+[sql:Client](https://docs.central.ballerina.io/ballerina/sql/latest/clients/Client) and
 all the operations defined by the `sql:Client` will be supported by the `jdbc:Client` as well.
 
 #### Connection Pool Handling
 
 All ballerina database modules share the same connection pooling concept and there are three possible scenarios for
-connection pool handling.  For its properties and possible values, see the `sql:ConnectionPool`.
+connection pool handling.  For its properties and possible values, see the [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
 
 1. Global shareable default connection pool
 
@@ -379,5 +379,5 @@ if ret is error {
 ```
 Note that you have to explicitly invoke the close operation on the `sql:ProcedureCallResult` to release the connection resources and avoid a connection leak as shown above.
 
->**Note:** The default thread pool size used in Ballerina is the number of processors available * 2. You can configure
+>**Note:** The default thread pool size used in Ballerina is: [the number of processors available * 2]. You can configure
 the thread pool size by using the `BALLERINA_MAX_POOL_SIZE` environment variable.
