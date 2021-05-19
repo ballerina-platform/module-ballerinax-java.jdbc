@@ -12,7 +12,7 @@ The JDBC library is one of the standard library packages of the<a target="_blank
 It provides the functionality required to access and manipulate data stored in any type of relational database 
 that is accessible via Java Database Connectivity (JDBC). 
 
-For more information on the operations supported by the `jdbc:Client`, which include the below, go to [The JDBC Package](https://ballerina.io/learn/api-docs/ballerina/java.jdbc/).
+For more information on the operations supported by the `jdbc:Client`, which include the below, go to [The JDBC Package](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest).
 
 - Pooling connections
 - Querying data
