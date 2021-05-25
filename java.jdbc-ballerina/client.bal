@@ -19,9 +19,8 @@ import ballerina/sql;
 
 # Represents a JDBC client.
 #
-public client class Client {
+public isolated client class Client {
     *sql:Client;
-    private boolean clientActive = true;
 
     # Initializes JDBC client.
     #
@@ -53,12 +52,7 @@ public client class Client {
     # + return - Stream of records in the type of `rowType`
     remote isolated function query(@untainted string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? rowType = ())
     returns @tainted stream <record {}, sql:Error> {
-        if (self.clientActive) {
-            return nativeQuery(self, sqlQuery, rowType);
-        } else {
-            return sql:generateApplicationErrorStream("JDBC Client is already closed, hence "
-                + "further operations are not allowed");
-        }
+        return nativeQuery(self, sqlQuery, rowType);
     }
 
     # Executes the provided DDL or DML SQL queries and returns a summary of the execution.
@@ -68,11 +62,7 @@ public client class Client {
     # + return - Summary of the SQL `UPDATE` query as an `sql:ExecutionResult` or an `sql:Error`
     #            if any error occurred when executing the query
     remote isolated function execute(@untainted string|sql:ParameterizedQuery sqlQuery) returns sql:ExecutionResult|sql:Error {
-        if (self.clientActive) {
-            return nativeExecute(self, sqlQuery);
-        } else {
-            return error sql:ApplicationError("JDBC Client is already closed, hence further operations are not allowed");
-        }
+        return nativeExecute(self, sqlQuery);
     }
 
     # Executes a provided batch of parameterized DDL or DML SQL queries
@@ -89,11 +79,7 @@ public client class Client {
         if (sqlQueries.length() == 0) {
             return error sql:ApplicationError(" Parameter 'sqlQueries' cannot be empty array");
         }
-        if (self.clientActive) {
-            return nativeBatchExecute(self, sqlQueries);
-        } else {
-            return error sql:ApplicationError("JDBC Client is already closed, hence further operations are not allowed");
-        }
+        return nativeBatchExecute(self, sqlQueries);
     }
 
     # Executes a SQL stored procedure and returns the result as stream and execution summary.
@@ -104,18 +90,13 @@ public client class Client {
     # + return - Summary of the execution is returned in an `sql:ProcedureCallResult` or an `sql:Error`
     remote isolated function call(@untainted string|sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes = [])
     returns sql:ProcedureCallResult|sql:Error {
-        if (self.clientActive) {
-            return nativeCall(self, sqlQuery, rowTypes);
-        } else {
-            return error sql:ApplicationError("JDBC Client is already closed, hence further operations are not allowed");
-        }
+        return nativeCall(self, sqlQuery, rowTypes);
     }
 
     # Closes the JDBC client.
     #
     # + return - Possible error during closing the client
     public isolated function close() returns sql:Error? {
-        self.clientActive = false;
         return close(self);
     }
 }
