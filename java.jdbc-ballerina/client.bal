@@ -50,10 +50,11 @@ public isolated client class Client {
     # + rowType - The `typedesc` of the record that should be returned as a result. If this is not provided, the default
     #             column names of the query result set will be used for the record attributes
     # + return - Stream of records in the type of `rowType`
-    remote isolated function query(string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? rowType = ())
-    returns stream <record {}, sql:Error> {
-        return nativeQuery(self, sqlQuery, rowType);
-    }
+    remote isolated function query(string|sql:ParameterizedQuery sqlQuery, typedesc<record {}> rowType = <>)
+    returns stream <rowType, sql:Error> = @java:Method {
+        'class: "org.ballerinalang.jdbc.nativeimpl.QueryProcessor",
+        name: "nativeQuery"
+    } external;
 
     # Executes the provided DDL or DML SQL queries and returns a summary of the execution.
     #
@@ -61,9 +62,11 @@ public isolated client class Client {
     #              when the query has params to be passed in
     # + return - Summary of the SQL `UPDATE` query as an `sql:ExecutionResult` or an `sql:Error`
     #            if any error occurred when executing the query
-    remote isolated function execute(string|sql:ParameterizedQuery sqlQuery) returns sql:ExecutionResult|sql:Error {
-        return nativeExecute(self, sqlQuery);
-    }
+    remote isolated function execute(string|sql:ParameterizedQuery sqlQuery)
+    returns sql:ExecutionResult|sql:Error = @java:Method {
+        'class: "org.ballerinalang.jdbc.nativeimpl.ExecuteProcessor",
+        name: "nativeExecute"
+    } external;
 
     # Executes a provided batch of parameterized DDL or DML SQL queries
     # and returns the summary of the execution.
@@ -89,16 +92,18 @@ public isolated client class Client {
     #               the default column names of the query result set will be used for the record attributes
     # + return - Summary of the execution is returned in an `sql:ProcedureCallResult` or an `sql:Error`
     remote isolated function call(string|sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes = [])
-    returns sql:ProcedureCallResult|sql:Error {
-        return nativeCall(self, sqlQuery, rowTypes);
-    }
+    returns sql:ProcedureCallResult|sql:Error = @java:Method {
+        'class: "org.ballerinalang.jdbc.nativeimpl.CallProcessor",
+        name: "nativeCall"
+    } external;
 
     # Closes the JDBC client.
     #
     # + return - Possible error during closing the client
-    public isolated function close() returns sql:Error? {
-        return close(self);
-    }
+    public isolated function close() returns sql:Error? = @java:Method {
+        'class: "org.ballerinalang.jdbc.nativeimpl.ClientProcessor",
+        name: "close"
+    } external;
 }
 
 # Provides a set of configuration related to database.
@@ -130,26 +135,7 @@ isolated function createClient(Client jdbcClient, ClientConfiguration clientConf
     'class: "org.ballerinalang.jdbc.nativeimpl.ClientProcessor"
 } external;
 
-isolated function nativeQuery(Client sqlClient, string|sql:ParameterizedQuery sqlQuery, typedesc<record {}>? rowType)
-returns stream <record {}, sql:Error> = @java:Method {
-    'class: "org.ballerinalang.jdbc.nativeimpl.QueryProcessor"
-} external;
-
-isolated function nativeExecute(Client sqlClient, string|sql:ParameterizedQuery sqlQuery)
-returns sql:ExecutionResult|sql:Error = @java:Method {
-    'class: "org.ballerinalang.jdbc.nativeimpl.ExecuteProcessor"
-} external;
-
 isolated function nativeBatchExecute(Client sqlClient, sql:ParameterizedQuery[] sqlQueries)
 returns sql:ExecutionResult[]|sql:Error = @java:Method {
     'class: "org.ballerinalang.jdbc.nativeimpl.ExecuteProcessor"
-} external;
-
-isolated function nativeCall(Client sqlClient, string|sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes)
-returns sql:ProcedureCallResult|sql:Error = @java:Method {
-    'class: "org.ballerinalang.jdbc.nativeimpl.CallProcessor"
-} external;
-
-isolated function close(Client jdbcClient) returns sql:Error? = @java:Method {
-    'class: "org.ballerinalang.jdbc.nativeimpl.ClientProcessor"
 } external;
