@@ -410,7 +410,7 @@ function executeQueryJDBCClient(sql:ParameterizedQuery sqlQuery) returns sql:Exe
 }
 
 
-function queryJDBCClient(@untainted string|sql:ParameterizedQuery sqlQuery) returns @tainted record {}? {
+function queryJDBCClient(string|sql:ParameterizedQuery sqlQuery) returns record {}? {
     Client dbClient = checkpanic new (url = executeParamsDb, user = user, password = password);
     stream<record{}, error> streamData = dbClient->query(sqlQuery);
     record {|record {} value;|}? data = checkpanic streamData.next();

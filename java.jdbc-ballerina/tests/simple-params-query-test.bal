@@ -706,7 +706,7 @@ function queryUUIDParam() {
     sql:ParameterizedQuery sqlQuery = `SELECT * from UUIDTable WHERE id = 1`;
     record {}? result = queryJdbcClient(sqlQuery, resultType = UUIDResult);
     if (result is record {}) {
-        UUIDResult uuid = <@untainted> <UUIDResult> result;
+        UUIDResult uuid =  <UUIDResult> result;
         sql:ParameterizedQuery sqlQuery2 = `SELECT * from UUIDTable WHERE data = ${uuid.data}`;
         record{}? returnData = queryJdbcClient(sqlQuery2, resultType = UUIDResult);
         if (returnData is record {}) {
@@ -838,9 +838,9 @@ function queryIntervalParam() {
     }
 }
 
-function queryJdbcClient(@untainted string|sql:ParameterizedQuery sqlQuery,
+function queryJdbcClient(string|sql:ParameterizedQuery sqlQuery,
  typedesc<record {}>? resultType = ())
-returns @tainted record {}? {
+returns record {}? {
     Client dbClient = checkpanic new (url = simpleParamsDb, user = user, password = password);
     stream<record {}, error> streamData = dbClient->query(sqlQuery, resultType);
     record {|record {} value;|}? data = checkpanic streamData.next();

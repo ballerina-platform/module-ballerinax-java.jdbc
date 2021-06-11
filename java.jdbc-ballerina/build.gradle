@@ -202,11 +202,9 @@ batchExeDbs.add(new Database('BATCH_EXECUTE_DB', 'batchexecute', 'batch-execute-
 testDatabasesList.add(new DatabaseMeta('batch-execute', 'batch-execute', batchExeDbs))
 
 List<Database> queryDbs = new ArrayList<Database>()
-Database queryTaint = new Database('QUERY_TAINT_DB', 'query', 'query-taint-analysis-data.sql')
 Database querySimple = new Database('QUERY_SIMPLE_PARAMS_DB', 'query', 'simple-params-test-data.sql')
 Database queryNumeric = new Database('QUERY_NUMERIC_PARAMS_DB', 'query', 'numerical-test-data.sql')
 Database queryComplex = new Database('QUERY_COMPLEX_PARAMS_DB', 'query', 'complex-test-data.sql')
-queryDbs.add(queryTaint)
 queryDbs.add(querySimple)
 queryDbs.add(queryNumeric)
 queryDbs.add(queryComplex)
