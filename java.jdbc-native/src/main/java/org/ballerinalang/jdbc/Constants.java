@@ -31,13 +31,13 @@ public final class Constants {
      * Constants for Endpoint Configs.
      */
     public static final class ClientConfiguration {
-        static final BString URL = StringUtils.fromString("url");
-        static final BString USER = StringUtils.fromString("user");
-        static final BString PASSWORD = StringUtils.fromString("password");
-        static final BString DATASOURCE_NAME = StringUtils.fromString("datasourceName");
-        static final BString CONNECTION_POOL_OPTIONS = StringUtils.fromString("connectionPool");
-        static final BString OPTIONS = StringUtils.fromString("options");
-        static final BString PROPERTIES = StringUtils.fromString("properties");
+        public static final BString URL = StringUtils.fromString("url");
+        public static final BString USER = StringUtils.fromString("user");
+        public static final BString PASSWORD = StringUtils.fromString("password");
+        public static final BString DATASOURCE_NAME = StringUtils.fromString("datasourceName");
+        public static final BString CONNECTION_POOL_OPTIONS = StringUtils.fromString("connectionPool");
+        public static final BString OPTIONS = StringUtils.fromString("options");
+        public static final BString PROPERTIES = StringUtils.fromString("properties");
     }
 
     public static final String CONNECT_TIMEOUT = ".*(connect).*(timeout).*";

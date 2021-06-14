@@ -21,7 +21,7 @@ string jdbcURL = "jdbc:h2:" + dbPath + "/" + "QUERY_NUMERIC_PARAMS_DB";
 @test:BeforeGroups {
     value: ["query-numeric-params"]
 }
-function initQueryNumericParamsDB() {
+isolated function initQueryNumericParamsDB() {
     initializeDatabase("QUERY_NUMERIC_PARAMS_DB", "query", "numerical-test-data.sql");
 }
 
@@ -92,7 +92,7 @@ function testQueryNumericTypeRecord() {
     test:assertTrue(returnData?.float_type is float);
 }
 
-type NumericInvalidColumn record {
+type NumericInvalidColumn record {|
     int num_id;
     int int_type;
     int bigint_type;
@@ -103,7 +103,7 @@ type NumericInvalidColumn record {
     decimal numeric_type;
     float float_type;
     float real_type;
-};
+|};
 
 @test:Config {
     groups: ["query","query-numeric-params"]

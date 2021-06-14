@@ -8,9 +8,3 @@ path = "../java.jdbc-native/build/libs/java.jdbc-native-@project.version@.jar"
 groupId = "org.ballerinalang"
 artifactId = "jdbc"
 version = "@project.version@"
-
-[[platform.java11.dependency]]
-path = "@project.path@/repo/bala/ballerina/sql/@stdlib.sql.version@/platform/java11/sql-native-@stdlib.sql.native.version@.jar"
-groupId = "org.ballerinalang"
-artifactId = "sql-native"
-version = "@stdlib.sql.native.version@"

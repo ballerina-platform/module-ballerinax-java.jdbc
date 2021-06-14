@@ -26,7 +26,9 @@ jobs:
           git config user.email ${{ secrets.BALLERINA_BOT_EMAIL }}
           git checkout -b release-${VERSION}
           sed -i 's/ballerinaLangVersion=\(.*\)-SNAPSHOT/ballerinaLangVersion=\1/g' gradle.properties
+          sed -i 's/ballerinaLangVersion=\(.*\)-[0-9]\{8\}-[0-9]\{6\}-.*$/ballerinaLangVersion=\1/g' gradle.properties
           sed -i 's/stdlib\(.*\)=\(.*\)-SNAPSHOT/stdlib\1=\2/g' gradle.properties
+          sed -i 's/stdlib\(.*\)=\(.*\)-[0-9]\{8\}-[0-9]\{6\}-.*$/stdlib\1=\2/g' gradle.properties
           git add gradle.properties
           git commit -m "Move dependencies to stable version" || echo "No changes to commit"
       - name: Grant execute permission for gradlew
@@ -37,18 +39,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.BALLERINA_BOT_TOKEN }}
           packageUser: ${{ secrets.BALLERINA_BOT_USERNAME }}
           packagePAT: ${{ secrets.BALLERINA_BOT_TOKEN }}
+          publishUser: ${{ secrets.BALLERINA_BOT_USERNAME }}
+          publishPAT: ${{ secrets.BALLERINA_BOT_TOKEN }}
         run: |
           ./gradlew release -Prelease.useAutomaticVersion=true
-          ./gradlew -Pversion=${VERSION} publish -x test
+          ./gradlew -Pversion=${VERSION} publish -x test -PpublishToCentral=true
       - name: Create Github release from the release tag
         run: |
-            curl --request POST 'https://api.github.com/repos/ballerina-platform/module-ballerina-java.jdbc/releases' \
+            curl --request POST 'https://api.github.com/repos/ballerina-platform/module-ballerinax-java.jdbc/releases' \
             --header 'Accept: application/vnd.github.v3+json' \
             --header 'Authorization: Bearer ${{ secrets.BALLERINA_BOT_TOKEN }}' \
             --header 'Content-Type: application/json' \
             --data-raw '{
                 "tag_name": "v'"$VERSION"'",
-                "name": "module-ballerina-java.jdbc-v'"$VERSION"'"
+                "name": "module-ballerinax-java.jdbc-v'"$VERSION"'"
             }'
       - name: Post release PR
         env:

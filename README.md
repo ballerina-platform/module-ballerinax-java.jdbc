@@ -1,17 +1,18 @@
 Ballerina JDBC Library
 ===================
 
-  [![Build](https://github.com/ballerina-platform/module-ballerina-java.jdbc/workflows/Build/badge.svg)](https://github.com/ballerina-platform/module-ballerina-java.jdbc/actions?query=workflow%3ABuild)
-  [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerina-java.jdbc.svg)](https://github.com/ballerina-platform/module-ballerina-java.jdbc/commits/master)
-    [![Github issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-standard-library/module/java.jdbc.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-standard-library/labels/module%2Fjava.jdbc)
+  [![Build](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/build-timestamped-master.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/build-timestamped-master.yml)
+  [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-java.jdbc.svg)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/commits/master)
+  [![Github issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-standard-library/module/java.jdbc.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-standard-library/labels/module%2Fjava.jdbc)
   [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+  [![codecov](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc/branch/master/graph/badge.svg)](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc)
 
 The JDBC library is one of the standard library packages of the<a target="_blank" href="https://ballerina.io/"> Ballerina</a> language.
 
 It provides the functionality required to access and manipulate data stored in any type of relational database 
 that is accessible via Java Database Connectivity (JDBC). 
 
-For more information on the operations supported by the `jdbc:Client`, which include the below, go to [The JDBC Package](https://ballerina.io/learn/api-docs/ballerina/java.jdbc/).
+For more information on the operations supported by the `jdbc:Client`, which include the below, go to [The JDBC Package](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest).
 
 - Pooling connections
 - Querying data
@@ -80,10 +81,24 @@ Execute the commands below to build from the source.
 6. To debug the tests:
 
         ./gradlew clean build -Pdebug=<port>
+        ./gradlew clean test -Pdebug=<port>
 
 7. To debug the package with Ballerina language:
 
-        ./gradlew clean build -PbalJavaDebug=<port>     
+        ./gradlew clean build -PbalJavaDebug=<port>
+        ./gradlew clean test -PbalJavaDebug=<port>
+
+8. Publish ZIP artifact to the local `.m2` repository:
+   
+        ./gradlew clean build publishToMavenLocal
+   
+9. Publish the generated artifacts to the local Ballerina central repository:
+   
+        ./gradlew clean build -PpublishToLocalCentral=true
+   
+10. Publish the generated artifacts to the Ballerina central repository:
+   
+        ./gradlew clean build -PpublishToCentral=true
 
 ## Contributing to Ballerina
 
@@ -97,6 +112,6 @@ All contributors are encouraged to read the [Ballerina Code of Conduct](https://
 
 ## Useful Links
 
-* Discuss about code changes of the Ballerina project in [ballerina-dev@googlegroups.com](mailto:ballerina-dev@googlegroups.com).
+* Discuss code changes of the Ballerina project in [ballerina-dev@googlegroups.com](mailto:ballerina-dev@googlegroups.com).
 * Chat live with us via our [Slack channel](https://ballerina.io/community/slack/).
 * Post all technical questions on Stack Overflow with the [#ballerina](https://stackoverflow.com/questions/tagged/ballerina) tag.

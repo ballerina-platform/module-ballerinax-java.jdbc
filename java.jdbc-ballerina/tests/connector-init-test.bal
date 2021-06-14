@@ -21,7 +21,7 @@ string jdbcUrl = "jdbc:h2:" + dbPath + "/" + "CONNECT_DB";
 @test:BeforeGroups {
     value: ["connection"]
 }
-function initConnectionDB() {
+isolated function initConnectionDB() {
     initializeDatabase("CONNECT_DB", "connection", "connector-init-test-data.sql");
 }
 
@@ -45,7 +45,7 @@ function testConnection2() {
 @test:Config {
     groups: ["connection"]
 }
-function testConnectionInvalidUrl() {
+isolated function testConnectionInvalidUrl() {
     string invalidUrl = "jdbc:h3:";
     Client|sql:Error dbClient = new (invalidUrl);
     if (!(dbClient is sql:Error)) {
@@ -136,7 +136,7 @@ function testWithConnectionPool() {
     if (err is error) {
         test:assertFail("DB connection not created properly.");
     } else {
-        test:assertEquals(connectionPool.maxConnectionLifeTimeInSeconds, <decimal> 2000.5);
+        test:assertEquals(connectionPool.maxConnectionLifeTime, <decimal> 2000.5);
         test:assertEquals(connectionPool.minIdleConnections, 5);
     }
 }

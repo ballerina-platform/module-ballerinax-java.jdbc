@@ -14,16 +14,14 @@
 // under the License.
 
 import ballerina/sql;
-import ballerina/regex;
 import ballerina/test;
-import ballerina/time;
 
 string complexQueryDb = "jdbc:h2:" + dbPath + "/" + "QUERY_COMPLEX_PARAMS_DB";
 
 @test:BeforeGroups {
     value: ["query-complex-params"]
 }
-function initQueryComplexParamsDB() {
+isolated function initQueryComplexParamsDB() {
     initializeDatabase("QUERY_COMPLEX_PARAMS_DB", "query", "complex-test-data.sql");
 }
 
@@ -77,7 +75,12 @@ function testToJson() {
         BOOLEAN_TYPE: true,
         STRING_TYPE: "Hello"
     };
-    test:assertEquals(retVal, expectedData.cloneWithType(json), "Expected JSON did not match.");
+    json|error expectedDataJson = expectedData.cloneWithType(json);
+     if (expectedDataJson is json) {
+         test:assertEquals(retVal, expectedDataJson, "Expected JSON did not match.");
+     } else {
+         test:assertFail("Error in cloning record to JSON" + expectedDataJson.message());
+     }
 
     checkpanic dbClient.close();
 }
@@ -245,22 +248,9 @@ function testDateTime() {
     record{}? value = data?.value;
     checkpanic dbClient.close();
 
-    time:Time now = time:currentTime();
-    time:TimeZone systemTimeZone = now.zone;
-
-    time:Time dateTime = checkpanic time:createTime(2017, 5, 23, 0, 0, 0, 0, systemTimeZone.id);
-    string dateType = checkpanic time:format(dateTime, "yyyy-MM-ddXXX");
-    dateType = regex:replaceAll(dateType, "Z", "+00:00");
-
-    time:Time timeType = checkpanic time:createTime(2017, 5, 23, 14, 15, 23, 0, "UTC");
-    time:Time newTime = checkpanic time:toTimeZone(timeType, systemTimeZone.id);
-    string timeTypeString = checkpanic time:format(newTime, "HH:mm:ss.SSSXXX");
-    timeTypeString = regex:replaceAll(timeTypeString, "Z", "+00:00");
-
-    time:Time insertedTimeType = checkpanic time:createTime(2017, 1, 25, 16, 33, 55, 0, "UTC");
-    time:Time insertedOffsetTime = checkpanic time:toTimeZone(insertedTimeType, systemTimeZone.id);
-    string insertedTimeString = checkpanic time:format(insertedOffsetTime, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-    insertedTimeString = regex:replaceAll(insertedTimeString, "Z", "+00:00");
+    string dateType = "2017-05-23";
+    string timeTypeString = "14:15:23";
+    string insertedTimeString = "2017-01-25 16:33:55.0";
 
     ResultDates expected = {
         DATE_TYPE: dateType,
