@@ -3,25 +3,25 @@
 This module provides the functionality that is required to access and manipulate data stored in any type of relational database,
 which is accessible via Java Database Connectivity (JDBC).
 
-**Prerequisite:** Add the JDBC driver corresponding to the database you are trying to interact with
-as a native library dependency in your Ballerina project. Then, once you build the project by executing the `ballerina build`
-command, you should be able to run the resultant by executing the `ballerina run` command.
+### Prerequisite
+Add the JDBC driver corresponding to the database you are trying to interact with
+as a native library dependency in your Ballerina project's `Ballerina.toml` file.
 
-E.g., The `Ballerina.toml` content for an H2 database will be as follows.
-Change the path to the JDBC driver appropriately.
+Follow one of the following ways to add the corresponding database JAR in the file:
 
-```toml
-[package]
-org = "sample"
-name = "jdbc"
-version= "0.1.0"
+* Download the JAR and update the path
+    ```
+    [[platform.java11.dependency]]
+    path = "PATH"
+    ```
 
-[[platform.java11.dependency]]
-artifactId = "h2"
-version = "1.4.200"
-path = "/path/to/com.h2database.h2-1.4.200.jar"
-groupId = "com.h2database"
-``` 
+* Add JAR with a maven dependency params
+    ```
+    [platform.java11.dependency]]
+    artifactId = "h2"
+    version = "1.4.200"
+    groupId = "com.h2database"
+    ```
 
 ### Client
 To access a database, you must first create a
@@ -382,5 +382,4 @@ if result is error {
 ```
 Note that you have to explicitly invoke the close operation on the `sql:ProcedureCallResult` to release the connection resources and avoid a connection leak as shown above.
 
->**Note:** The default thread pool size used in Ballerina is: [the number of processors available * 2]. You can configure
-the thread pool size by using the `BALLERINA_MAX_POOL_SIZE` environment variable.
+>**Note:** The default thread pool size used in Ballerina is: `the number of processors available * 2`. You can configure the thread pool size by using the `BALLERINA_MAX_POOL_SIZE` environment variable.
