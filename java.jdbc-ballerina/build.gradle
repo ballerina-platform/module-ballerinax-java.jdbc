@@ -244,7 +244,7 @@ task createTestDatabases {
         count = count + 1
     }
     doLast {
-        println('Databses will be created for :' + tempGroups + ' groups')
+        println('Databases will be created for :' + tempGroups + ' groups')
         count = 0
         while (count < dbsNeeded.size()) {
             DatabaseMeta dbMeta = dbsNeeded[count]
