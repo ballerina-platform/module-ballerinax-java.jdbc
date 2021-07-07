@@ -5,6 +5,3 @@ version = "@toml.version@"
 
 [[platform.java11.dependency]]
 path = "../java.jdbc-native/build/libs/java.jdbc-native-@project.version@.jar"
-groupId = "org.ballerinalang"
-artifactId = "jdbc"
-version = "@project.version@"
