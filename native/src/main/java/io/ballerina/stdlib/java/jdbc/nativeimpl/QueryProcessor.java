@@ -21,8 +21,8 @@ package io.ballerina.stdlib.java.jdbc.nativeimpl;
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BStream;
 import io.ballerina.runtime.api.values.BTypedesc;
-import org.ballerinalang.sql.parameterprocessor.DefaultResultParameterProcessor;
-import org.ballerinalang.sql.parameterprocessor.DefaultStatementParameterProcessor;
+import io.ballerina.stdlib.sql.parameterprocessor.DefaultResultParameterProcessor;
+import io.ballerina.stdlib.sql.parameterprocessor.DefaultStatementParameterProcessor;
 
 /**
  * This class provides the query processing implementation which executes sql queries.
@@ -40,7 +40,7 @@ public class QueryProcessor {
                 .getInstance();
         DefaultResultParameterProcessor resultParametersProcessor = DefaultResultParameterProcessor
                 .getInstance();
-        return org.ballerinalang.sql.nativeimpl.QueryProcessor.nativeQuery(client, paramSQLString, recordType,
+        return io.ballerina.stdlib.sql.nativeimpl.QueryProcessor.nativeQuery(client, paramSQLString, recordType,
                 statementParametersProcessor, resultParametersProcessor);
     }
 }
