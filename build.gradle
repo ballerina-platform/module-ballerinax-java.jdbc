@@ -27,7 +27,7 @@ description = 'Ballerina - jdbc'
 def packageName = "java.jdbc"
 
 allprojects {
-    group = 'org.ballerinalang'
+    group = project.group
     version = project.version
 
     apply plugin: 'jacoco'
