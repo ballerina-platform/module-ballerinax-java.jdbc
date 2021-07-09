@@ -13,7 +13,12 @@ plugins {
 
 rootProject.name = 'ballerinax-java.jdbc'
 include(':build-config:checkstyle')
-include ':java.jdbc-native', ':java.jdbc-ballerina'
+
+include ':java.jdbc-native'
+include ':java.jdbc-ballerina'
+
+project(':java.jdbc-native').projectDir = file('native')
+project(':java.jdbc-ballerina').projectDir = file('ballerina')
 
 gradleEnterprise {
     buildScan {
