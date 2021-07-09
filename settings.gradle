@@ -12,11 +12,12 @@ plugins {
 }
 
 rootProject.name = 'ballerinax-java.jdbc'
-include(':build-config:checkstyle')
 
+include ':checkstyle'
 include ':java.jdbc-native'
 include ':java.jdbc-ballerina'
 
+project(':checkstyle').projectDir = file("build-config${File.separator}checkstyle")
 project(':java.jdbc-native').projectDir = file('native')
 project(':java.jdbc-ballerina').projectDir = file('ballerina')
 
