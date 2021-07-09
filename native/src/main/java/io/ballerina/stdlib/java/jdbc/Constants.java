@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.ballerinalang.jdbc;
+package io.ballerina.stdlib.java.jdbc;
 
 import io.ballerina.runtime.api.utils.StringUtils;
 import io.ballerina.runtime.api.values.BString;

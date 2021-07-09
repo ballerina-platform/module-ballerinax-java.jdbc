@@ -4,4 +4,4 @@ name = "java.jdbc"
 version = "@toml.version@"
 
 [[platform.java11.dependency]]
-path = "../java.jdbc-native/build/libs/java.jdbc-native-@project.version@.jar"
+path = "../native/build/libs/java.jdbc-native-@project.version@.jar"

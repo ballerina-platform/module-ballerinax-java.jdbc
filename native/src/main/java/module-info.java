@@ -19,5 +19,5 @@
 module io.ballerina.stdlib.java.jdbc{
     requires io.ballerina.runtime;
     requires io.ballerina.stdlib.sql;
-    exports org.ballerinalang.jdbc;
+    exports io.ballerina.stdlib.java.jdbc;
 }

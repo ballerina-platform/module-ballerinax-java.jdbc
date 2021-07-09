@@ -15,14 +15,14 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.ballerinalang.jdbc.nativeimpl;
+package io.ballerina.stdlib.java.jdbc.nativeimpl;
 
 import io.ballerina.runtime.api.values.BMap;
 import io.ballerina.runtime.api.values.BObject;
 import io.ballerina.runtime.api.values.BString;
-import org.ballerinalang.jdbc.Constants;
-import org.ballerinalang.sql.datasource.SQLDatasource;
-import org.ballerinalang.sql.utils.ErrorGenerator;
+import io.ballerina.stdlib.java.jdbc.Constants;
+import io.ballerina.stdlib.sql.datasource.SQLDatasource;
+import io.ballerina.stdlib.sql.utils.ErrorGenerator;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -72,7 +72,7 @@ public class ClientProcessor {
                 .setOptions(properties)
                 .setPoolProperties(poolProperties)
                 .setConnectionPool(connectionPool, globalPool);
-        return org.ballerinalang.sql.nativeimpl.ClientProcessor.createClient(client, sqlDatasourceParams);
+        return io.ballerina.stdlib.sql.nativeimpl.ClientProcessor.createClient(client, sqlDatasourceParams);
     }
 
     // Unable to perform a complete validation since URL differs based on the database.
@@ -81,6 +81,6 @@ public class ClientProcessor {
     }
 
     public static Object close(BObject client) {
-        return org.ballerinalang.sql.nativeimpl.ClientProcessor.close(client);
+        return io.ballerina.stdlib.sql.nativeimpl.ClientProcessor.close(client);
     }
 }
