@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.ballerinalang.jdbc.nativeimpl;
+package io.ballerina.stdlib.java.jdbc.nativeimpl;
 
 import io.ballerina.runtime.api.values.BArray;
 import io.ballerina.runtime.api.values.BObject;
