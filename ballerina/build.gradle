@@ -297,6 +297,7 @@ task removeTestDatabases() {
 updateTomlFiles.dependsOn copyStdlibs
 createTestDatabases.dependsOn updateTomlFiles
 
+build.dependsOn "generatePomFileForMavenPublication"
 build.dependsOn ":${packageName}-native:build"
 test.dependsOn ":${packageName}-native:build"
 build.finalizedBy removeTestDatabases
