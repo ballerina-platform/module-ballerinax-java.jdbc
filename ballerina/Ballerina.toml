@@ -5,3 +5,6 @@ version = "@toml.version@"
 
 [[platform.java11.dependency]]
 path = "../native/build/libs/java.jdbc-native-@project.version@.jar"
+
+[[platform.java11.dependency]]
+path = "./lib/sql-native-@sql.native.version@.jar"
