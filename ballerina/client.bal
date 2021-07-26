@@ -51,7 +51,7 @@ public isolated client class Client {
     #             column names of the query result set will be used for the record attributes
     # + return - Stream of records in the type of `rowType`
     remote isolated function query(string|sql:ParameterizedQuery sqlQuery, typedesc<record {}> rowType = <>)
-    returns stream <rowType, sql:Error> = @java:Method {
+    returns stream <rowType, sql:Error?> = @java:Method {
         'class: "io.ballerina.stdlib.java.jdbc.nativeimpl.QueryProcessor",
         name: "nativeQuery"
     } external;

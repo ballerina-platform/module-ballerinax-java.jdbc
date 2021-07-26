@@ -842,7 +842,7 @@ function queryJdbcClient(string|sql:ParameterizedQuery sqlQuery,
  typedesc<record {}>? resultType = ())
 returns record {}? {
     Client dbClient = checkpanic new (url = simpleParamsDb, user = user, password = password);
-    stream<record {}, error> streamData;
+    stream<record {}, error?> streamData;
     if resultType is () {
         streamData = dbClient->query(sqlQuery);
     } else {
