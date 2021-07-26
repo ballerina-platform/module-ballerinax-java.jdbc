@@ -90,6 +90,10 @@ subprojects {
         ballerinaStdLibs "io.ballerina.stdlib:url-ballerina:${stdlibUrlVersion}"
         ballerinaStdLibs "io.ballerina.stdlib:http-ballerina:${stdlibHttpVersion}"
 
+        externalJars (group: 'io.ballerina.stdlib', name: 'sql-native', version: "${stdlibSqlVersion}") {
+            transitive = false
+        }
+
         externalJars (group: 'com.h2database', name: 'h2', version: "1.4.200") {
             transitive = false
         }
