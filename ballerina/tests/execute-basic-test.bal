@@ -111,9 +111,8 @@ function testInsertAndSelectTableWithGeneratedKeys() {
     string|int? insertedId = result.lastInsertId;
     if (insertedId is int) {
         string query = string `SELECT * from NumericTypes where id = ${insertedId}`;
-        stream<record{}, error> queryResult = dbClient->query(query, NumericType);
+        stream<NumericType, sql:Error?> streamData = dbClient->query(query);
 
-        stream<NumericType, sql:Error> streamData = <stream<NumericType, sql:Error>>queryResult;
         record {|NumericType value;|}? data = checkpanic streamData.next();
         checkpanic streamData.close();
         test:assertNotExactEquals(data?.value, (), "Incorrect InsetId returned.");
@@ -138,9 +137,8 @@ function testInsertWithAllNilAndSelectTableWithGeneratedKeys() {
     string|int? insertedId = result.lastInsertId;
     if (insertedId is int) {
         string query = string `SELECT * from NumericTypes where id = ${insertedId}`;
-        stream<record{}, error> queryResult = dbClient->query(query, NumericType);
+        stream<NumericType, sql:Error?> streamData = dbClient->query(query);
 
-        stream<NumericType, sql:Error> streamData = <stream<NumericType, sql:Error>>queryResult;
         record {|NumericType value;|}? data = checkpanic streamData.next();
         checkpanic streamData.close();
         test:assertNotExactEquals(data?.value, (), "Incorrect InsetId returned.");
@@ -177,8 +175,7 @@ function testInsertWithStringAndSelectTable() {
 
     StringData? insertedData = ();
     string query = string `SELECT * from StringTypes where id = ${intIDVal}`;
-    stream<record{}, error> queryResult = dbClient->query(query, StringData);
-    stream<StringData, sql:Error> streamData = <stream<StringData, sql:Error>>queryResult;
+    stream<StringData, sql:Error?> streamData = dbClient->query(query);
     record {|StringData value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
 
@@ -212,8 +209,7 @@ function testInsertWithEmptyStringAndSelectTable() {
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
 
     string query = string `SELECT * from StringTypes where id = ${intIDVal}`;
-    stream<record{}, error> queryResult = dbClient->query(query, StringData);
-    stream<StringData, sql:Error> streamData = <stream<StringData, sql:Error>>queryResult;
+    stream<StringData, sql:Error?> streamData = dbClient->query(query);
     record {|StringData value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
 
@@ -260,8 +256,7 @@ function testInsertWithNilStringAndSelectTable() {
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
 
     string query = string `SELECT * from StringTypes where id = ${intIDVal}`;
-    stream<record{}, error> queryResult = dbClient->query(query, StringNilData);
-    stream<StringNilData, sql:Error> streamData = <stream<StringNilData, sql:Error>>queryResult;
+    stream<StringNilData, sql:Error?> streamData = dbClient->query(query);
     record {|StringNilData value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     
@@ -339,9 +334,8 @@ function testUpdateData() {
     sql:ExecutionResult result = checkpanic dbClient->execute("Update NumericTypes set int_type = 11 where int_type = 10");
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
     
-    stream<record{}, error> queryResult = dbClient->query("SELECT count(*) as countval from NumericTypes"
-        + " where int_type = 11", ResultCount);
-    stream<ResultCount, sql:Error> streamData = <stream<ResultCount, sql:Error>>queryResult;
+    stream<ResultCount, sql:Error?> streamData = dbClient->query("SELECT count(*) as countval from NumericTypes"
+        + " where int_type = 11");
     record {|ResultCount value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     test:assertEquals(data?.value?.countVal, 1, "Update command was not successful.");

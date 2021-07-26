@@ -43,7 +43,7 @@ type NumericTypeForQuery record {
 }
 function testQuery() {
     Client dbClient = checkpanic new (url = jdbcURL, user = user, password = password);
-    stream<record{}, sql:Error> streamData = dbClient->query("SELECT * FROM NumericTypes");
+    stream<record{}, sql:Error?> streamData = dbClient->query("SELECT * FROM NumericTypes");
     record {}? returnData = ();
     error? e = streamData.forEach(function(record {} data) {
         returnData = data;
@@ -72,8 +72,7 @@ function testQuery() {
 }
 function testQueryNumericTypeRecord() {
     Client dbClient = checkpanic new (url = jdbcURL, user = user, password = password);
-    stream<record{}, error> streamResult = dbClient->query("SELECT * FROM NumericTypes", NumericTypeForQuery);
-    stream<NumericTypeForQuery, sql:Error> streamData = <stream<NumericTypeForQuery, sql:Error>>streamResult;
+    stream<NumericTypeForQuery, sql:Error?> streamData = dbClient->query("SELECT * FROM NumericTypes");
     NumericTypeForQuery? returnData = ();
     error? e = streamData.forEach(function(NumericTypeForQuery data) {
         returnData = data;
@@ -110,8 +109,7 @@ type NumericInvalidColumn record {|
 }
 function testQueryNumericInvalidColumnRecord() {
     Client dbClient = checkpanic new (url = jdbcURL, user = user, password = password);
-    stream<record{}, error> streamResult = dbClient->query("SELECT * FROM NumericTypes", NumericInvalidColumn);
-    stream<NumericInvalidColumn, sql:Error> streamData = <stream<NumericInvalidColumn, sql:Error>> streamResult;
+    stream<NumericInvalidColumn, sql:Error?> streamData = dbClient->query("SELECT * FROM NumericTypes");
     record {|NumericInvalidColumn value;|}|sql:Error? data = streamData.next();
     checkpanic streamData.close();
     checkpanic dbClient.close();
@@ -138,8 +136,7 @@ type NumericOptionalType record {
 }
 function testQueryNumericOptionalTypeRecord() {
     Client dbClient = checkpanic new (url = jdbcURL, user = user, password = password);
-    stream<record{}, error> streamResult = dbClient->query("SELECT * FROM NumericTypes", NumericOptionalType);
-    stream<NumericOptionalType, sql:Error> streamData = <stream<NumericOptionalType, sql:Error>>streamResult;
+    stream<NumericOptionalType, sql:Error?> streamData = dbClient->query("SELECT * FROM NumericTypes");
     record {|NumericOptionalType value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     NumericOptionalType? returnData = data?.value;
@@ -175,8 +172,7 @@ type NumericUnionType record {
 }
 function testQueryNumericUnionTypeRecord() {
     Client dbClient = checkpanic new (url = jdbcURL, user = user, password = password);
-    stream<record{}, error> streamResult = dbClient->query("SELECT * FROM NumericTypes", NumericUnionType);
-    stream<NumericUnionType, sql:Error> streamData = <stream<NumericUnionType, sql:Error>>streamResult;
+    stream<NumericUnionType, sql:Error?> streamData = dbClient->query("SELECT * FROM NumericTypes");
     record {|NumericUnionType value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     NumericUnionType? returnData = data?.value;
@@ -213,8 +209,7 @@ type NumericStringType record {
 }
 function testQueryNumericStringTypeRecord() {
     Client dbClient = checkpanic new (url = jdbcURL, user = user, password = password);
-    stream<record{}, error> streamResult = dbClient->query("SELECT * FROM NumericTypes", NumericStringType);
-    stream<NumericStringType, sql:Error> streamData = <stream<NumericStringType, sql:Error>>streamResult;
+    stream<NumericStringType, sql:Error?> streamData = dbClient->query("SELECT * FROM NumericTypes");
     record {|NumericStringType value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     NumericStringType? returnData = data?.value;
@@ -251,8 +246,7 @@ type NumericCustomType record {
 }
 function testQueryNumericCustomTypeRecord() {
     Client dbClient = checkpanic new (url = jdbcURL, user = user, password = password);
-    stream<record{}, error> streamResult = dbClient->query("SELECT * FROM NumericTypes", NumericCustomType);
-    stream<NumericCustomType, sql:Error> streamData = <stream<NumericCustomType, sql:Error>>streamResult;
+    stream<NumericCustomType, sql:Error?> streamData = dbClient->query("SELECT * FROM NumericTypes");
     record {|NumericCustomType value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     NumericCustomType? returnData = data?.value;
@@ -276,7 +270,7 @@ function testQueryNumericCustomTypeRecord() {
 }
 function testQueryFromNullTable() {
     Client dbClient = checkpanic new (url = jdbcURL, user = user, password = password);
-    stream<record{}, sql:Error> streamData = dbClient->query("SELECT * FROM NumericNullTypes");
+    stream<record{}, sql:Error?> streamData = dbClient->query("SELECT * FROM NumericNullTypes");
     record {} returnData = {};
     int count = 0;
     error? e = streamData.forEach(function(record {} data) {
