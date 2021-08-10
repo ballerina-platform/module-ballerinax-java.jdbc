@@ -86,6 +86,25 @@ function testToJson() {
 }
 
 @test:Config {
+    groups: ["queryRow", "query-complex-params"]
+}
+function testGetPrimitiveTypesRecord() returns error? {
+    Client dbClient = check new (url = complexQueryDb, user = user, password = password);
+    SelectTestAlias value = check dbClient->queryRow(
+	"SELECT int_type, long_type, double_type, boolean_type, string_type from DataTable WHERE row_id = 1");
+    check dbClient.close();
+    SelectTestAlias expectedData = {
+        INT_TYPE: 1,
+        LONG_TYPE: 9223372036854774807,
+        DOUBLE_TYPE: 2139095039,
+        BOOLEAN_TYPE: true,
+        STRING_TYPE: "Hello"
+    };
+    test:assertTrue(value is SelectTestAlias, "Received value type is different.");
+    test:assertEquals(value, expectedData, "Expected data did not match.");
+}
+
+@test:Config {
     groups: ["query","query-complex-params"]
 }
 function testToJsonComplexTypes() {
