@@ -227,6 +227,21 @@ function queryTypBitInvalidIntParam() {
 @test:Config {
     groups: ["query","query-simple-params"]
 }
+function queryRowWitoutReturntype() returns sql:Error? {
+    int rowId = 1;
+    Client dbClient = check new (url = simpleParamsDb, user = user, password = password);
+    sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE row_id = ${rowId}`;
+    record {} queryResult = check dbClient->queryRow(sqlQuery);
+    validateDataTableResult(queryResult);
+    sql:ParameterizedQuery sqlQuery2 = `SELECT COUNT(*) FROM DataTable`;
+    int count = check dbClient->queryRow(sqlQuery2);
+    check dbClient.close();
+    test:assertEquals(count, 3);
+}
+
+@test:Config {
+    groups: ["query","query-simple-params"]
+}
 function queryTypeIntIntParam() {
     sql:IntegerValue typeVal = new (2147483647);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE int_type = ${typeVal}`;
