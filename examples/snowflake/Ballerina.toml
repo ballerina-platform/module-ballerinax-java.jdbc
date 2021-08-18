@@ -1,0 +1,14 @@
+[package]
+org = "jdbc"
+name = "snowflake"
+version = "0.1.0"
+
+[[platform.java11.dependency]]
+groupId = "net.snowflake"
+artifactId = "snowflake-jdbc"
+version = "3.13.5"
+
+[[platform.java11.dependency]]
+artifactId = "h2"
+version = "1.4.200"
+groupId = "com.h2database"
