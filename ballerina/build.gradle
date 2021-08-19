@@ -38,9 +38,7 @@ def packageName = 'java.jdbc'
 def packageOrg = 'ballerinax'
 def tomlVersion = stripBallerinaExtensionVersion("${project.version}")
 def ballerinaConfigFile = new File("$project.projectDir/Ballerina.toml")
-def ballerinaDependencyFile = new File("$project.projectDir/Dependencies.toml")
 def originalConfig = ballerinaConfigFile.text
-def originalDependencies = ballerinaDependencyFile.text
 
 def stripBallerinaExtensionVersion(String extVersion) {
     if (extVersion.matches(project.ext.timestampedVersionRegex)) {
@@ -67,23 +65,17 @@ ballerina {
 
 task updateTomlFiles {
     doLast {
-        def stdlibDependentSqlVersion = stripBallerinaExtensionVersion(project.stdlibSqlVersion)
-
         def newConfig = ballerinaConfigFile.text.replace('@project.version@', project.version.toString())
         newConfig = newConfig.replace('@toml.version@', tomlVersion)
         newConfig = newConfig.replace('@sql.native.version@', project.stdlibSqlVersion)
 
         ballerinaConfigFile.text = newConfig
-
-        def newDependencyConfig = ballerinaDependencyFile.text.replace('@stdlib.sql.version@', stdlibDependentSqlVersion)
-        ballerinaDependencyFile.text = newDependencyConfig
     }
 }
 
 task revertTomlFiles {
     doLast {
         ballerinaConfigFile.text = originalConfig
-        ballerinaDependencyFile.text = originalDependencies
     }
 }
 
