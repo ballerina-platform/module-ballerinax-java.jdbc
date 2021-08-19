@@ -101,3 +101,35 @@ INSERT INTO ArrayTypes (row_id, int_array, long_array, float_array, double_array
 INSERT INTO ArrayTypes (row_id, int_array, long_array, float_array, double_array, decimal_array, boolean_array, string_array, blob_array)
   VALUES (4, ARRAY[NULL, NULL, NULL], ARRAY[NULL, NULL, NULL], ARRAY[NULL, NULL, NULL],
   ARRAY[NULL, NULL, NULL], ARRAY[NULL , NULL, NULL], ARRAY[NULL , NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL]);
+
+CREATE TABLE IF NOT EXISTS ArrayTypes2 (
+  row_id        INTEGER NOT NULL,
+  smallint_array ARRAY,
+  int_array ARRAY,
+  long_array ARRAY,
+  float_array ARRAY,
+  double_array ARRAY,
+  real_array ARRAY,
+  decimal_array  ARRAY,
+  numeric_array ARRAY,
+  boolean_array ARRAY,
+  bit_array ARRAY,
+  char_array ARRAY,
+  varchar_array ARRAY,
+  binary_array ARRAY,
+  varbinary_array ARRAY,
+  nvarchar_array ARRAY,
+  string_array ARRAY,
+  blob_array ARRAY,
+  date_array ARRAY,
+  time_array ARRAY,
+  datetime_array ARRAY,
+  timestamp_array ARRAY,
+  time_tz_array ARRAY,
+  timestamp_tz_array ARRAY,
+  PRIMARY KEY (row_id)
+);
+
+INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, real_array, decimal_array, boolean_array, char_array, date_array, time_array, datetime_array, timestamp_array, time_tz_array, timestamp_tz_array) VALUES (1, (1, 2, 3), (100000000, 200000000, 300000000), (245.23, 5559.49, 8796.123), (245.23, 5559.49, 8796.123), (245.12, 5559.12, 8796.92), (245.12, 5559.12, 8796.92), (TRUE, FALSE, TRUE), ('Hello', 'Ballerina'), ('2017-02-03', '2017-02-03'), ('11:22:42', '12:23:45'), ('2017-02-03 11:53:00', '2019-04-05 12:33:10'), ('2017-02-03 11:53:00', '2019-04-05 12:33:10'), ('16:33:55+6:30', '16:33:55+4:30'), ('2017-01-25 16:33:55-8:00', '2017-01-25 16:33:55-5:00'));
+
+INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, real_array, decimal_array, boolean_array, char_array, date_array, time_array, datetime_array, timestamp_array, time_tz_array, timestamp_tz_array) VALUES (2, (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL));
