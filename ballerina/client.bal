@@ -124,11 +124,22 @@ public isolated client class Client {
 # Provides a set of configuration related to database.
 # 
 # + datasourceName - The driver class name to be used to get the connection
-# + properties - the properties of the database which should be applied when getting the connection
+# + properties - The properties of the database which should be applied when getting the connection
+# + requestGeneratedKeys - The database operations for which generated keys should be returned
 public type Options record {|
     string? datasourceName = ();
     map<anydata>? properties = ();
+    Operations requestGeneratedKeys = ALL;
 |};
+
+# Provides a set of database operations.
+#
+public enum Operations {
+    NONE,
+    EXECUTE,
+    BATCH_EXECUTE,
+    ALL
+}
 
 # Provides a set of configurations for the JDBC Client to be passed internally within the module.
 #

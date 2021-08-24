@@ -47,11 +47,16 @@ public class ClientProcessor {
         BMap options = clientConfig.getMapValue(Constants.ClientConfiguration.OPTIONS);
         BMap properties = null;
         String datasourceName = null;
+        String requestGeneratedKeys = Constants.RequestGeneratedKeysValues.ALL;
         Properties poolProperties = null;
         if (options != null) {
             properties = options.getMapValue(Constants.ClientConfiguration.PROPERTIES);
             BString dataSourceNamVal = options.getStringValue(Constants.ClientConfiguration.DATASOURCE_NAME);
+            BString requestGeneratedKeysVal = options.getStringValue(
+                    Constants.ClientConfiguration.REQUEST_GENERATED_KEYS);
             datasourceName = dataSourceNamVal == null ? null : dataSourceNamVal.getValue();
+            requestGeneratedKeys = requestGeneratedKeysVal == null ?
+                    Constants.RequestGeneratedKeysValues.ALL : requestGeneratedKeysVal.getValue();
             if (properties != null) {
                 for (Object propKey : properties.getKeys()) {
                     if (propKey.toString().toLowerCase(Locale.ENGLISH).matches(Constants.CONNECT_TIMEOUT)) {
@@ -72,7 +77,26 @@ public class ClientProcessor {
                 .setOptions(properties)
                 .setPoolProperties(poolProperties)
                 .setConnectionPool(connectionPool, globalPool);
-        return io.ballerina.stdlib.sql.nativeimpl.ClientProcessor.createClient(client, sqlDatasourceParams);
+
+        boolean executeGKFlag = false;
+        boolean batchExecuteGKFlag = false;
+        switch (requestGeneratedKeys) {
+            case Constants.RequestGeneratedKeysValues.EXECUTE:
+                executeGKFlag = true;
+                break;
+            case Constants.RequestGeneratedKeysValues.BATCH_EXECUTE:
+                batchExecuteGKFlag = true;
+                break;
+            case Constants.RequestGeneratedKeysValues.ALL:
+                executeGKFlag = true;
+                batchExecuteGKFlag = true;
+                break;
+            default:
+                break;
+        }
+
+        return io.ballerina.stdlib.sql.nativeimpl.ClientProcessor.createClient(client, sqlDatasourceParams,
+                                                                               executeGKFlag, batchExecuteGKFlag);
     }
 
     // Unable to perform a complete validation since URL differs based on the database.
