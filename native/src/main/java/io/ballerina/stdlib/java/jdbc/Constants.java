@@ -35,6 +35,7 @@ public final class Constants {
         public static final BString USER = StringUtils.fromString("user");
         public static final BString PASSWORD = StringUtils.fromString("password");
         public static final BString DATASOURCE_NAME = StringUtils.fromString("datasourceName");
+        public static final BString REQUEST_GENERATED_KEYS = StringUtils.fromString("requestGeneratedKeys");
         public static final BString CONNECTION_POOL_OPTIONS = StringUtils.fromString("connectionPool");
         public static final BString OPTIONS = StringUtils.fromString("options");
         public static final BString PROPERTIES = StringUtils.fromString("properties");
@@ -42,4 +43,13 @@ public final class Constants {
 
     public static final String CONNECT_TIMEOUT = ".*(connect).*(timeout).*";
     public static final String POOL_CONNECTION_TIMEOUT = "ConnectionTimeout";
+
+    /**
+     * Constants for Request Generated Keys field.
+     */
+    public static final class RequestGeneratedKeysValues {
+        public static final String ALL = "ALL";
+        public static final String EXECUTE = "EXECUTE";
+        public static final String BATCH_EXECUTE = "BATCH_EXECUTE";
+    }
 }

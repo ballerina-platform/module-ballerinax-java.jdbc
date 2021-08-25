@@ -98,15 +98,87 @@ function batchInsertIntoDataTableFailure() {
     }
 }
 
+@test:Config {
+    groups: ["batch-execute"]
+}
+function batchInsertIntoDataTableWithRequestGeneratedKeysAll() {
+    var data = [
+        {longVal:9223372036854774807, floatVal:123.34},
+        {longVal:9223372036854774807, floatVal:123.34},
+        {longVal:9223372036854774807, floatVal:123.34}
+    ];
+    Options options = {
+        requestGeneratedKeys: ALL
+    };
+    sql:ParameterizedQuery[] sqlQueries =
+        from var row in data
+        select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
+    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [2, 3, 4]);
+}
+
+@test:Config {
+    groups: ["batch-execute"]
+}
+function batchInsertIntoDataTableWithRequestGeneratedKeysNone() {
+    var data = [
+        {longVal:9223372036854774807, floatVal:123.34},
+        {longVal:9223372036854774807, floatVal:123.34},
+        {longVal:9223372036854774807, floatVal:123.34}
+    ];
+    Options options = {
+        requestGeneratedKeys: NONE
+    };
+    sql:ParameterizedQuery[] sqlQueries =
+        from var row in data
+        select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
+    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [-1, -1, -1]);
+}
+
+@test:Config {
+    groups: ["batch-execute"]
+}
+function batchInsertIntoDataTableWithRequestGeneratedKeysExecute() {
+    var data = [
+        {longVal:9223372036854774807, floatVal:123.34},
+        {longVal:9223372036854774807, floatVal:123.34},
+        {longVal:9223372036854774807, floatVal:123.34}
+    ];
+    Options options = {
+        requestGeneratedKeys: EXECUTE
+    };
+    sql:ParameterizedQuery[] sqlQueries =
+        from var row in data
+        select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
+    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [-1, -1, -1]);
+}
+
+@test:Config {
+    groups: ["batch-execute"]
+}
+function batchInsertIntoDataTableWithRequestGeneratedKeysBatchExecute() {
+    var data = [
+        {longVal:9223372036854774807, floatVal:123.34},
+        {longVal:9223372036854774807, floatVal:123.34},
+        {longVal:9223372036854774807, floatVal:123.34}
+    ];
+    Options options = {
+        requestGeneratedKeys: BATCH_EXECUTE
+    };
+    sql:ParameterizedQuery[] sqlQueries =
+        from var row in data
+        select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
+    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [2, 3, 4]);
+}
+
 isolated function validateBatchExecutionResult(sql:ExecutionResult[] results, int[] rowCount, int[] lastId) {
     test:assertEquals(results.length(), rowCount.length());
 
-    int i =0;
+    int i = 0;
     while (i < results.length()) {
         test:assertEquals(results[i].affectedRowCount, rowCount[i]);
         int|string? lastInsertIdVal = results[i].lastInsertId;
         if (lastId[i] == -1) {
-            test:assertNotEquals(lastInsertIdVal, ());
+            test:assertEquals(lastInsertIdVal, ());
         } else if (lastInsertIdVal is int) {
             test:assertTrue(lastInsertIdVal > 1, "Last Insert Id is nil.");
         } else {
@@ -116,9 +188,9 @@ isolated function validateBatchExecutionResult(sql:ExecutionResult[] results, in
     }
 }
 
-function batchExecuteQueryJDBCClient(sql:ParameterizedQuery[] sqlQueries)
+function batchExecuteQueryJDBCClient(sql:ParameterizedQuery[] sqlQueries, Options? options = ())
 returns sql:ExecutionResult[] {
-    Client dbClient = checkpanic new (url = batchExecuteDB, user = user, password = password);
+    Client dbClient = checkpanic new (url = batchExecuteDB, user = user, password = password, options = options);
     sql:ExecutionResult[] result = checkpanic dbClient->batchExecute(sqlQueries);
     checkpanic dbClient.close();
     return result;

@@ -60,6 +60,80 @@ function testInsertTable() {
     groups: ["execute", "execute-basic"],
     dependsOn: [testInsertTable]
 }
+function testInsertTableWithRequestGeneratedKeysAll() returns error? {
+    Options options = {
+        requestGeneratedKeys: ALL
+    };
+    Client dbClient = check new (url = executeDb, user = user, password = password, options = options);
+    sql:ExecutionResult result = check dbClient->execute("Insert into NumericTypes (int_type) values (20)");
+    check dbClient.close();
+
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    var insertId = result.lastInsertId;
+    if insertId is int {
+        test:assertTrue(insertId > 1, "Last Insert Id is nil.");
+    } else {
+        test:assertFail("Insert Id should be an integer.");
+    }
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: [testInsertTable]
+}
+function testInsertTableWithRequestGeneratedKeysExecute() returns error? {
+    Options options = {
+        requestGeneratedKeys: EXECUTE
+    };
+    Client dbClient = check new (url = executeDb, user = user, password = password, options = options);
+    sql:ExecutionResult result = check dbClient->execute("Insert into NumericTypes (int_type) values (20)");
+    check dbClient.close();
+
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    var insertId = result.lastInsertId;
+    if insertId is int {
+        test:assertTrue(insertId > 1, "Last Insert Id is nil.");
+    } else {
+        test:assertFail("Insert Id should be an integer.");
+    }
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: [testInsertTable]
+}
+function testInsertTableWithRequestGeneratedKeysBatchExecute() returns error? {
+    Options options = {
+        requestGeneratedKeys: BATCH_EXECUTE
+    };
+    Client dbClient = check new (url = executeDb, user = user, password = password, options = options);
+    sql:ExecutionResult result = check dbClient->execute("Insert into NumericTypes (int_type) values (20)");
+    check dbClient.close();
+
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    test:assertEquals(result.lastInsertId, ());
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: [testInsertTable]
+}
+function testInsertTableWithRequestGeneratedKeysNone() returns error? {
+    Options options = {
+        requestGeneratedKeys: NONE
+    };
+    Client dbClient = check new (url = executeDb, user = user, password = password, options = options);
+    sql:ExecutionResult result = check dbClient->execute("Insert into NumericTypes (int_type) values (20)");
+    check dbClient.close();
+
+    test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
+    test:assertEquals(result.lastInsertId, ());
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"],
+    dependsOn: [testInsertTable]
+}
 function testInsertTableWithoutGeneratedKeys() {
     Client dbClient = checkpanic new (url = executeDb, user = user, password = password);
     sql:ExecutionResult result = checkpanic dbClient->execute("Insert into StringTypes (id, varchar_type)"
