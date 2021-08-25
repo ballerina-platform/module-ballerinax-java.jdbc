@@ -132,7 +132,7 @@ public type Options record {|
     Operations requestGeneratedKeys = ALL;
 |};
 
-# Provides a set of database operations.
+# Provides a set of database execute operations.
 #
 public enum Operations {
     NONE,
