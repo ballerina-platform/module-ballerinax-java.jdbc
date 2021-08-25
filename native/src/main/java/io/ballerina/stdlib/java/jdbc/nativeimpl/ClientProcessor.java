@@ -52,9 +52,9 @@ public class ClientProcessor {
         if (options != null) {
             properties = options.getMapValue(Constants.ClientConfiguration.PROPERTIES);
             BString dataSourceNamVal = options.getStringValue(Constants.ClientConfiguration.DATASOURCE_NAME);
+            datasourceName = dataSourceNamVal == null ? null : dataSourceNamVal.getValue();
             BString requestGeneratedKeysVal = options.getStringValue(
                     Constants.ClientConfiguration.REQUEST_GENERATED_KEYS);
-            datasourceName = dataSourceNamVal == null ? null : dataSourceNamVal.getValue();
             requestGeneratedKeys = requestGeneratedKeysVal == null ?
                     Constants.RequestGeneratedKeysValues.ALL : requestGeneratedKeysVal.getValue();
             if (properties != null) {
