@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - [Add support for queryRow](https://github.com/ballerina-platform/ballerina-standard-library/issues/1604)
+- [Add support for configuring the retrieval of auto generated keys on query execution](https://github.com/ballerina-platform/ballerina-standard-library/issues/1804)
 
 ## [0.6.0-beta.2] - 2021-06-22
 
