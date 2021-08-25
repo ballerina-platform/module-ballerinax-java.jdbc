@@ -53,6 +53,25 @@ function batchInsertIntoDataTable2() {
 }
 
 @test:Config {
+    groups: ["batch-execute"]
+}
+function batchInsertIntoDataTable5() returns error? {
+    int intType = 6;
+    int[] ids = [1];
+    sql:ParameterizedQuery sqlQuery = `SELECT * FROM DataTable WHERE id in (${ids})`;
+    sql:ParameterizedQuery[] sqlQueries = [sqlQuery];
+    sql:ExecutionResult[]|sql:Error result = batchExecuteQueryJDBCClient(sqlQueries);
+    test:assertTrue(result is error);
+    if result is sql:DatabaseError {
+        test:assertTrue(result.message().startsWith("Error while executing SQL batch command as IN Operator " +
+        "is not supported: SELECT * FROM DataTable WHERE int_type in ( ? ). incompatible data type in conversion."),
+        "Output mismatched");
+    } else {
+        test:assertFail("DatabaseError Error expected.");
+    }
+}
+
+@test:Config {
     groups: ["batch-execute"],
     dependsOn: [batchInsertIntoDataTable2]
 }

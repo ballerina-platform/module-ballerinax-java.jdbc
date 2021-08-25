@@ -13,6 +13,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/io;
 import ballerina/sql;
 import ballerina/test;
 
@@ -341,4 +342,24 @@ function testUpdateData() {
     test:assertEquals(data?.value?.countVal, 1, "Update command was not successful.");
 
     checkpanic dbClient.close();
+}
+
+@test:Config {
+    groups: ["execute", "execute-basic"]
+}
+function testSelectData() returns error? {
+    Client dbClient = checkpanic new (url = executeDb, user = user, password = password);
+    int[] ids = [1, 2];
+    sql:ParameterizedQuery query = `SELECT * from StringTypes where id in (${ids})`;
+    sql:ExecutionResult|sql:Error result = dbClient->execute(query);
+    test:assertTrue(result is error);
+    if result is sql:DatabaseError {
+        io:println(result.message());
+        test:assertTrue(result.message().startsWith("Error while executing SQL query as IN Operator is not " +
+        "supported: SELECT * FROM NumericTypes WHERE id in ( ? ). incompatible data type in conversion."),
+        "Output mismatched");
+    } else {
+        test:assertFail("DatabaseError Error expected.");
+    }
+    check dbClient.close();
 }
