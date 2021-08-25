@@ -52,7 +52,4 @@ public final class Constants {
         public static final String EXECUTE = "EXECUTE";
         public static final String BATCH_EXECUTE = "BATCH_EXECUTE";
     }
-
-
-
 }
