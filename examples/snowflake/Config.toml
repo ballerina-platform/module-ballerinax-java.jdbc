@@ -16,6 +16,6 @@
 # under the License.
 #
 
-jdbcUrlSF = "jdbc:snowflake://https://snowflakeURL"
-dbUsernameSF = "snowflakeUsername"
-dbPasswordSF = "snowflakePassword"
+jdbcUrlSF = "jdbc:snowflake://https://<ACCOUNT_NAME>.snowflakecomputing.com"
+dbUsernameSF = "<SNOWFLAKE_USERNAME>"
+dbPasswordSF = "<SNOWFLAKE_PASSWORD>"
