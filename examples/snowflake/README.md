@@ -21,7 +21,7 @@ These will be the credentials that you will use to connect to snowflake.
 
 ### 4. Creating database, warehouse and tables
 Using either the Snowflake Web UI or using Ballerina, databases, warehouses and tables can be created.
-An example of creating the above and populating the table is shown in the `modules/setup` module.
+An example of creating the above and populating the table is shown in the `modules/setup` example.
 
 ## Connecting to Snowflake Using the Ballerina JDBC connector
 
@@ -93,24 +93,24 @@ This example can be run by executing the command `bal run modules/setup`.
 
 ### 2. Service
 This example creates an HTTP service with two endpoints
-* `/findByEmail`, method:`GET`
-  * E.g.: `https://localhost:9090/findByEmail/?email=john@smith.com`
-  * This would query the Employees table and fetch the first result with the provided email.
+#### 2.1 `/findByEmail`, method:`GET`
+* This would query the Employees table and fetch the first result with the provided email.
+* E.g.: `https://localhost:9090/findByEmail/?email=john@smith.com`
+  
 
-
-* `/addEmployee`, method:`POST`
-  * Adds a new entry to the Employees table using the provided json data.
-  * Example CURL request:
-    ```
-    curl --location --request POST 'localhost:9090/addEmployee' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "first_name": "John",
-        "last_name": "Smith",
-        "email": "john@smith.com",
-        "address": "No. 22, 1st Lane, Some City.",
-        "joined_date": "2021-08-25",
-        "salary": 20000
-    }'
-    ```
-  * This example can be run by executing `bal run modules/service`.
+#### 2.2 `/addEmployee`, method:`POST`
+* Adds a new entry to the Employees table using the provided json data.
+* Example CURL request:
+  ```
+  curl --location --request POST 'localhost:9090/addEmployee' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "john@smith.com",
+      "address": "No. 22, 1st Lane, Some City.",
+      "joined_date": "2021-08-25",
+      "salary": 20000
+  }'
+  ```
+This example can be run by executing the command `bal run modules/service`.
