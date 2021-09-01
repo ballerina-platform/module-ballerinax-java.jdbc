@@ -61,14 +61,14 @@ public function main() returns error? {
 
     // Batch insert data
     var data = [
-        {first_name:"Michael", last_name: "Scott", address: "address1", joined_date: "2021-01-01", salary: 60000},
-        {first_name:"Michael", last_name: "Scott", address: "address1", joined_date: "2021-01-01", salary: 60000},
-        {first_name:"Michael", last_name: "Scott", address: "address1", joined_date: "2021-01-01", salary: 60000}
+        {first_name:"Michael", last_name: "Scott", email: "michael1@scott.com", address: "address1", joined_date: "2021-05-01", salary: 60000},
+        {first_name:"Michael", last_name: "Scott", email: "michael2@scott.com", address: "address2", joined_date: "2021-07-01", salary: 50000},
+        {first_name:"Michael", last_name: "Scott", email: "michael3@scott.com", address: "address3", joined_date: "2021-09-01", salary: 40000}
     ];
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
-        select `INSERT INTO Employees (first_name, last_name, address, joined_date, salary)
-                VALUES (${row.first_name}, ${row.last_name}, ${row.address}, ${row.joined_date}, ${row.salary})`;
+        select `INSERT INTO Employees (first_name, last_name, email, address, joined_date, salary)
+                VALUES (${row.first_name}, ${row.last_name}, ${row.email}, ${row.address}, ${row.joined_date}, ${row.salary})`;
     _ = check dbClient->batchExecute(sqlQueries);
     check dbClient.close();
 }

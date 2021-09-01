@@ -50,11 +50,9 @@ jdbc:Options options = {
 };
 jdbc:Client dbClient = check new (jdbcUrlSF, dbUsernameSF, dbPasswordSF, options = options);
 
-listener http:Listener snowflakeListener = new(9090);
+service /employee on new http:Listener(9090) {
 
-service /employee on snowflakeListener {
-
-    resource function get [string email]() returns Employee|EmployeeNotFound|error? {
+    resource function get [string email]() returns Employee|EmployeeNotFound|error {
         Employee|sql:Error data = dbClient->queryRow(`
             SELECT * FROM Employees WHERE email = ${email};
         `);
@@ -64,7 +62,7 @@ service /employee on snowflakeListener {
         return data;
     }
 
-    resource function post .(@http:Payload Employee employee) returns EmployeeCreated|error? {
+    resource function post .(@http:Payload Employee employee) returns EmployeeCreated|error {
         _ = check dbClient->execute(`
             INSERT INTO Employees (first_name, last_name, email, address, joined_date, salary)
             VALUES (${employee.first_name}, ${employee.last_name}, ${employee.email}, 
