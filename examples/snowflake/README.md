@@ -1,6 +1,13 @@
-# Overview
+# Connecting to Snowflake using Ballerina's JDBC Connector
 
-Example for using Snowflake with the Ballerina JDBC connector.
+## Overview
+This guide explains how to connect to Snowflake using Ballerina's JDBC connector and contains two examples.
+
+### 1. Setup Example
+This example shows how to establish a connection to Snowflake with the required configurations and connection parameters.
+
+### 2. Service Example
+This example shows how an HTTP RESTful service can be created to insert and retrieve data from Snowflake.
 
 ## Prerequisites
 
@@ -21,7 +28,7 @@ These will be the credentials that you will use to connect to snowflake.
 
 ### 4. Creating database, warehouse and tables
 Using either the Snowflake Web UI or using Ballerina, databases, warehouses and tables can be created.
-An example of creating the above and populating the table is shown in the `modules/setup` example.
+An example of creating the above and populating the table is shown in the [`setup`](./setup) example.
 
 ## Connecting to Snowflake Using the Ballerina JDBC connector
 
@@ -62,7 +69,7 @@ jdbc:Options options = {
         schema: "PUBLIC",
         warehouse: "TestWarehouse"
     },
-    requestGeneratedKeys: jdbc:NONE // Must be set to JDBC:NONE
+    requestGeneratedKeys: jdbc:NONE // Must be set to jdbc:NONE
 };
 
 jdbc:Client dbClient = check new (jdbcUrlSF, dbUsernameSF, dbPasswordSF, options = options);
@@ -89,28 +96,31 @@ This example illustrates the following
 * How to create a database, warehouse and table
 * Populating the table
 
-This example can be run by executing the command `bal run modules/setup`.
+This example can be run by executing the command `bal run setup`.
 
 ### 2. Service
-This example creates an HTTP service with two endpoints
-#### 2.1 `/findByEmail`, method:`GET`
+This example creates an HTTP service with the endpoint `/employee`
+#### 2.1 Get employee details - method:`GET`
 * This would query the Employees table and fetch the first result with the provided email.
-* E.g.: `https://localhost:9090/findByEmail/?email=john@smith.com`
+* Example CURL request:
+  ```shell
+  curl --location --request GET 'localhost:9090/employee/john@smith.com'
+  ```
   
 
-#### 2.2 `/addEmployee`, method:`POST`
+#### 2.2 Create new employee - method:`POST`
 * Adds a new entry to the Employees table using the provided json data.
 * Example CURL request:
+  ```shell
+  curl --location --request POST 'localhost:9090/employee' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "first_name": "Michael",
+        "last_name": "Parker",
+        "email": "michael@parker.com",
+        "address": "No 1, 1st Lane, Some City.",
+        "joined_date": "2021-08-25",
+        "salary": 20000
+    }'  
   ```
-  curl --location --request POST 'localhost:9090/addEmployee' \
-  --header 'Content-Type: application/json' \
-  --data-raw '{
-      "first_name": "John",
-      "last_name": "Smith",
-      "email": "john@smith.com",
-      "address": "No. 22, 1st Lane, Some City.",
-      "joined_date": "2021-08-25",
-      "salary": 20000
-  }'
-  ```
-This example can be run by executing the command `bal run modules/service`.
+This example can be run by executing the command `bal run service`.
