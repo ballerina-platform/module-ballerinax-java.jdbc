@@ -27,7 +27,30 @@ jdbc:Options options = {
 jdbc:Client dbClient = check new (jdbcUrlSF, dbUsernameSF, dbPasswordSF, options = options);
 
 public function main() returns error? {
+    // Initialize database, warehouse and table
+    _ = check init();
 
+    // Insert one row
+    _ = check dbClient->execute(`
+        INSERT INTO Employees (first_name, last_name, email, address, joined_date, salary)
+        VALUES ('John', 'Smith', 'john@smith.com', 'No. 32, 1st Lane, SomeCity.', '2021-08-20', 50000);
+    `);
+
+    // Batch insert data
+    var data = [
+        {first_name:"Michael", last_name: "Scott", email: "michael1@scott.com", address: "address1", joined_date: "2021-05-01", salary: 60000},
+        {first_name:"Michael", last_name: "Scott", email: "michael2@scott.com", address: "address2", joined_date: "2021-07-01", salary: 50000},
+        {first_name:"Michael", last_name: "Scott", email: "michael3@scott.com", address: "address3", joined_date: "2021-09-01", salary: 40000}
+    ];
+    sql:ParameterizedQuery[] sqlQueries =
+        from var row in data
+        select `INSERT INTO Employees (first_name, last_name, email, address, joined_date, salary)
+                VALUES (${row.first_name}, ${row.last_name}, ${row.email}, ${row.address}, ${row.joined_date}, ${row.salary})`;
+    _ = check dbClient->batchExecute(sqlQueries);
+    check dbClient.close();
+}
+
+function init() returns error? {
     // Create database
     sql:ExecutionResult res = check dbClient->execute("CREATE OR REPLACE DATABASE CompanyDB");
 
@@ -52,23 +75,4 @@ public function main() returns error? {
             salary NUMBER
         );
     `);
-
-    // Insert one row
-    _ = check dbClient->execute(`
-        INSERT INTO Employees (first_name, last_name, email, address, joined_date, salary)
-        VALUES ('John', 'Smith', 'john@smith.com', 'No. 32, 1st Lane, SomeCity.', '2021-08-20', 50000);
-    `);
-
-    // Batch insert data
-    var data = [
-        {first_name:"Michael", last_name: "Scott", email: "michael1@scott.com", address: "address1", joined_date: "2021-05-01", salary: 60000},
-        {first_name:"Michael", last_name: "Scott", email: "michael2@scott.com", address: "address2", joined_date: "2021-07-01", salary: 50000},
-        {first_name:"Michael", last_name: "Scott", email: "michael3@scott.com", address: "address3", joined_date: "2021-09-01", salary: 40000}
-    ];
-    sql:ParameterizedQuery[] sqlQueries =
-        from var row in data
-        select `INSERT INTO Employees (first_name, last_name, email, address, joined_date, salary)
-                VALUES (${row.first_name}, ${row.last_name}, ${row.email}, ${row.address}, ${row.joined_date}, ${row.salary})`;
-    _ = check dbClient->batchExecute(sqlQueries);
-    check dbClient.close();
 }
