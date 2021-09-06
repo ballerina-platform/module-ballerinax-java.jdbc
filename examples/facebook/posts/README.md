@@ -18,7 +18,7 @@ This is an HTTP RESTful service that is used to insert, create and retrieve post
 
   * Open the installed driver directory and activate the license by following the instructions in the `licensing.htm`. 
 
-  * Set the driver jar path in the `Ballerina.toml`
+  * Set the driver jar path in the `Ballerina.toml`.
     ```
     [[platform.java11.dependency]]
     path = "PATH"

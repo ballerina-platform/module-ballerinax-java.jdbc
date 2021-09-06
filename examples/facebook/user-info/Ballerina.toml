@@ -3,5 +3,5 @@ org = "jdbc"
 name = "facebook"
 version = "0.1.0"
 
-[[platform.java11.dependency]]
-path = "PATH_OF_CData_JDBC_Driver_JAR"
+# [[platform.java11.dependency]]
+# path = "PATH_OF_CData_JDBC_Driver_JAR"
