@@ -6,19 +6,19 @@ The example demonstrates how to use the Ballerina JDBC client to integrate with 
 
 ## Implementation
 
-This is an HTTP RESTful service that is used to insert, create and retrieve posts' data from Facebook.
+This is an HTTP RESTful service that is used to insert, create, and retrieve data of Facebook posts.
 
 ## Prerequisite
 
 * *Adding the Facebook JDBC driver*
 
-  * Download the driver from [here](https://www.cdata.com/drivers/facebook/jdbc/) and extract the zip.
+  * Download the [driver](https://www.cdata.com/drivers/facebook/jdbc/) and extract it.
 
-  * Install the setup.jar in the extracted folder by following the instructions in the `readme.txt`.
+  * Install the `setup.jar` file in the extracted folder by following the instructions in the `readme.txt` file.
 
-  * Open the installed driver directory and activate the license by following the instructions in the `licensing.htm`. 
+  * Open the installed driver directory and activate the license by following the instructions in the `licensing.htm` file.
 
-  * Set the driver jar path in the `Ballerina.toml`.
+  * Set the driver JAR path in the `Ballerina.toml` file.
     ```
     [[platform.java11.dependency]]
     path = "PATH"
@@ -27,21 +27,21 @@ This is an HTTP RESTful service that is used to insert, create and retrieve post
 
 * *Updating Facebook Configurations in the `Config.toml`*
   
-  * Creating an App in Facebook
+  * Creating an app on Facebook.
     * Log into Facebook and navigate to https://developers.facebook.com/apps.
-    *  Click `Add a New App` and define your app’s name.
-    *  Go to the crated app, click `Setting` and find app ID and app secret in the `Basic`
+    * Click `Add a New App` and define the name of your app.
+    * Go to the created app, click `Settings` and find the app ID and app secret in the `Basic` section.
 
   * Obtaining a Page Access Token in Facebook
-    * Create a page in the Facebook.
-    * Open the [Facebook Explorer](https://developers.facebook.com/tools/explorer) to get a page access token with 
-      permission for creating a post by using the created page. For more information about permissions, click [here](https://developers.facebook.com/docs/pages/access-tokens/).
+    * Create a page on Facebook.
+    * Open the [Facebook Explorer](https://developers.facebook.com/tools/explorer) to get a page access token with
+      permission for creating a post by using the created page. For more information about permissions, click [Access Tokens](https://developers.facebook.com/docs/pages/access-tokens/).
 
-  * Updating `Config.toml` file with above configurations.
+  * Updating the `Config.toml` file with the above configurations.
 
 ## Run the Example
-To start the service, move into the `facebook/posts ` folder and execute the below command. 
-It will build the posts Ballerina project and then run it.
+To start the service, move into the `facebook/posts` folder and execute the command below.
+It will build the posts of the Ballerina project and then run it.
  
 ```
 $bal run
@@ -49,7 +49,7 @@ $bal run
 
 ## Send Sample Requests
 
-Run the following cURL request to manipulate facebook posts.
+Run the following cURL request to manipulate the Facebook posts.
 
 #### Create the New Post
 ```
@@ -62,8 +62,14 @@ curl -X POST "http://localhost:9092/facebook/posts/create" --data 'Message'
 curl -X DELETE "http://localhost:9092/facebook/posts/delete/[ADD ID]"
 ```
 
-#### Get Posts' IDs
+#### Get the IDs of the Post
 
 ```
 curl -X GET "http://localhost:9092/facebook/posts/getIds"
+```
+
+#### Get info of the specific Post
+
+```
+curl -X GET "http://localhost:9092/facebook/posts/getInfo/[ADD ID]"
 ```

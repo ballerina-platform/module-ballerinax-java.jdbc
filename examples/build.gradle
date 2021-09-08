@@ -20,7 +20,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 apply plugin: 'java'
 
-description = 'Ballerina - Postgresql Examples'
+description = 'Ballerina - JDBC Examples'
 
 def ballerinaModulePath = "${project.rootDir}/ballerina/"
 def ballerinaDistPath = "${ballerinaModulePath}/build/target/extracted-distributions/jballerina-tools-zip/jballerina-tools-${ballerinaLangVersion}"

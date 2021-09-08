@@ -6,24 +6,24 @@ The example demonstrates how to use the Ballerina JDBC client to integrate with 
 
 ## Implementation
 
-It is a simple project, which shows how to get user info by using username and password of Facebook.
+It is a simple project, which shows how to get user info by using the username and password of Facebook.
 
 ## Prerequisite
 
 * *Adding the Facebook JDBC driver*
 
-    * Download the driver from [here](https://www.cdata.com/drivers/facebook/jdbc/) and extract the zip.
-    
-    * Install the setup.jar in the extracted folder by following the instructions in the `readme.txt`.
-    
-    * Open the installed driver directory and activate the license by following the instructions in the `licensing.htm`. 
-    
-    * Set the driver jar path in the `Ballerina.toml`
-        ```
-        [[platform.java11.dependency]]
-        path = "PATH"
-        ```
-        Sample path format for macOS: `/Applications/CData/CData JDBC Driver for Facebook 2021/lib/cdata.jdbc.facebook.jar`
+    * Download the [driver](https://www.cdata.com/drivers/facebook/jdbc/) and extract it.
+        
+    * Install the `setup.jar` file in the extracted folder by following the instructions in the `readme.txt` file.
+
+    * Open the installed driver directory and activate the license by following the instructions in the `licensing.htm` file.
+
+    * Set the driver JAR path in the `Ballerina.toml` file.
+      ```
+      [[platform.java11.dependency]]
+      path = "PATH"
+      ```
+      Sample path format for macOS: `/Applications/CData/CData JDBC Driver for Facebook 2021/lib/cdata.jdbc.facebook.jar`
 
 * *Update username and password of Facebook in the `Config.toml`*
 

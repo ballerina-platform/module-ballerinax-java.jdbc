@@ -26,14 +26,20 @@ jdbc:Options options = {
     properties: { InitiateOAuth: InitiateOAuth }
 };
 
+public type User record {
+    string ID;
+    string Picture;
+    string Name;
+    string FirstName;
+    string MiddleName;
+    string Email;
+    string LastName;
+};
+
 jdbc:Client dbClient = check new (jdbcFBUrl, fbUserName, fbPassword, options = options);
 
 public function main () returns error? {
-    string[] postIds = [];
-    stream<record {}, error?> resultStream = dbClient->query(`SELECT * FROM Users`);
-    record {record {} value;}? result = check resultStream.next();
-    if result is record {record {} value;} {
-        io:println("User Info: ", result.value);
-    }
+    stream<User, error?> resultStream = dbClient->query(`SELECT * FROM Users`);
+    io:println("User Info: ", check resultStream.next());
     _ = check resultStream.close();
 }

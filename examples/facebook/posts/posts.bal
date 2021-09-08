@@ -26,7 +26,6 @@ configurable string appSecret = ?;
 configurable string pageAccessToken = ?;
 
 jdbc:Options options = {
-    requestGeneratedKeys: jdbc:ALL,
     properties: {
                     InitiateOAuth: InitiateOAuth,
                     AuthenticateAsPage: pageId,
@@ -34,6 +33,14 @@ jdbc:Options options = {
                     OAuthClientSecret: appSecret,
                     OAuthAccessToken: pageAccessToken
                 }
+};
+
+public type PostInfo record {
+    string FromId;
+    string FromName;
+    string FromPicture;
+    string Message;
+    string MessageTags;
 };
 
 jdbc:Client dbClient = check new (jdbcFBUrl, options = options);
@@ -51,10 +58,16 @@ service /facebook/posts on fbListener {
         return postIds;
     }
 
+    resource function get getInfo/[string id]() returns record{}?|error {
+        string[] postIds = [];
+        stream<PostInfo, error?> resultStream = dbClient->query(`SELECT * FROM Posts WHERE ID = ${id}`);
+        return check resultStream.next();
+    }
+
     resource function post create(@http:Payload string msg) returns string|error {
         sql:ParameterizedQuery query = `INSERT INTO Posts (message) VALUES (${msg})`;
-        _ = check dbClient->execute(query);
-        return "Created new post";
+        sql:ExecutionResult result = check dbClient->execute(query);
+        return "Created post id: " + result.lastInsertId.toString();
     }
 
     resource function delete delete/[string id]() returns string|error {
