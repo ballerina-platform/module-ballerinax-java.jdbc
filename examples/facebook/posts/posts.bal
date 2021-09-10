@@ -47,9 +47,9 @@ jdbc:Client dbClient = check new (jdbcFBUrl, options = options);
 
 listener http:Listener fbListener = new (9092);
 
-service /facebook/posts on fbListener {
+service /facebook on fbListener {
 
-    resource function get getIds() returns string[]|error {
+    resource function get posts() returns string[]|error {
         string[] postIds = [];
         stream<record {}, error?> resultStream = dbClient->query(`SELECT * FROM Posts`);
         _ = check resultStream.forEach(function(record {} result) {
@@ -58,19 +58,19 @@ service /facebook/posts on fbListener {
         return postIds;
     }
 
-    resource function get getInfo/[string id]() returns record{}?|error {
+    resource function get posts/[string id]() returns record{}?|error {
         string[] postIds = [];
         stream<PostInfo, error?> resultStream = dbClient->query(`SELECT * FROM Posts WHERE ID = ${id}`);
         return check resultStream.next();
     }
 
-    resource function post create(@http:Payload string msg) returns string|error {
+    resource function post posts(@http:Payload string msg) returns string|error {
         sql:ParameterizedQuery query = `INSERT INTO Posts (message) VALUES (${msg})`;
         sql:ExecutionResult result = check dbClient->execute(query);
-        return "Created post id: " + result.lastInsertId.toString();
+        return result.lastInsertId.toString();
     }
 
-    resource function delete delete/[string id]() returns string|error {
+    resource function delete posts/[string id]() returns string|error {
         sql:ParameterizedQuery query = `DELETE FROM Posts WHERE ID = ${id}`;
         _ = check dbClient->execute(query);
         return "Post deleted successfully";

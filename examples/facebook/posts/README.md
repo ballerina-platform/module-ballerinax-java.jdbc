@@ -53,23 +53,23 @@ Run the following cURL request to manipulate the Facebook posts.
 
 #### Create the New Post
 ```
-curl -X POST "http://localhost:9092/facebook/posts/create" --data 'Message'
+curl -X POST "http://localhost:9092/facebook/posts" --data 'Message'
 ```
 
 #### Delete the Post
 
 ```
-curl -X DELETE "http://localhost:9092/facebook/posts/delete/[ADD ID]"
+curl -X DELETE "http://localhost:9092/facebook/posts/[ADD ID]"
 ```
 
 #### Get the IDs of the Post
 
 ```
-curl -X GET "http://localhost:9092/facebook/posts/getIds"
+curl -X GET "http://localhost:9092/facebook/posts"
 ```
 
 #### Get info of the specific Post
 
 ```
-curl -X GET "http://localhost:9092/facebook/posts/getInfo/[ADD ID]"
+curl -X GET "http://localhost:9092/facebook/posts/[ADD ID]"
 ```
