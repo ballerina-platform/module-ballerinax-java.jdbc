@@ -45,7 +45,7 @@ function testInsertTable() {
     Client dbClient = checkpanic new (url = executeDb, user = user, password = password);
     sql:ExecutionResult result = checkpanic dbClient->execute("Insert into NumericTypes (int_type) values (20)");
     checkpanic dbClient.close();
-    
+
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
     var insertId = result.lastInsertId;
     if (insertId is int) {
@@ -181,7 +181,7 @@ function testInsertAndSelectTableWithGeneratedKeys() {
     sql:ExecutionResult result = checkpanic dbClient->execute("insert into NumericTypes (int_type) values (31)");
 
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
-    
+
     string|int? insertedId = result.lastInsertId;
     if (insertedId is int) {
         string query = string `SELECT * from NumericTypes where id = ${insertedId}`;
@@ -244,7 +244,7 @@ function testInsertWithStringAndSelectTable() {
         + "character_type, nvarcharmax_type, longvarchar_type, clob_type) values ("
         + intIDVal + ",'str1','str2','s','str4','s','str6','str7','str8')";
     sql:ExecutionResult result = checkpanic dbClient->execute(insertQuery);
-    
+
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
 
     StringData? insertedData = ();
@@ -333,7 +333,7 @@ function testInsertWithNilStringAndSelectTable() {
     stream<StringNilData, sql:Error?> streamData = dbClient->query(query);
     record {|StringNilData value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
-    
+
     StringNilData expectedInsertRow = {
         id: 45,
         varchar_type: (),
@@ -358,8 +358,8 @@ function testInsertTableWithDatabaseError() {
     sql:ExecutionResult|sql:Error result = dbClient->execute("Insert into NumericTypesNonExistTable (int_type) values (20)");
 
     if (result is sql:DatabaseError) {
-        test:assertTrue(result.message().startsWith("Error while executing SQL query: Insert into NumericTypesNonExistTable " + 
-                        "(int_type) values (20). Table \"NUMERICTYPESNONEXISTTABLE\" not found; SQL statement:"), 
+        test:assertTrue(result.message().startsWith("Error while executing SQL query: Insert into NumericTypesNonExistTable " +
+                        "(int_type) values (20). Table \"NUMERICTYPESNONEXISTTABLE\" not found; SQL statement:"),
                         "Error message does not match, actual :'" + result.message() + "'");
         sql:DatabaseErrorDetail errorDetails = result.detail();
         test:assertEquals(errorDetails.errorCode, 42102, "SQL Error code does not match");
@@ -381,8 +381,8 @@ function testInsertTableWithDataTypeError() {
         + " ('This is wrong type')");
 
     if (result is sql:DatabaseError) {
-        test:assertTrue(result.message().startsWith("Error while executing SQL query: Insert into NumericTypes " + 
-                    "(int_type) values ('This is wrong type'). Data conversion error converting \"'This is wrong type' " + 
+        test:assertTrue(result.message().startsWith("Error while executing SQL query: Insert into NumericTypes " +
+                    "(int_type) values ('This is wrong type'). Data conversion error converting \"'This is wrong type' " +
                     "(NUMERICTYPES: \"\"INT_TYPE\"\" INT)\"; SQL statement:"),
                     "Error message does not match, actual :'" + result.message() + "'");
         sql:DatabaseErrorDetail errorDetails = result.detail();
@@ -407,7 +407,7 @@ function testUpdateData() {
     Client dbClient = checkpanic new (url = executeDb, user = user, password = password);
     sql:ExecutionResult result = checkpanic dbClient->execute("Update NumericTypes set int_type = 11 where int_type = 10");
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
-    
+
     stream<ResultCount, sql:Error?> streamData = dbClient->query("SELECT count(*) as countval from NumericTypes"
         + " where int_type = 11");
     record {|ResultCount value;|}? data = checkpanic streamData.next();
