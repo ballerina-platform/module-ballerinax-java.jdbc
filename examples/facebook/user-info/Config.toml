@@ -1,0 +1,4 @@
+jdbcFBUrl = "jdbc:facebook:"
+InitiateOAuth = "GETANDREFRESH"
+fbUserName = "ADD_FB_USER_NAME"
+fbPassword = "ADD_FB_PASSWORD"
