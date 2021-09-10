@@ -1,0 +1,11 @@
+[package]
+org = "ballerinax"
+name = "java.jdbc"
+version = "@toml.version@"
+distribution = "slbeta3"
+
+[[platform.java11.dependency]]
+path = "../native/build/libs/java.jdbc-native-@project.version@.jar"
+
+[[platform.java11.dependency]]
+path = "./lib/sql-native-@sql.native.version@.jar"
