@@ -21,27 +21,6 @@ modules = [
 
 [[package]]
 org = "ballerina"
-name = "jballerina.java"
-version = "0.9.0"
-transitive = true
-
-[[package]]
-org = "ballerina"
-name = "lang.object"
-version = "1.0.0"
-transitive = true
-
-[[package]]
-org = "ballerina"
-name = "lang.value"
-version = "1.0.0"
-transitive = true
-dependencies = [
-	{org = "ballerina", name = "jballerina.java"}
-]
-
-[[package]]
-org = "ballerina"
 name = "sql"
 version = "1.0.0"
 transitive = true

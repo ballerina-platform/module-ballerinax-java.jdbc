@@ -25,7 +25,7 @@ description = 'Ballerina - JDBC Examples'
 def ballerinaModulePath = "${project.rootDir}/ballerina/"
 def ballerinaDistPath = "${ballerinaModulePath}/build/target/extracted-distributions/jballerina-tools-zip/jballerina-tools-${ballerinaLangVersion}"
 def ballerinaDist = "${buildDir}/target/ballerina-distribution"
-def examples = ["facebook/posts", "facebook/user-info"]
+def examples = ["facebook/posts", "facebook/user-info", "snowflake/setup", "snowflake/service"]
 
 task copyDistribution(type: Copy) {
     from ballerinaDistPath
@@ -71,7 +71,23 @@ task buildExamples {
     }
 }
 
+task commitTomlFiles {
+    doLast {
+        examples.each { example ->
+            project.exec {
+                ignoreExitValue true
+                if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                    commandLine 'cmd', '/c', "git commit ${example}/Ballerina.toml ${example}/Dependencies.toml -m \"[Automated] Update ${example} toml files\""
+                } else {
+                    commandLine 'sh', '-c', "git commit ${example}/Ballerina.toml ${example}/Dependencies.toml -m '[Automated] Update ${example} toml files'"
+                }
+            }
+        }
+    }
+}
+
 copyDistribution.dependsOn ":java.jdbc-ballerina:build"
 copyPackageBala.dependsOn copyDistribution
 buildExamples.dependsOn copyPackageBala
+buildExamples.finalizedBy commitTomlFiles
 build.dependsOn buildExamples
