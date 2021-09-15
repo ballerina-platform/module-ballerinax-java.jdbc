@@ -1,16 +1,9 @@
+[package]
+org = "jdbc"
+name = "snowflake"
+version = "0.1.0"
+
 [[platform.java11.dependency]]
 groupId = "net.snowflake"
 artifactId = "snowflake-jdbc"
 version = "3.13.5"
-
-[[dependency]]
-org = "ballerinax"
-name = "java.jdbc"
-version = "1.0.0"
-repository = "local"
-
-[[dependency]]
-org = "ballerina"
-name = "sql"
-version = "1.0.0"
-repository = "local"
