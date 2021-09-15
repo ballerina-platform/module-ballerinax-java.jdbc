@@ -91,7 +91,7 @@ function testToJson() {
 function testGetPrimitiveTypesRecord() returns error? {
     Client dbClient = check new (url = complexQueryDb, user = user, password = password);
     SelectTestAlias value = check dbClient->queryRow(
-	"SELECT int_type, long_type, double_type, boolean_type, string_type from DataTable WHERE row_id = 1");
+	`SELECT int_type, long_type, double_type, boolean_type, string_type from DataTable WHERE row_id = 1`);
     check dbClient.close();
     SelectTestAlias expectedData = {
         INT_TYPE: 1,

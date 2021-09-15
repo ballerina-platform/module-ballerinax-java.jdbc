@@ -59,13 +59,11 @@ public isolated client class Client {
     # Queries the database with the provided query and returns the first row as a record if the expected return type is
     # a record. If the expected return type is not a record, then a single value is returned.
     #
-    # + sqlQuery - The query, which needs to be executed as a `string` or  an `sql:ParameterizedQuery` when the SQL
-    #               query has params to be passed in
+    # + sqlQuery - The query to be executed as a `sql:ParameterizedQuery` which returns only one row result
     # + returnType - The `typedesc` of the record/type that should be returned as a result. If this is not provided, the
     #                default column names/type of the query result set will be used
-    # + return - Result in the type of `returnType`. If the `returnType` is not provided, the column names/type of
-    #               the query are used
-    remote isolated function queryRow(string|sql:ParameterizedQuery sqlQuery, typedesc<any> returnType = <>)
+    # + return - Result in the type of `returnType`
+    remote isolated function queryRow(sql:ParameterizedQuery sqlQuery, typedesc<any> returnType = <>)
     returns returnType|sql:Error = @java:Method {
         'class: "io.ballerina.stdlib.java.jdbc.nativeimpl.QueryProcessor",
         name: "nativeQueryRow"
@@ -86,14 +84,14 @@ public isolated client class Client {
     # Executes a provided batch of parameterized DDL or DML SQL queries
     # and returns the summary of the execution.
     #
-    # + sqlQueries - The DDL or DML queries such as `INSERT`, `DELETE`, `UPDATE`, etc. as an `sql:ParameterizedQuery` with an array
+    # + sqlQueries - The DDL or DML queries such as `INSERT`, `DELETE`, `UPDATE`, etc. as a `sql:ParameterizedQuery` with an array
     #                of values passed in
     # + return - Summary of the executed SQL queries as an `sql:ExecutionResult[]`, which includes details such as
     #            `affectedRowCount` and `lastInsertId`. If one of the commands in the batch fails, this function
     #            will return an `sql:BatchExecuteError`. However, the JDBC driver may or may not continue to process the
     #            remaining commands in the batch after a failure. The summary of the executed queries in case of an error
     #            can be accessed as `(<sql:BatchExecuteError> result).detail()?.executionResults`
-    remote isolated function batchExecute(string[]|sql:ParameterizedQuery[] sqlQueries) returns sql:ExecutionResult[]|sql:Error {
+    remote isolated function batchExecute(sql:ParameterizedQuery[] sqlQueries) returns sql:ExecutionResult[]|sql:Error {
         if (sqlQueries.length() == 0) {
             return error sql:ApplicationError(" Parameter 'sqlQueries' cannot be empty array");
         }

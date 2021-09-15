@@ -45,7 +45,7 @@ public class QueryProcessor {
                 statementParametersProcessor, resultParametersProcessor);
     }
 
-    public static Object nativeQueryRow(Environment env, BObject client, Object paramSQLString, BTypedesc recordType) {
+    public static Object nativeQueryRow(Environment env, BObject client, BObject paramSQLString, BTypedesc recordType) {
         DefaultStatementParameterProcessor statementParametersProcessor = DefaultStatementParameterProcessor
                 .getInstance();
         DefaultResultParameterProcessor resultParametersProcessor = DefaultResultParameterProcessor
