@@ -21,6 +21,36 @@ modules = [
 
 [[package]]
 org = "ballerina"
+name = "jballerina.java"
+version = "0.0.0"
+transitive = true
+
+[[package]]
+org = "ballerina"
+name = "lang.object"
+version = "0.0.0"
+transitive = true
+
+[[package]]
+org = "ballerina"
+name = "lang.string"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+
+[[package]]
+org = "ballerina"
+name = "lang.value"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+
+[[package]]
+org = "ballerina"
 name = "sql"
 version = "1.0.0"
 transitive = true
@@ -28,6 +58,7 @@ dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.object"},
+	{org = "ballerina", name = "lang.string"},
 	{org = "ballerina", name = "time"}
 ]
 
@@ -48,6 +79,7 @@ transitive = false
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.string"},
 	{org = "ballerina", name = "sql"},
 	{org = "ballerina", name = "time"}
 ]
