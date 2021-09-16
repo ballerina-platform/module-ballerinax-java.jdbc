@@ -97,6 +97,12 @@ dependencies = [
 
 [[package]]
 org = "ballerina"
+name = "jballerina.java"
+version = "0.0.0"
+transitive = true
+
+[[package]]
+org = "ballerina"
 name = "jwt"
 version = "2.0.0"
 transitive = true
@@ -109,6 +115,79 @@ dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "regex"},
 	{org = "ballerina", name = "time"}
+]
+
+[[package]]
+org = "ballerina"
+name = "lang.__internal"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.object"}
+]
+
+[[package]]
+org = "ballerina"
+name = "lang.array"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.__internal"}
+]
+
+[[package]]
+org = "ballerina"
+name = "lang.decimal"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+
+[[package]]
+org = "ballerina"
+name = "lang.int"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+
+[[package]]
+org = "ballerina"
+name = "lang.object"
+version = "0.0.0"
+transitive = true
+
+[[package]]
+org = "ballerina"
+name = "lang.runtime"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.array"},
+	{org = "ballerina", name = "lang.value"}
+]
+
+[[package]]
+org = "ballerina"
+name = "lang.string"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+
+[[package]]
+org = "ballerina"
+name = "lang.value"
+version = "0.0.0"
+transitive = true
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
 ]
 
 [[package]]
@@ -181,6 +260,7 @@ dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.object"},
+	{org = "ballerina", name = "lang.string"},
 	{org = "ballerina", name = "time"}
 ]
 modules = [
@@ -226,6 +306,7 @@ transitive = false
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.string"},
 	{org = "ballerina", name = "sql"},
 	{org = "ballerina", name = "time"}
 ]
