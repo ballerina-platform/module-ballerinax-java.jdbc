@@ -34,6 +34,7 @@ Ballerina.lock
 # generated files
 target
 .ballerina
+target/
 
 # gradle
 .gradle
@@ -49,3 +50,7 @@ gradle-app.setting
 .project
 .settings
 .vscode
+
+#Examples
+examples/**/Dependencies.toml
+examples/**/Config.toml
