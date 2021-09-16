@@ -168,8 +168,9 @@ The `CREATE` statement is executed via the `execute` remote function of the clie
 
 ```ballerina
 // Create the ‘Students’ table with the  ‘id’, 'name', and ‘age’ fields.
-sql:ExecutionResult result = check dbClient->execute("CREATE TABLE student(id INT AUTO_INCREMENT, " +
-                         "age INT, name VARCHAR(255), PRIMARY KEY (id))");
+sql:ExecutionResult result = check dbClient->execute(`
+   CREATE TABLE student(id INT AUTO_INCREMENT, age INT, name VARCHAR(255), PRIMARY KEY (id))
+`);
 //A value of the sql:ExecutionResult type is returned for 'result'. 
 ```
 
@@ -182,8 +183,9 @@ In this sample, the query parameter values are passed directly into the query st
 remote function.
 
 ```ballerina
-sql:ExecutionResult result = check dbClient->execute("INSERT INTO student(age, name) " +
-                         "values (23, 'john')");
+sql:ExecutionResult result = check dbClient->execute(`
+   INSERT INTO student (age, name) values (23, 'john')
+`);
 ```
 
 In this sample, the parameter values, which are in local variables are used to parameterize the SQL query in
@@ -300,7 +302,7 @@ result stream will not be closed and you have to explicitly invoke the `close` o
 
 ```ballerina
 stream<record{}, sql:Error?> resultStream = 
-            dbClient->query("SELECT count(*) as total FROM students");
+            dbClient->query(`SELECT count(*) as total FROM students`);
 
 record {|record {} value;|}? result = check resultStream.next();
 
