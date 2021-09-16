@@ -71,23 +71,7 @@ task buildExamples {
     }
 }
 
-task commitTomlFiles {
-    doLast {
-        examples.each { example ->
-            project.exec {
-                ignoreExitValue true
-                if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-                    commandLine 'cmd', '/c', "git commit ${example}/Ballerina.toml ${example}/Dependencies.toml -m \"[Automated] Update ${example} toml files\""
-                } else {
-                    commandLine 'sh', '-c', "git commit ${example}/Ballerina.toml ${example}/Dependencies.toml -m '[Automated] Update ${example} toml files'"
-                }
-            }
-        }
-    }
-}
-
 copyDistribution.dependsOn ":java.jdbc-ballerina:build"
 copyPackageBala.dependsOn copyDistribution
 buildExamples.dependsOn copyPackageBala
-buildExamples.finalizedBy commitTomlFiles
 build.dependsOn buildExamples
