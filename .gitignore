@@ -53,3 +53,4 @@ gradle-app.setting
 
 #Examples
 examples/**/Dependencies.toml
+examples/**/Config.toml
