@@ -44,7 +44,7 @@ function insertIntoDataTable() returns error? {
 
     sql:ParameterizedQuery sqlQuery =
       `INSERT INTO DataTable (row_id, int_type, long_type, float_type, double_type, boolean_type, string_type, decimal_type)
-        VALUES(${rowId}, ${intType}, ${longType}, ${floatType}, ${doubleType}, ${boolType}, ${stringType}, ${decimalType})`;
+       VALUES(${rowId}, ${intType}, ${longType}, ${floatType}, ${doubleType}, ${boolType}, ${stringType}, ${decimalType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
 }
 

@@ -391,7 +391,7 @@ function queryTypeDecimalDecimalParam() {
     groups: ["query","query-simple-params"]
 }
 function queryByteArrayParam() {
-    record {}|error? value = queryJdbcClient("Select * from ComplexTypes where row_id = 1");
+    record {}|error? value = queryJdbcClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BINARY_TYPE");
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE binary_type = ${binaryData}`;
     validateComplexTableResult(queryJdbcClient(sqlQuery));
@@ -401,7 +401,7 @@ function queryByteArrayParam() {
     groups: ["query","query-simple-params"]
 }
 function queryTypeBinaryByteParam() {
-    record {}|error? value = queryJdbcClient("Select * from ComplexTypes where row_id = 1");
+    record {}|error? value = queryJdbcClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BINARY_TYPE");
     sql:BinaryValue typeVal = new (binaryData);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE binary_type = ${typeVal}`;
@@ -432,7 +432,7 @@ function queryTypeVarBinaryReadableByteChannelParam() {
     groups: ["query","query-simple-params"]
 }
 function queryTypeTinyBlobByteParam() {
-    record {}|error? value = queryJdbcClient("Select * from ComplexTypes where row_id = 1");
+    record {}|error? value = queryJdbcClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BLOB_TYPE");
     sql:BinaryValue typeVal = new (binaryData);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE blob_type = ${typeVal}`;
