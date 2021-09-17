@@ -393,12 +393,12 @@ sql:IntegerOutParameter insertId = new;
 
 sql:ProcedureCallResult result = check dbClient->call(`call InsertPerson(${uid}, ${insertId})`);
 stream<record{}, sql:Error?>? resultStr = result.queryResult;
-   if resultStr is stream<record{}, sql:Error?> {
-      sql:Error? e = resultStr.forEach(function(record{} result) {
-         //can perform operations using 'result'.
-      });
-      resultStr.close();
-   }
+if resultStr is stream<record{}, sql:Error?> {
+   sql:Error? e = resultStr.forEach(function(record{} result) {
+      //can perform operations using 'result'.
+   });
+   resultStr.close();
+}
 check result.close();
 ```
 Note that you have to explicitly invoke the close operation on the `sql:ProcedureCallResult` to release the connection resources and avoid a connection leak as shown above.
