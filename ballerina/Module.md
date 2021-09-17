@@ -397,7 +397,6 @@ if resultStr is stream<record{}, sql:Error?> {
    sql:Error? e = resultStr.forEach(function(record{} result) {
       //can perform operations using 'result'.
    });
-   resultStr.close();
 }
 check result.close();
 ```
