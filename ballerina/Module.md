@@ -57,14 +57,16 @@ For more information about connection pooling, see the [`sql` module](https://do
 
 E.g., The DB client creation for an H2 database will be as follows.
 ```ballerina
-jdbc:Client|sql:Error dbClient = new (url =  "jdbc:h2:~/path/to/database",
-                             user = "root", password = "root",
-                             options = {
-                                 datasourceName: "org.h2.jdbcx.JdbcDataSource"
-                             },
-                             connectionPool = {
-                                 maxOpenConnections: 5
-                             });
+jdbc:Client|sql:Error dbClient = new (
+   url =  "jdbc:h2:~/path/to/database",
+   user = "root", password = "root",
+   options = {
+       datasourceName: "org.h2.jdbcx.JdbcDataSource"
+   },
+   connectionPool = {
+       maxOpenConnections: 5
+   }
+);
 ```
 
 The `dbClient` receives some custom properties within the
@@ -75,12 +77,14 @@ of `2000` milliseconds.
 
 E.g., The DB client creation for an H2 database will be as follows.
 ```ballerina
-jdbc:Client|sql:Error dbClient = new (url =  "jdbc:h2:~/path/to/database", 
-                             user = "root", password = "root",
-                             options = {
-                                datasourceName: "org.h2.jdbcx.JdbcDataSource", 
-                                properties: {"loginTimeout": "2000"}
-                             });                          
+jdbc:Client|sql:Error dbClient = new (
+   url =  "jdbc:h2:~/path/to/database", 
+   user = "root", password = "root",
+   options = {
+      datasourceName: "org.h2.jdbcx.JdbcDataSource", 
+      properties: {"loginTimeout": "2000"}
+   }
+);                          
 ```
 
 You can find more details about each property in the
@@ -103,9 +107,7 @@ connection pool handling.  For its properties and possible values, see the [`sql
 
    E.g., The DB client creation for an H2 database is as follows.
    ```ballerina
-    jdbc:Client|sql:Error dbClient = 
-                               new ("jdbc:h2:~/path/to/database", 
-                                "root", "root");
+    jdbc:Client|sql:Error dbClient = new ("jdbc:h2:~/path/to/database", "root", "root");
     ```
 
 2. Client owned, unsharable connection pool
@@ -116,9 +118,8 @@ connection pool handling.  For its properties and possible values, see the [`sql
 
    E.g., The DB client creation for an H2 database is as follows.
     ```ballerina
-    jdbc:Client|sql:Error dbClient = 
-                               new (url = "jdbc:h2:~/path/to/database", 
-                               connectionPool = { maxOpenConnections: 5 });
+    jdbc:Client|sql:Error dbClient = new (url = "jdbc:h2:~/path/to/database", 
+                                          connectionPool = { maxOpenConnections: 5 });
     ```
 
 3. Local, shareable connection pool
@@ -131,15 +132,9 @@ connection pool handling.  For its properties and possible values, see the [`sql
     ```ballerina
     sql:ConnectionPool connPool = {maxOpenConnections: 5};
     
-    jdbc:Client|sql:Error dbClient1 =       
-                               new (url = "jdbc:h2:~/path/to/database",
-                               connectionPool = connPool);
-    jdbc:Client|sql:Error dbClient2 = 
-                               new (url = "jdbc:h2:~/path/to/database",
-                               connectionPool = connPool);
-    jdbc:Client|sql:Error dbClient3 = 
-                               new (url = "jdbc:h2:~/path/to/database",
-                               connectionPool = connPool);
+    jdbc:Client|sql:Error dbClient1 = new (url = "jdbc:h2:~/path/to/database", connectionPool = connPool);
+    jdbc:Client|sql:Error dbClient2 = new (url = "jdbc:h2:~/path/to/database", connectionPool = connPool);
+    jdbc:Client|sql:Error dbClient3 = new (url = "jdbc:h2:~/path/to/database", connectionPool = connPool);
     ```
    
 #### Closing the Client
@@ -197,8 +192,7 @@ from the type of the Ballerina variable that is passed in.
 string name = "Anne";
 int age = 8;
 
-sql:ParameterizedQuery query = `INSERT INTO student(age, name)
-                                values (${age}, ${name})`;
+sql:ParameterizedQuery query = `INSERT INTO student(age, name) VALUES (${age}, ${name})`;
 sql:ExecutionResult result = check dbClient->execute(query);
 ```
 
@@ -210,8 +204,7 @@ provide more details such as the exact SQL type of the parameter.
 sql:VarcharValue name = new ("James");
 sql:IntegerValue age = new (10);
 
-sql:ParameterizedQuery query = `INSERT INTO student(age, name)
-                                values (${age}, ${name})`;
+sql:ParameterizedQuery query = `INSERT INTO student(age, name) VALUES (${age}, ${name})`;
 sql:ExecutionResult result = check dbClient->execute(query);
 ```
 
@@ -224,11 +217,12 @@ This sample demonstrates inserting data while returning the auto-generated keys.
 int age = 31;
 string name = "Kate";
 
-sql:ParameterizedQuery query = `INSERT INTO student(age, name)
-                                values (${age}, ${name})`;
+sql:ParameterizedQuery query = `INSERT INTO student(age, name) VALUES (${age}, ${name})`;
 sql:ExecutionResult result = check dbClient->execute(query);
+
 //Number of rows affected by the execution of the query.
 int? count = result.affectedRowCount;
+
 //The integer or string generated by the database in response to a query execution.
 string|int? generatedKey = result.lastInsertId;
 }
@@ -264,8 +258,7 @@ type Student record {
 // sub types of `sql:TypedValue` as well.
 int id = 10;
 int age = 12;
-sql:ParameterizedQuery query = `SELECT * FROM students
-                                WHERE id < ${id} AND age > ${age}`;
+sql:ParameterizedQuery query = `SELECT * FROM students WHERE id < ${id} AND age > ${age}`;
 stream<Student, sql:Error?> resultStream = dbClient->query(query);
 
 // Iterating the returned table.
@@ -284,8 +277,7 @@ type will be the same as how the column is defined in the database.
 // sub types of `sql:TypedValue` as well.
 int id = 10;
 int age = 12;
-sql:ParameterizedQuery query = `SELECT * FROM students
-                                WHERE id < ${id} AND age > ${age}`;
+sql:ParameterizedQuery query = `SELECT * FROM students WHERE id < ${id} AND age > ${age}`;
 stream<record{}, sql:Error?> resultStream = dbClient->query(query);
 
 // Iterating the returned table.
@@ -301,8 +293,7 @@ result stream will not be closed and you have to explicitly invoke the `close` o
 `sql:Client` to release the connection resources and avoid a connection leak as shown below.
 
 ```ballerina
-stream<record{}, sql:Error?> resultStream = 
-            dbClient->query(`SELECT count(*) as total FROM students`);
+stream<record{}, sql:Error?> resultStream = dbClient->query(`SELECT count(*) as total FROM students`);
 
 record {|record {} value;|}? result = check resultStream.next();
 
@@ -323,8 +314,7 @@ the client.
 
 ```ballerina
 int age = 23;
-sql:ParameterizedQuery query = `UPDATE students SET name = 'John' 
-                                WHERE age = ${age}`;
+sql:ParameterizedQuery query = `UPDATE students SET name = 'John' WHERE age = ${age}`;
 sql:ExecutionResult result = check dbClient->execute(query);
 ```
 
@@ -355,8 +345,7 @@ var data = [
 
 // Do the batch update by passing the batches.
 sql:ParameterizedQuery[] batch = from var row in data
-                                 select `INSERT INTO students ('name', 'age')
-                                 VALUES (${row.name}, ${row.age})`;
+                                 select `INSERT INTO students ('name', 'age') VALUES (${row.name}, ${row.age})`;
 sql:ExecutionResult[] result = check dbClient->batchExecute(batch);
 ```
 
@@ -369,18 +358,14 @@ This sample demonstrates how to execute a stored procedure with a single `INSERT
 int uid = 10;
 sql:IntegerOutParameter insertId = new;
 
-sql:ProcedureCallResult|sql:Error result = dbClient->call(`call InsertPerson(${uid}, ${insertId})`);
-if result is error {
-    //An error returned
-} else {
-    stream<record{}, sql:Error?>? resultStr = result.queryResult;
-    if resultStr is stream<record{}, sql:Error?> {
-        sql:Error? e = resultStr.forEach(function(record{} result) {
-        //can perform operations using 'result'.
-      });
-    }
-    check result.close();
+sql:ProcedureCallResult|sql:Error result = check dbClient->call(`call InsertPerson(${uid}, ${insertId})`);
+stream<record{}, sql:Error?>? resultStr = result.queryResult;
+   if resultStr is stream<record{}, sql:Error?> {
+   sql:Error? e = resultStr.forEach(function(record{} result) {
+      //can perform operations using 'result'.
+   });
 }
+check result.close();
 ```
 Note that you have to explicitly invoke the close operation on the `sql:ProcedureCallResult` to release the connection resources and avoid a connection leak as shown above.
 
