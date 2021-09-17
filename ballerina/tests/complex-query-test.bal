@@ -39,9 +39,9 @@ type SelectTestAlias record {
 
 function testGetPrimitiveTypes() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query(
-	"SELECT int_type, long_type, double_type,"
-        + "boolean_type, string_type from DataTable WHERE row_id = 1");
+    stream<record{}, error?> streamData = dbClient->query(`
+	    SELECT int_type, long_type, double_type, boolean_type, string_type from DataTable WHERE row_id = 1
+    `);
     record {|record {} value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     record {}? value = data?.value;
@@ -62,8 +62,9 @@ function testGetPrimitiveTypes() {
 }
 function testToJson() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query(
-	"SELECT int_type, long_type, double_type, boolean_type, string_type from DataTable WHERE row_id = 1");
+    stream<record{}, error?> streamData = dbClient->query(`
+	    SELECT int_type, long_type, double_type, boolean_type, string_type from DataTable WHERE row_id = 1
+	`);
     record {|record {} value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     record {}? value = data?.value;
@@ -90,8 +91,9 @@ function testToJson() {
 }
 function testGetPrimitiveTypesRecord() returns error? {
     Client dbClient = check new (url = complexQueryDb, user = user, password = password);
-    SelectTestAlias value = check dbClient->queryRow(
-	`SELECT int_type, long_type, double_type, boolean_type, string_type from DataTable WHERE row_id = 1`);
+    SelectTestAlias value = check dbClient->queryRow(`
+	    SELECT int_type, long_type, double_type, boolean_type, string_type from DataTable WHERE row_id = 1
+	`);
     check dbClient.close();
     SelectTestAlias expectedData = {
         INT_TYPE: 1,
@@ -109,8 +111,9 @@ function testGetPrimitiveTypesRecord() returns error? {
 }
 function testToJsonComplexTypes() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query("SELECT blob_type,clob_type,binary_type from" +
-        " ComplexTypes where row_id = 1");
+    stream<record{}, error?> streamData = dbClient->query(`
+        SELECT blob_type,clob_type,binary_type from ComplexTypes where row_id = 1
+    `);
     record {|record {} value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     record {}? value = data?.value;
@@ -129,8 +132,9 @@ function testToJsonComplexTypes() {
 }
 function testComplexTypesNil() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query("SELECT blob_type,clob_type,binary_type from " +
-        " ComplexTypes where row_id = 2");
+    stream<record{}, error?> streamData = dbClient->query(`
+        SELECT blob_type,clob_type,binary_type from ComplexTypes where row_id = 2
+    `);
     record {|record {} value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     record {}? value = data?.value;
@@ -148,9 +152,10 @@ function testComplexTypesNil() {
 }
 function testArrayRetrieval() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query("SELECT int_type, int_array, long_type, long_array, " +
-        "boolean_type, string_type, string_array, boolean_array " +
-        "from MixTypes where row_id =1");
+    stream<record{}, error?> streamData = dbClient->query(`
+        SELECT int_type, int_array, long_type, long_array, boolean_type, string_type, string_array, boolean_array
+        from MixTypes where row_id =1
+    `);
     record {|record {} value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     record {}? value = data?.value;
@@ -186,9 +191,10 @@ type TestTypeData record {
 }
 function testComplexWithStructDef() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query("SELECT int_type, int_array, long_type, long_array, "
-        + "boolean_type, string_type, boolean_array, string_array "
-        + "from MixTypes where row_id =1", TestTypeData);
+    stream<record{}, error?> streamData = dbClient->query(`
+        SELECT int_type, int_array, long_type, long_array, boolean_type, string_type, boolean_array, string_array
+        from MixTypes where row_id =1
+    `, TestTypeData);
     record {|record {} value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
     record {}? value = data?.value;
@@ -219,8 +225,8 @@ type ResultMap record {
 }
 function testMultipleRecoredRetrieval() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query("SELECT int_array, long_array, boolean_array," +
-        "string_array from ArrayTypes", ResultMap);
+    stream<record{}, error?> streamData = dbClient->query(`
+        SELECT int_array, long_array, boolean_array, string_array from ArrayTypes`, ResultMap);
 
     ResultMap mixTypesExpected = {
         INT_ARRAY: [1, 2, 3],
@@ -258,11 +264,13 @@ type ResultDates record {
 }
 function testDateTime() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    string insertQuery = string `Insert into DateTimeTypes (row_id, date_type, time_type, timestamp_type, datetime_type)
-     values (1,'2017-05-23','14:15:23','2017-01-25 16:33:55','2017-01-25 16:33:55')`;
+    sql:ParameterizedQuery insertQuery = `
+        Insert into DateTimeTypes (row_id, date_type, time_type, timestamp_type, datetime_type)
+        values (1,'2017-05-23','14:15:23','2017-01-25 16:33:55','2017-01-25 16:33:55')
+    `;
     sql:ExecutionResult? result = checkpanic dbClient->execute(insertQuery);
-    stream<record{}, error?> queryResult = dbClient->query("SELECT date_type, time_type, timestamp_type, datetime_type"
-       + " from DateTimeTypes where row_id = 1", ResultDates);
+    stream<record{}, error?> queryResult = dbClient->query(`
+        SELECT date_type, time_type, timestamp_type, datetime_type from DateTimeTypes where row_id = 1`, ResultDates);
     record{| record{} value; |}? data =  checkpanic queryResult.next();
     record{}? value = data?.value;
     checkpanic dbClient.close();
@@ -295,9 +303,11 @@ type ResultSetTestAlias record {
 }
 function testColumnAlias() {
     Client dbClient = checkpanic new (url = complexQueryDb, user = user, password = password);
-    stream<record{}, error?> queryResult = dbClient->query("SELECT dt1.int_type, dt1.long_type, dt1.float_type," +
-           "dt1.double_type,dt1.boolean_type, dt1.string_type,dt2.int_type as dt2int_type from DataTable dt1 " +
-           "left join DataTableRep dt2 on dt1.row_id = dt2.row_id WHERE dt1.row_id = 1;", ResultSetTestAlias);
+    stream<record{}, error?> queryResult = dbClient->query(`
+        SELECT dt1.int_type, dt1.long_type, dt1.float_type, dt1.double_type, dt1.boolean_type, dt1.string_type, dt2.int_type
+        as dt2int_type from DataTable dt1 left join DataTableRep dt2 on dt1.row_id = dt2.row_id
+        WHERE dt1.row_id = 1;
+    `, ResultSetTestAlias);
     ResultSetTestAlias expectedData = {
         INT_TYPE: 1,
         LONG_TYPE: 9223372036854774807,

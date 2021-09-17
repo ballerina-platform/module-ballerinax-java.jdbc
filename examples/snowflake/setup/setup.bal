@@ -52,7 +52,7 @@ public function main() returns error? {
 
 function init() returns error? {
     // Create database
-    sql:ExecutionResult res = check dbClient->execute("CREATE OR REPLACE DATABASE CompanyDB");
+    sql:ExecutionResult res = check dbClient->execute(`CREATE OR REPLACE DATABASE CompanyDB`);
 
     // Create warehouse
     _ = check dbClient->execute(`
@@ -64,7 +64,7 @@ function init() returns error? {
     `);
 
     // Create table
-    _ = check dbClient->execute("USE CompanyDB.PUBLIC");
+    _ = check dbClient->execute(`USE CompanyDB.PUBLIC`);
     _ = check dbClient->execute(`
         CREATE OR REPLACE TABLE Employees (
             first_name STRING,
