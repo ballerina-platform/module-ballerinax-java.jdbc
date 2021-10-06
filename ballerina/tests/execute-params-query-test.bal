@@ -156,7 +156,7 @@ function deleteDataTable3() returns error? {
     groups: ["execute", "execute-params"]
 }
 function insertIntoComplexTable() returns error? {
-    record {}? value = queryJDBCClient("Select * from ComplexTypes where row_id = 1");
+    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BLOB_TYPE");
     int rowId = 5;
     string stringType = "very long text";
@@ -204,7 +204,7 @@ function insertIntoComplexTable3() returns error? {
     dependsOn: [insertIntoComplexTable3]
 }
 function deleteComplexTable() returns error? {
-    record {}|error? value = queryJDBCClient("Select * from ComplexTypes where row_id = 1");
+    record {}|error? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BLOB_TYPE");
 
     int rowId = 2;
@@ -362,7 +362,7 @@ function insertIntoArrayTable() returns error? {
     string[] paraString = ["Hello", "Ballerina"];
     boolean[] paraBool = [true, false, true];
 
-    record {}? value = queryJDBCClient("Select * from ComplexTypes where row_id = 1");
+    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[][] dataBlob = [<byte[]>getUntaintedData(value, "BLOB_TYPE")];
 
     sql:ArrayValue paraBlob = new (dataBlob);
@@ -448,7 +448,7 @@ function insertIntoArrayTable3() returns error? {
     sql:BinaryArrayValue paraBinary = new ([byteArray1, byteArray2]);
     sql:VarBinaryArrayValue paraVarBinary = new ([byteArray1, byteArray2]);
     io:ReadableByteChannel byteChannel = getByteColumnChannel();
-    record {}? value = queryJDBCClient("Select * from ComplexTypes where row_id = 1");
+    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[][] paraBlob = [<byte[]>getUntaintedData(value, "BLOB_TYPE")];
     int rowId = 7;
 
@@ -665,7 +665,7 @@ function executeQueryJDBCClient(sql:ParameterizedQuery sqlQuery) returns sql:Exe
     return result;
 }
 
-function queryJDBCClient(string|sql:ParameterizedQuery sqlQuery) returns record {}? {
+function queryJDBCClient(sql:ParameterizedQuery sqlQuery) returns record {}? {
     Client dbClient = checkpanic new (url = executeParamsDb, user = user, password = password);
     stream<record{}, error?> streamData = dbClient->query(sqlQuery);
     record {|record {} value;|}? data = checkpanic streamData.next();

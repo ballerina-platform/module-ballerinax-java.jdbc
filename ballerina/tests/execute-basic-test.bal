@@ -186,7 +186,7 @@ function testInsertAndSelectTableWithGeneratedKeys() {
 
     string|int? insertedId = result.lastInsertId;
     if (insertedId is int) {
-        string query = string `SELECT * from NumericTypes where id = ${insertedId}`;
+        sql:ParameterizedQuery query = `SELECT * from NumericTypes where id = ${insertedId}`;
         stream<NumericType, sql:Error?> streamData = dbClient->query(query);
 
         record {|NumericType value;|}? data = checkpanic streamData.next();
@@ -213,7 +213,7 @@ function testInsertWithAllNilAndSelectTableWithGeneratedKeys() {
 
     string|int? insertedId = result.lastInsertId;
     if (insertedId is int) {
-        string query = string `SELECT * from NumericTypes where id = ${insertedId}`;
+        sql:ParameterizedQuery query = `SELECT * from NumericTypes where id = ${insertedId}`;
         stream<NumericType, sql:Error?> streamData = dbClient->query(query);
 
         record {|NumericType value;|}? data = checkpanic streamData.next();
@@ -253,7 +253,7 @@ function testInsertWithStringAndSelectTable() {
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
 
     StringData? insertedData = ();
-    string query = string `SELECT * from StringTypes where id = ${intIDVal}`;
+    sql:ParameterizedQuery query = `SELECT * from StringTypes where id = ${intIDVal}`;
     stream<StringData, sql:Error?> streamData = dbClient->query(query);
     record {|StringData value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
@@ -289,7 +289,7 @@ function testInsertWithEmptyStringAndSelectTable() {
     sql:ExecutionResult result = checkpanic dbClient->execute(insertQuery);
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
 
-    string query = string `SELECT * from StringTypes where id = ${intIDVal}`;
+    sql:ParameterizedQuery query = `SELECT * from StringTypes where id = ${intIDVal}`;
     stream<StringData, sql:Error?> streamData = dbClient->query(query);
     record {|StringData value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
@@ -338,7 +338,7 @@ function testInsertWithNilStringAndSelectTable() {
     sql:ExecutionResult result = checkpanic dbClient->execute(insertQuery);
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
 
-    string query = string `SELECT * from StringTypes where id = ${intIDVal}`;
+    sql:ParameterizedQuery query = `SELECT * from StringTypes where id = ${intIDVal}`;
     stream<StringNilData, sql:Error?> streamData = dbClient->query(query);
     record {|StringNilData value;|}? data = checkpanic streamData.next();
     checkpanic streamData.close();
