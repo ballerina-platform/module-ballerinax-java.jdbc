@@ -58,6 +58,7 @@ function testXATransactionSuccess() returns error? {
 
     check dbClient1.close();
     check dbClient2.close();
+    return;
 }
 
 @test:Config {
@@ -84,6 +85,7 @@ function testXATransactionSuccessWithDataSource() returns error? {
 
     check dbClient1.close();
     check dbClient2.close();
+    return;
 }
 
 isolated function getCustomerCount(Client dbClient, string id) returns int|error{

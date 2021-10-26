@@ -55,6 +55,7 @@ function testGetPrimitiveTypes() returns error? {
         STRING_TYPE: "Hello"
     };
     test:assertEquals(value, expectedData, "Expected data did not match.");
+    return;
 }
 
 @test:Config {
@@ -80,6 +81,7 @@ function testToJson() returns error? {
     test:assertEquals(retVal, expectedDataJson, "Expected JSON did not match.");
 
     check dbClient.close();
+    return;
 }
 
 @test:Config {
@@ -99,6 +101,7 @@ function testGetPrimitiveTypesRecord() returns error? {
         STRING_TYPE: "Hello"
     };
     test:assertEquals(value, expectedData, "Expected data did not match.");
+    return;
 }
 
 @test:Config {
@@ -119,7 +122,8 @@ function testToJsonComplexTypes() returns error? {
         CLOB_TYPE: "very long text",
         BINARY_TYPE: "wso2 ballerina binary test.".toBytes()
     };
-    test:assertEquals(value, complexStringType, "Expected record did not match."); 
+    test:assertEquals(value, complexStringType, "Expected record did not match.");
+    return;
 }
 
 @test:Config {
@@ -140,6 +144,7 @@ function testComplexTypesNil() returns error? {
         BINARY_TYPE: ()
     };
     test:assertEquals(value, complexStringType, "Expected record did not match.");
+    return;
 }
 
 @test:Config {
@@ -168,6 +173,7 @@ function testArrayRetrieval() returns error? {
         BOOLEAN_ARRAY: [true, false, true]
     };
     test:assertEquals(value, mixTypesExpected, "Expected record did not match.");
+    return;
 }
 
 type TestTypeData record {
@@ -206,6 +212,7 @@ function testComplexWithStructDef() returns error? {
     };
     
     test:assertEquals(value, mixTypesExpected, "Expected record did not match.");
+    return;
 }
 
 type ResultMap record {
@@ -244,7 +251,7 @@ function testMultipleRecoredRetrieval() returns error? {
     test:assertEquals(mixTypesActual, mixTypesExpected, "Expected record did not match.");
     test:assertEquals(counter, 4);
     check dbClient.close();
-
+    return;
 }
 
 type ResultDates record {
@@ -280,7 +287,8 @@ function testDateTime() returns error? {
         TIMESTAMP_TYPE: insertedTimeString,
         DATETIME_TYPE: insertedTimeString
     };
-    test:assertEquals(value, expected, "Expected record did not match."); 
+    test:assertEquals(value, expected, "Expected record did not match.");
+    return;
 }
 
 type ResultSetTestAlias record {
@@ -326,4 +334,5 @@ function testColumnAlias() returns error? {
     }
     test:assertEquals(counter, 1, "Expected only one data row."); 
     check dbClient.close();
+    return;
 }

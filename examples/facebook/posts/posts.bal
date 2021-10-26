@@ -43,34 +43,34 @@ public type PostInfo record {
     string MessageTags;
 };
 
-jdbc:Client dbClient = check new (jdbcFBUrl, options = options);
+final jdbc:Client dbClient = check new (jdbcFBUrl, options = options);
 
 listener http:Listener fbListener = new (9092);
 
 service /facebook on fbListener {
 
     resource function get posts() returns string[]|error {
-        string[] postIds = [];
+        final string[] postIds = [];
         stream<record {}, error?> resultStream = dbClient->query(`SELECT * FROM Posts`);
-        _ = check resultStream.forEach(function(record {} result) {
+        check resultStream.forEach(function(record {} result) {
             postIds.push(<string>result["ID"]);
         });
         return postIds;
     }
 
-    resource function get posts/[string id]() returns record{}?|error {
+    isolated resource function get posts/[string id]() returns record{}?|error {
         string[] postIds = [];
         stream<PostInfo, error?> resultStream = dbClient->query(`SELECT * FROM Posts WHERE ID = ${id}`);
         return check resultStream.next();
     }
 
-    resource function post posts(@http:Payload string msg) returns string|error {
+    isolated resource function post posts(@http:Payload string msg) returns string|error {
         sql:ParameterizedQuery query = `INSERT INTO Posts (message) VALUES (${msg})`;
         sql:ExecutionResult result = check dbClient->execute(query);
         return result.lastInsertId.toString();
     }
 
-    resource function delete posts/[string id]() returns string|error {
+    isolated resource function delete posts/[string id]() returns string|error {
         sql:ParameterizedQuery query = `DELETE FROM Posts WHERE ID = ${id}`;
         _ = check dbClient->execute(query);
         return "Post deleted successfully";

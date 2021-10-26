@@ -36,6 +36,7 @@ function testCreateTable() returns error? {
     check dbClient.close();
     test:assertExactEquals(result.affectedRowCount, 0, "Affected row count is different.");
     test:assertExactEquals(result.lastInsertId, (), "Last Insert Id is not nil.");
+    return;
 }
 
 @test:Config {
@@ -54,6 +55,7 @@ function testInsertTable() returns error? {
     } else {
         test:assertFail("Insert Id should be an integer.");
     }
+    return;
 }
 
 @test:Config {
@@ -75,6 +77,7 @@ function testInsertTableWithRequestGeneratedKeysAll() returns error? {
     } else {
         test:assertFail("Insert Id should be an integer.");
     }
+    return;
 }
 
 @test:Config {
@@ -96,6 +99,7 @@ function testInsertTableWithRequestGeneratedKeysExecute() returns error? {
     } else {
         test:assertFail("Insert Id should be an integer.");
     }
+    return;
 }
 
 @test:Config {
@@ -112,6 +116,7 @@ function testInsertTableWithRequestGeneratedKeysBatchExecute() returns error? {
 
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
     test:assertEquals(result.lastInsertId, ());
+    return;
 }
 
 @test:Config {
@@ -128,6 +133,7 @@ function testInsertTableWithRequestGeneratedKeysNone() returns error? {
 
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
     test:assertEquals(result.lastInsertId, ());
+    return;
 }
 
 @test:Config {
@@ -142,6 +148,7 @@ function testInsertTableWithoutGeneratedKeys() returns error? {
     check dbClient.close();
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
     test:assertEquals(result.lastInsertId, (), "Last Insert Id is nil.");
+    return;
 }
 
 @test:Config {
@@ -159,6 +166,7 @@ function testInsertTableWithGeneratedKeys() returns error? {
     } else {
         test:assertFail("Insert Id should be an integer.");
     }
+    return;
 }
 
 type NumericType record {
@@ -196,6 +204,7 @@ function testInsertAndSelectTableWithGeneratedKeys() returns error? {
         test:assertFail("Insert Id should be an integer.");
     }
     check dbClient.close();
+    return;
 }
 
 @test:Config {
@@ -222,6 +231,7 @@ function testInsertWithAllNilAndSelectTableWithGeneratedKeys() returns error? {
     } else {
         test:assertFail("Insert Id should be an integer.");
     }
+    return;
 }
 
 type StringData record {
@@ -272,6 +282,7 @@ function testInsertWithStringAndSelectTable() returns error? {
     test:assertEquals(data?.value, expectedInsertRow, "Incorrect InsetId returned.");
 
     check dbClient.close();
+    return;
 }
 
 @test:Config {
@@ -308,6 +319,7 @@ function testInsertWithEmptyStringAndSelectTable() returns error? {
     test:assertEquals(data?.value, expectedInsertRow, "Incorrect InsetId returned.");
 
     check dbClient.close();
+    return;
 }
 
 type StringNilData record {
@@ -356,6 +368,7 @@ function testInsertWithNilStringAndSelectTable() returns error? {
     };
     test:assertEquals(data?.value, expectedInsertRow, "Incorrect InsetId returned.");
     check dbClient.close();
+    return;
 }
 
 @test:Config {
@@ -378,6 +391,7 @@ function testInsertTableWithDatabaseError() returns error? {
     }
 
     check dbClient.close();
+    return;
 }
 
 @test:Config {
@@ -401,6 +415,7 @@ function testInsertTableWithDataTypeError() returns error? {
     }
 
     check dbClient.close();
+    return;
 }
 
 type ResultCount record {
@@ -424,4 +439,5 @@ function testUpdateData() returns error? {
     test:assertEquals(data?.value?.countVal, 1, "Update command was not successful.");
 
     check dbClient.close();
+    return;
 }

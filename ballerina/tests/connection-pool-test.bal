@@ -42,6 +42,7 @@ Options options = {
 }
 function testGlobalConnectionPoolSingleDestination() returns error? {
     check drainGlobalPool(poolDB_1);
+    return;
 }
 
 @test:Config {
@@ -50,6 +51,7 @@ function testGlobalConnectionPoolSingleDestination() returns error? {
 function testGlobalConnectionPoolsMultipleDestinations() returns error? {
     check drainGlobalPool(poolDB_1);
     check drainGlobalPool(poolDB_2);
+    return;
 }
 
 @test:Config {
@@ -107,6 +109,7 @@ function testGlobalConnectionPoolSingleDestinationConcurrent() returns error? {
         i = i + 1;
     }
     validateConnectionTimeoutError((check result2)[2]);
+    return;
 }
 
 @test:Config {
@@ -151,6 +154,7 @@ function testLocalSharedConnectionPoolConfigSingleDestination() returns error? {
         i = i + 1;
     }
     validateConnectionTimeoutError(returnArray[5]);
+    return;
 }
 
 @test:Config {
@@ -206,7 +210,8 @@ function testLocalSharedConnectionPoolConfigDifferentDbOptions() returns error? 
     }
     validateConnectionTimeoutError(returnArray[3]);
     validateConnectionTimeoutError(returnArray[7]);
-    
+
+    return;
 }
 
 @test:Config {
@@ -256,6 +261,8 @@ function testLocalSharedConnectionPoolConfigMultipleDestinations() returns error
     }
     validateConnectionTimeoutError(returnArray[3]);
     validateConnectionTimeoutError(returnArray[7]);
+
+    return;
 }
 
 @test:Config {
@@ -292,6 +299,8 @@ function testLocalSharedConnectionPoolCreateClientAfterShutdown() returns error?
     test:assertEquals(result2, 1);
     validateApplicationError(result3);
     test:assertEquals(result4, 1);
+
+    return;
 }
 
 @test:Config {
@@ -302,6 +311,7 @@ function testLocalSharedConnectionPoolStopInitInterleave() returns error? {
 
     worker w1 returns error? {
         check testLocalSharedConnectionPoolStopInitInterleaveHelper1(pool, poolDB_1);
+        return;
     }
     worker w2 returns int|error {
         return testLocalSharedConnectionPoolStopInitInterleaveHelper2(pool, poolDB_1);
@@ -310,6 +320,8 @@ function testLocalSharedConnectionPoolStopInitInterleave() returns error? {
     check wait w1;
     int|error result = wait w2;
     test:assertEquals(result, 1);
+
+    return;
 }
 
 function testLocalSharedConnectionPoolStopInitInterleaveHelper1(sql:ConnectionPool pool, string jdbcUrl)
@@ -317,6 +329,7 @@ returns error? {
     Client dbClient = check new (jdbcUrl, user, password, options, pool);
     runtime:sleep(1);
     check dbClient.close();
+    return;
 }
 
 function testLocalSharedConnectionPoolStopInitInterleaveHelper2(sql:ConnectionPool pool, string jdbcUrl)
@@ -347,6 +360,7 @@ function testShutDownUnsharedLocalConnectionPool() returns error? {
 
     test:assertEquals(retVal1, 1);
     validateApplicationError(retVal2);
+    return;
 }
 
 @test:Config {
@@ -386,6 +400,7 @@ function testShutDownSharedConnectionPool() returns error? {
     test:assertEquals(retVal3, 1);
     validateApplicationError(retVal4);
     validateApplicationError(retVal5);
+    return;
 }
 
 @test:Config {
@@ -419,6 +434,7 @@ function testShutDownPoolCorrespondingToASharedPoolConfig() returns error? {
     test:assertEquals(retVal2, 1);
     test:assertEquals(retVal3, 1);
     validateApplicationError(retVal4);
+    return;
 }
 
 @test:Config {
@@ -440,6 +456,7 @@ function testStopClientUsingGlobalPool() returns error? {
 
     test:assertEquals(retVal1, 1);
     validateApplicationError(retVal2);
+    return;
 }
 
 @test:Config {
@@ -565,6 +582,7 @@ function drainGlobalPool(string jdbcUrl) returns error? {
         i = i + 1;
     }
     validateConnectionTimeoutError(returnArray[10]);
+    return;
 }
 
 isolated function getReturnValue(stream<record{}, error?> queryResult) returns int|error {

@@ -35,6 +35,7 @@ function querySingleIntParam() returns error? {
     int rowId = 1;
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE row_id = ${rowId}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -45,6 +46,7 @@ function queryDoubleIntParam() returns error? {
     int intType = 1;
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE row_id = ${rowId} AND int_type =  ${intType}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -55,6 +57,7 @@ function queryIntAndLongParam() returns error? {
     int longType = 9223372036854774807;
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE row_id = ${rowId} AND long_type = ${longType}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -64,6 +67,7 @@ function queryStringParam() returns error? {
     string stringType = "Hello";
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${stringType}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -74,6 +78,7 @@ function queryIntAndStringParam() returns error? {
     int rowId =1;
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${stringType} AND row_id = ${rowId}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -83,6 +88,7 @@ function queryDoubleParam() returns error? {
     float doubleType = 2139095039.0;
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE double_type = ${doubleType}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -92,6 +98,7 @@ function queryFloatParam() returns error? {
     float floatType = 123.34;
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE float_type = ${floatType}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -103,6 +110,7 @@ function queryDoubleAndFloatParam() returns error? {
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE float_type = ${floatType}
                                                                     and double_type = ${doubleType}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -112,6 +120,7 @@ function queryDecimalParam() returns error? {
     decimal decimalValue = 23.45;
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE decimal_type = ${decimalValue}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -122,6 +131,7 @@ function queryDecimalAnFloatParam() returns error? {
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE decimal_type = ${decimalValue}
                                                                     and double_type = 2139095039.0`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -131,6 +141,7 @@ function queryTypeVarcharStringParam() returns error? {
     sql:VarcharValue typeVal = new ("Hello");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${typeVal}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -140,6 +151,7 @@ function queryTypeCharStringParam() returns error? {
     sql:CharValue typeVal = new ("Hello");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${typeVal}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -149,6 +161,7 @@ function queryTypeNCharStringParam() returns error? {
     sql:NCharValue typeVal = new ("Hello");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${typeVal}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -158,6 +171,7 @@ function queryTypeNVarCharStringParam() returns error? {
     sql:NVarcharValue typeVal = new ("Hello");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE string_type = ${typeVal}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -183,6 +197,7 @@ function queryTypeVarCharIntegerParam() returns error? {
         test:assertTrue(returnData["FLOAT_TYPE"] is float);
         test:assertEquals(returnData["ROW_ID"], 3);
     }
+    return;
 }
 
 @test:Config {
@@ -192,6 +207,7 @@ function queryTypBooleanBooleanParam() returns error? {
     sql:BooleanValue typeVal = new (true);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE boolean_type = ${typeVal}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -201,6 +217,7 @@ function queryTypBitIntParam() returns error? {
     sql:BitValue typeVal = new (1);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE boolean_type = ${typeVal}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -210,6 +227,7 @@ function queryTypBitStringParam() returns error? {
     sql:BitValue typeVal = new (true);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DataTable WHERE boolean_type = ${typeVal}`;
     validateDataTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -222,6 +240,7 @@ function queryTypBitInvalidIntParam() {
     test:assertTrue(returnVal is error);
     error dbError = <error> returnVal;
     test:assertEquals(dbError.message(), "Only 1 or 0 can be passed for BitValue SQL Type, but found :12");
+    return;
 }
 
 @test:Config {
@@ -237,6 +256,7 @@ function queryRowWitoutReturntype() returns sql:Error? {
     int count = check dbClient->queryRow(sqlQuery2);
     check dbClient.close();
     test:assertEquals(count, 3);
+    return;
 }
 
 @test:Config {
@@ -246,6 +266,7 @@ function queryTypeIntIntParam() returns error? {
     sql:IntegerValue typeVal = new (2147483647);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE int_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -255,6 +276,7 @@ function queryTypeTinyIntIntParam() returns error? {
     sql:SmallIntValue typeVal = new (127);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE tinyint_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -264,6 +286,7 @@ function queryTypeSmallIntIntParam() returns error? {
     sql:SmallIntValue typeVal = new (32767);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE smallint_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -273,6 +296,7 @@ function queryTypeBigIntIntParam() returns error? {
     sql:BigIntValue typeVal = new (9223372036854774807);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE bigint_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -282,6 +306,7 @@ function queryTypeDoubleDoubleParam() returns error? {
     sql:DoubleValue typeVal = new (1234.567);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE float_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -299,6 +324,7 @@ function queryTypeDoubleIntParam() returns error? {
         test:assertEquals(returnData["ID"], 2);
         test:assertEquals(returnData["REAL_TYPE"], 1234.0);
     }
+    return;
 
 }
 
@@ -310,6 +336,7 @@ function queryTypeDoubleDecimalParam() returns error? {
     sql:DoubleValue typeVal = new (decimalVal);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE float_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -319,6 +346,7 @@ function queryTypeFloatDoubleParam() returns error? {
     sql:DoubleValue typeVal = new (1234.567);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE float_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -329,6 +357,7 @@ function queryTypeRealDoubleParam() returns error? {
     sql:RealValue typeVal = new (1234.567);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE real_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -338,6 +367,7 @@ function queryTypeNumericDoubleParam() returns error? {
     sql:NumericValue typeVal = new (1234.567);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE numeric_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -355,6 +385,7 @@ function queryTypeNumericIntParam() returns error? {
         test:assertEquals(returnData["ID"], 2);
         test:assertEquals(returnData["REAL_TYPE"], 1234.0);
     }
+    return;
 }
 
 @test:Config {
@@ -365,6 +396,7 @@ function queryTypeNumericDecimalParam() returns error? {
     sql:NumericValue typeVal = new (decimalVal);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE numeric_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -374,6 +406,7 @@ function queryTypeDecimalDoubleParam() returns error? {
     sql:DecimalValue typeVal = new (1234.567);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE decimal_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -384,6 +417,7 @@ function queryTypeDecimalDecimalParam() returns error? {
     sql:DecimalValue typeVal = new (decimalVal);
     sql:ParameterizedQuery sqlQuery = `SELECT * from NumericTypes WHERE decimal_type = ${typeVal}`;
     validateNumericTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 
@@ -395,6 +429,7 @@ function queryByteArrayParam() returns error? {
     byte[] binaryData = <byte[]>getUntaintedData(value, "BINARY_TYPE");
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE binary_type = ${binaryData}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -406,6 +441,7 @@ function queryTypeBinaryByteParam() returns error? {
     sql:BinaryValue typeVal = new (binaryData);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE binary_type = ${typeVal}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -416,6 +452,7 @@ function queryTypeBinaryReadableByteChannelParam() returns error? {
     sql:BinaryValue typeVal = new (byteChannel);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE binary_type = ${typeVal}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -426,6 +463,7 @@ function queryTypeVarBinaryReadableByteChannelParam() returns error? {
     sql:VarBinaryValue typeVal = new (byteChannel);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE var_binary_type = ${typeVal}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -437,6 +475,7 @@ function queryTypeTinyBlobByteParam() returns error? {
     sql:BinaryValue typeVal = new (binaryData);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE blob_type = ${typeVal}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -447,6 +486,7 @@ function queryTypeBlobReadableByteChannelParam() returns error? {
     sql:BlobValue typeVal = new (byteChannel);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE blob_type = ${typeVal}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -456,6 +496,7 @@ function queryTypeClobStringParam() returns error? {
     sql:ClobValue typeVal = new ("very long text");
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE clob_type = ${typeVal}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -466,6 +507,7 @@ function queryTypeClobReadableCharChannelParam() returns error? {
     sql:ClobValue typeVal = new (clobChannel);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE clob_type = ${typeVal}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -476,6 +518,7 @@ function queryTypeNClobReadableCharChannelParam() returns error? {
     sql:NClobValue typeVal = new (clobChannel);
     sql:ParameterizedQuery sqlQuery = `SELECT * from ComplexTypes WHERE clob_type = ${typeVal}`;
     validateComplexTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -485,6 +528,7 @@ function queryDateStringParam() returns error? {
     sql:DateValue typeVal = new ("2017-02-03");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE date_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -494,6 +538,7 @@ function queryDateString2Param() returns error? {
     sql:DateValue typeVal = new ("2017-2-3");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE date_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -511,6 +556,7 @@ function queryDateStringInvalidParam() {
     } else {
         test:assertFail("ApplicationError Error expected.");
     }
+    return;
 }
 
 @test:Config {
@@ -521,6 +567,7 @@ function queryDateTimeRecordParam() returns error? {
     sql:DateValue typeVal = new (date);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE date_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 //@test:Config {
@@ -531,6 +578,7 @@ function queryDateTimeRecordParam() returns error? {
 //    sql:DateValue typeVal = new (date);
 //    sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE date_type = ${typeVal}`;
 //    validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+//    return;
 //}
 
 @test:Config {
@@ -540,6 +588,7 @@ function queryTimeStringParam() returns error? {
     sql:TimeValue typeVal = new ("11:35:45");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE time_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -556,7 +605,8 @@ function queryTimeStringInvalidParam() {
         "WHERE time_type =  ? . Cannot parse \"TIME\" constant \"11-35-45\""));
     } else {
         test:assertFail("DatabaseError Error expected.");
-    }}
+    }
+}
 
 @test:Config {
     groups: ["query","query-simple-params"]
@@ -566,6 +616,7 @@ function queryTimeTimeRecordParam() returns error? {
     sql:TimeValue typeVal = new (date);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE time_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 //@test:Config {
@@ -576,6 +627,7 @@ function queryTimeTimeRecordParam() returns error? {
 //    sql:TimeValue typeVal = new (date);
 //    sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE time_type = ${typeVal}`;
 //    validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+//    return;
 //}
 
 @test:Config {
@@ -585,6 +637,7 @@ function queryTimestampStringParam() returns error? {
     sql:TimestampValue typeVal = new ("2017-02-03 11:53:00");
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE timestamp_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -601,7 +654,8 @@ function queryTimestampStringInvalidParam() {
         " WHERE timestamp_type =  ? . Cannot parse \"TIMESTAMP\" constant \"2017/02/03 11:53:00\""));
     } else {
         test:assertFail("DatabaseError Error expected.");
-    }}
+    }
+}
 
 @test:Config {
     groups: ["query","query-simple-params"]
@@ -611,6 +665,7 @@ function queryTimestampTimeRecordParam() returns error? {
     sql:TimestampValue typeVal = new (date);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE timestamp_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -621,6 +676,7 @@ function queryTimestampTimeRecordWithTimeZoneParam() returns error? {
     sql:TimestampValue typeVal = new (date);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE timestamp_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -631,6 +687,7 @@ function queryDateTimeTimeRecordWithTimeZoneParam() returns error? {
     sql:DateTimeValue typeVal = new (date);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE datetime_type = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -642,6 +699,7 @@ function queryTimestampTimeRecordWithTimeZone2Param() returns error? {
     sql:TimestampValue typeVal = new (date);
     sql:ParameterizedQuery sqlQuery = `SELECT * from DateTimeTypes WHERE timestamp_type2 = ${typeVal}`;
     validateDateTimeTypesTableResult(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -683,6 +741,7 @@ function queryArrayBasicParams() returns error? {
     } else {
         test:assertFail("Empty row returned.");
     }
+    return;
 }
 
 @test:Config {
@@ -707,6 +766,7 @@ function queryArrayBasicNullParams() returns error? {
     } else {
         test:assertFail("Empty row returned.");
     }
+    return;
 }
 
 type UUIDResult record {|
@@ -733,6 +793,7 @@ function queryUUIDParam() returns error? {
     } else {
         test:assertFail("Querying UUID data was failure.");
     }
+    return;
 }
 
 @test:Config {
@@ -742,6 +803,7 @@ function queryEnumStringParam() returns error? {
     string enumVal = "doctor";
     sql:ParameterizedQuery sqlQuery = `SELECT * from ENUMTable where enum_type= ${enumVal}`;
     validateEnumTable(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 type EnumResult record {|
@@ -756,6 +818,7 @@ function queryEnumStringParam2() returns error? {
     string enumVal = "doctor";
     sql:ParameterizedQuery sqlQuery = `SELECT * from ENUMTable where enum_type= ${enumVal}`;
     validateEnumTable(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -764,6 +827,7 @@ function queryEnumStringParam2() returns error? {
 function queryGeoParam() returns error? {
     sql:ParameterizedQuery sqlQuery = `SELECT * from GEOTable`;
     validateGeoTable(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -773,6 +837,7 @@ function queryGeoParam2() returns error? {
     string geoParam = "POINT (7 52)";
     sql:ParameterizedQuery sqlQuery = `SELECT * from GEOTable where geom = ${geoParam}`;
     validateGeoTable(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 @test:Config {
@@ -782,6 +847,7 @@ function queryGeoParam2() returns error? {
 function queryJsonParam() returns error? {
     sql:ParameterizedQuery sqlQuery = `SELECT * from JsonTable`;
     validateJsonTable(check queryJdbcClient(sqlQuery));
+    return;
 }
 
 type JsonResult record {|
@@ -809,6 +875,7 @@ function queryJsonParam2() returns error? {
         };
         test:assertEquals(returnData, expectedData);
     }
+    return;
 }
 
 @test:Config {
@@ -837,6 +904,7 @@ function queryJsonParam3() returns error? {
         };
         test:assertEquals(returnData, expectedData);
     }
+    return;
 }
 
 @test:Config {
@@ -851,6 +919,7 @@ function queryIntervalParam() returns error? {
         test:assertEquals(returnData["ID"], 1);
         test:assertEquals(returnData["INTERVAL_TYPE"], "INTERVAL '2:00' HOUR TO MINUTE");
     }
+    return;
 }
 
 function queryJdbcClient(sql:ParameterizedQuery sqlQuery, typedesc<record {}>? resultType = ()) returns record {}|error? {

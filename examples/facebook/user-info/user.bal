@@ -41,5 +41,6 @@ jdbc:Client dbClient = check new (jdbcFBUrl, fbUserName, fbPassword, options = o
 public function main () returns error? {
     stream<User, error?> resultStream = dbClient->query(`SELECT * FROM Users`);
     io:println("User Info: ", check resultStream.next());
-    _ = check resultStream.close();
+    check resultStream.close();
+    return;
 }
