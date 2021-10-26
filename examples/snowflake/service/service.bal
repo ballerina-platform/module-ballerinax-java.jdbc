@@ -23,7 +23,7 @@ configurable string jdbcUrlSF = ?;
 configurable string dbUsernameSF = ?;
 configurable string dbPasswordSF = ?;
 
-type Employee record {| 
+type Employee record {|
     string first_name;
     string last_name;
     string email;
@@ -41,12 +41,12 @@ type EmployeeNotFound record {|
 |};
 
 jdbc:Options options = {
-   properties: {
-       db: "CompanyDB",
-       schema: "PUBLIC",
-       warehouse: "TestWarehouse"
-   },
-   requestGeneratedKeys: jdbc:NONE
+    properties: {
+        db: "CompanyDB",
+        schema: "PUBLIC",
+        warehouse: "TestWarehouse"
+    },
+    requestGeneratedKeys: jdbc:NONE
 };
 final jdbc:Client dbClient = check new (jdbcUrlSF, dbUsernameSF, dbPasswordSF, options = options);
 
@@ -69,7 +69,7 @@ service /employee on new http:Listener(9090) {
                     ${employee.address}, ${employee?.joined_date}, ${employee.salary});
         `);
         return {
-            body: {status: "New employee " + employee.email + " created."}     
+            body: {status: "New employee " + employee.email + " created."}
         };
     }
 }

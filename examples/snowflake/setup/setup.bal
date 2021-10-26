@@ -38,9 +38,9 @@ public function main() returns error? {
 
     // Batch insert data
     var data = [
-        {first_name:"Michael", last_name: "Scott", email: "michael1@scott.com", address: "address1", joined_date: "2021-05-01", salary: 60000},
-        {first_name:"Michael", last_name: "Scott", email: "michael2@scott.com", address: "address2", joined_date: "2021-07-01", salary: 50000},
-        {first_name:"Michael", last_name: "Scott", email: "michael3@scott.com", address: "address3", joined_date: "2021-09-01", salary: 40000}
+        {first_name: "Michael", last_name: "Scott", email: "michael1@scott.com", address: "address1", joined_date: "2021-05-01", salary: 60000},
+        {first_name: "Michael", last_name: "Scott", email: "michael2@scott.com", address: "address2", joined_date: "2021-07-01", salary: 50000},
+        {first_name: "Michael", last_name: "Scott", email: "michael3@scott.com", address: "address3", joined_date: "2021-09-01", salary: 40000}
     ];
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data

@@ -43,7 +43,6 @@ function testConnection2() returns error? {
     return;
 }
 
-
 @test:Config {
     groups: ["connection"]
 }
@@ -144,7 +143,7 @@ function testWithConnectionPool() returns error? {
     if err is error {
         test:assertFail("DB connection not created properly.");
     } else {
-        test:assertEquals(connectionPool.maxConnectionLifeTime, <decimal> 2000.5);
+        test:assertEquals(connectionPool.maxConnectionLifeTime, <decimal>2000.5);
         test:assertEquals(connectionPool.minIdleConnections, 5);
     }
     return;

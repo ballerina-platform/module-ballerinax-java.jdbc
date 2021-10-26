@@ -31,9 +31,9 @@ isolated function initBatchExecuteDB() {
 }
 function batchInsertIntoDataTable() returns error? {
     var data = [
-        {intVal:3, longVal:9223372036854774807, floatVal:123.34},
-        {intVal:4, longVal:9223372036854774807, floatVal:123.34},
-        {intVal:5, longVal:9223372036854774807, floatVal:123.34}
+        {intVal: 3, longVal: 9223372036854774807, floatVal: 123.34},
+        {intVal: 4, longVal: 9223372036854774807, floatVal: 123.34},
+        {intVal: 5, longVal: 9223372036854774807, floatVal: 123.34}
     ];
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
@@ -60,9 +60,9 @@ function batchInsertIntoDataTable2() returns error? {
 }
 function batchInsertIntoDataTableFailure() {
     var data = [
-        {intVal:7, longVal:9223372036854774807, floatVal:123.34},
-        {intVal:1, longVal:9223372036854774807, floatVal:123.34},
-        {intVal:9, longVal:9223372036854774807, floatVal:123.34}
+        {intVal: 7, longVal: 9223372036854774807, floatVal: 123.34},
+        {intVal: 1, longVal: 9223372036854774807, floatVal: 123.34},
+        {intVal: 9, longVal: 9223372036854774807, floatVal: 123.34}
     ];
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
@@ -86,9 +86,9 @@ function batchInsertIntoDataTableFailure() {
 }
 function batchInsertIntoDataTableWithRequestGeneratedKeysAll() returns error? {
     var data = [
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34}
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34}
     ];
     Options options = {
         requestGeneratedKeys: ALL
@@ -105,9 +105,9 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysAll() returns error? {
 }
 function batchInsertIntoDataTableWithRequestGeneratedKeysNone() returns error? {
     var data = [
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34}
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34}
     ];
     Options options = {
         requestGeneratedKeys: NONE
@@ -124,9 +124,9 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysNone() returns error? {
 }
 function batchInsertIntoDataTableWithRequestGeneratedKeysExecute() returns error? {
     var data = [
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34}
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34}
     ];
     Options options = {
         requestGeneratedKeys: EXECUTE
@@ -143,9 +143,9 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysExecute() returns error
 }
 function batchInsertIntoDataTableWithRequestGeneratedKeysBatchExecute() returns error? {
     var data = [
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34}
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34}
     ];
     Options options = {
         requestGeneratedKeys: BATCH_EXECUTE

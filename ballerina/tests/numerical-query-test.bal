@@ -39,11 +39,11 @@ type NumericTypeForQuery record {
 };
 
 @test:Config {
-    groups: ["query","query-numeric-params"]
+    groups: ["query", "query-numeric-params"]
 }
 function testQuery() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
-    stream<record{}, sql:Error?> streamData = dbClient->query(`SELECT * FROM NumericTypes`);
+    stream<record {}, sql:Error?> streamData = dbClient->query(`SELECT * FROM NumericTypes`);
     record {}? returnData = ();
     error? e = streamData.forEach(function(record {} data) {
         returnData = data;
@@ -69,7 +69,7 @@ function testQuery() returns error? {
 }
 
 @test:Config {
-    groups: ["query","query-numeric-params"]
+    groups: ["query", "query-numeric-params"]
 }
 function testQueryNumericTypeRecord() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
@@ -108,7 +108,7 @@ type NumericInvalidColumn record {|
 |};
 
 @test:Config {
-    groups: ["query","query-numeric-params"]
+    groups: ["query", "query-numeric-params"]
 }
 function testQueryNumericInvalidColumnRecord() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
@@ -117,7 +117,7 @@ function testQueryNumericInvalidColumnRecord() returns error? {
     check streamData.close();
     check dbClient.close();
     test:assertTrue(data is error);
-    error dbError = <error> data;
+    error dbError = <error>data;
     test:assertEquals(dbError.message(), "No mapping field found for SQL table column 'ID' in the record type 'NumericInvalidColumn'", "Error message differs");
     return;
 }
@@ -136,7 +136,7 @@ type NumericOptionalType record {
 };
 
 @test:Config {
-    groups: ["query","query-numeric-params"]
+    groups: ["query", "query-numeric-params"]
 }
 function testQueryNumericOptionalTypeRecord() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
@@ -174,7 +174,7 @@ type NumericUnionType record {
 };
 
 @test:Config {
-    groups: ["query","query-numeric-params"]
+    groups: ["query", "query-numeric-params"]
 }
 function testQueryNumericUnionTypeRecord() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
@@ -183,7 +183,7 @@ function testQueryNumericUnionTypeRecord() returns error? {
     check streamData.close();
     NumericUnionType? returnData = data?.value;
     check dbClient.close();
-    
+
     test:assertEquals(returnData?.id, 1);
     test:assertEquals(returnData?.int_type, 2147483647);
     test:assertEquals(returnData?.bigint_type, 9223372036854774807);
@@ -212,7 +212,7 @@ type NumericStringType record {
 };
 
 @test:Config {
-    groups: ["query","query-numeric-params"]
+    groups: ["query", "query-numeric-params"]
 }
 function testQueryNumericStringTypeRecord() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
@@ -251,7 +251,7 @@ type NumericCustomType record {
 };
 
 @test:Config {
-    groups: ["query","query-numeric-params"]
+    groups: ["query", "query-numeric-params"]
 }
 function testQueryNumericCustomTypeRecord() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
@@ -277,11 +277,11 @@ function testQueryNumericCustomTypeRecord() returns error? {
 }
 
 @test:Config {
-    groups: ["query","query-numeric-params"]
+    groups: ["query", "query-numeric-params"]
 }
 function testQueryFromNullTable() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
-    stream<record{}, sql:Error?> streamData = dbClient->query(`SELECT * FROM NumericNullTypes`);
+    stream<record {}, sql:Error?> streamData = dbClient->query(`SELECT * FROM NumericNullTypes`);
     record {} returnData = {};
     int count = 0;
     error? e = streamData.forEach(function(record {} data) {

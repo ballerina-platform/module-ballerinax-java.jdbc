@@ -326,7 +326,7 @@ function insertIntoDateTimeTable() returns error? {
 function insertIntoDateTimeTable2() returns error? {
     sql:DateValue dateVal = new ("2017-02-03");
     sql:TimeValue timeVal = new ("11:35:45");
-    sql:DateTimeValue dateTimeVal =  new ("2017-02-03 11:53:00");
+    sql:DateTimeValue dateTimeVal = new ("2017-02-03 11:53:00");
     sql:TimestampValue timestampVal = new ("2017-02-03 11:53:00");
     int rowId = 3;
 
@@ -344,7 +344,7 @@ function insertIntoDateTimeTable2() returns error? {
 function insertIntoDateTimeTable3() returns error? {
     sql:DateValue dateVal = new ();
     sql:TimeValue timeVal = new ();
-    sql:DateTimeValue dateTimeVal =  new ();
+    sql:DateTimeValue dateTimeVal = new ();
     sql:TimestampValue timestampVal = new ();
     int rowId = 4;
 
@@ -445,13 +445,13 @@ function insertIntoArrayTable13() returns error? {
 function insertIntoArrayTable3() returns error? {
     float float1 = 19.21;
     float float2 = 492.98;
-    sql:SmallIntArrayValue paraSmallint = new([1211, 478]);
-    sql:IntegerArrayValue paraInt = new([121, 498]);
+    sql:SmallIntArrayValue paraSmallint = new ([1211, 478]);
+    sql:IntegerArrayValue paraInt = new ([121, 498]);
     sql:BigIntArrayValue paraLong = new ([121, 498]);
     float[] paraFloat = [19.21, 492.98];
     sql:DoubleArrayValue paraDouble = new ([float1, float2]);
     sql:RealArrayValue paraReal = new ([float1, float2]);
-    sql:DecimalArrayValue paraDecimal = new ([<decimal> 12.245, <decimal> 13.245]);
+    sql:DecimalArrayValue paraDecimal = new ([<decimal>12.245, <decimal>13.245]);
     sql:NumericArrayValue paraNumeric = new ([float1, float2]);
     sql:CharArrayValue paraChar = new (["Char value", "Character"]);
     sql:VarcharArrayValue paraVarchar = new (["Varchar value", "Varying Char"]);
@@ -643,14 +643,14 @@ function insertIntoArrayTable8() returns error? {
     groups: ["execute", "execute-params"]
 }
 function insertIntoArrayTable9() returns error? {
-     time:TimeOfDay timeRecord = {hour: 14, minute: 15, second:23};
-     sql:TimeArrayValue paraTime = new ([timeRecord]);
+    time:TimeOfDay timeRecord = {hour: 14, minute: 15, second: 23};
+    sql:TimeArrayValue paraTime = new ([timeRecord]);
 
-     time:Date dateRecord = {year: 2017, month: 5, day: 23};
-     sql:DateArrayValue paraDate = new ([dateRecord]);
+    time:Date dateRecord = {year: 2017, month: 5, day: 23};
+    sql:DateArrayValue paraDate = new ([dateRecord]);
 
-     time:Utc timestampRecord = time:utcNow();
-     sql:TimestampArrayValue paraTimestamp = new ([timestampRecord]);
+    time:Utc timestampRecord = time:utcNow();
+    sql:TimestampArrayValue paraTimestamp = new ([timestampRecord]);
 
     int rowId = 13;
 
@@ -665,13 +665,13 @@ function insertIntoArrayTable9() returns error? {
     groups: ["execute", "execute-params"]
 }
 function insertIntoArrayTable10() returns error? {
-     time:TimeOfDay timeWithTzRecord = {utcOffset: {hours: 6, minutes: 30}, hour: 16, minute: 33, second: 55, "timeAbbrev": "+06:30"};
-     sql:TimeArrayValue paraTimeWithTZ = new ([timeWithTzRecord]);
-     int rowId = 14;
-     sql:ParameterizedQuery sqlQuery =
+    time:TimeOfDay timeWithTzRecord = {utcOffset: {hours: 6, minutes: 30}, hour: 16, minute: 33, second: 55, "timeAbbrev": "+06:30"};
+    sql:TimeArrayValue paraTimeWithTZ = new ([timeWithTzRecord]);
+    int rowId = 14;
+    sql:ParameterizedQuery sqlQuery =
         `INSERT INTO ArrayTypes2 (row_id, time_tz_array) VALUES(${rowId},
                 ${paraTimeWithTZ})`;
-     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
+    validateResult(check executeQueryJDBCClient(sqlQuery), 1);
     return;
 }
 
@@ -679,15 +679,23 @@ function insertIntoArrayTable10() returns error? {
     groups: ["execute", "execute-params"]
 }
 function insertIntoArrayTable11() returns error? {
-     time:Civil timestampWithTzRecord = {utcOffset: {hours: -8, minutes: 0}, timeAbbrev: "-08:00", year:2017,
-                                            month:1, day:25, hour: 16, minute: 33, second:55};
-     sql:DateTimeArrayValue paraDatetimeWithTZ = new ([timestampWithTzRecord]);
-     int rowId = 14;
-     sql:ParameterizedQuery sqlQuery =
+    time:Civil timestampWithTzRecord = {
+        utcOffset: {hours: -8, minutes: 0},
+        timeAbbrev: "-08:00",
+        year: 2017,
+        month: 1,
+        day: 25,
+        hour: 16,
+        minute: 33,
+        second: 55
+    };
+    sql:DateTimeArrayValue paraDatetimeWithTZ = new ([timestampWithTzRecord]);
+    int rowId = 14;
+    sql:ParameterizedQuery sqlQuery =
         `INSERT INTO ArrayTypes2 (row_id, timestamp_tz_array) VALUES(${rowId},
                 ${paraDatetimeWithTZ})`;
-     sql:ExecutionResult|error result = executeQueryJDBCClient(sqlQuery);
-     test:assertTrue(result is error, "Error Expected for timestamp array");
+    sql:ExecutionResult|error result = executeQueryJDBCClient(sqlQuery);
+    test:assertTrue(result is error, "Error Expected for timestamp array");
     return;
 }
 
@@ -700,7 +708,7 @@ function executeQueryJDBCClient(sql:ParameterizedQuery sqlQuery) returns sql:Exe
 
 function queryJDBCClient(sql:ParameterizedQuery sqlQuery) returns record {}|error? {
     Client dbClient = check new (url = executeParamsDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query(sqlQuery);
+    stream<record {}, error?> streamData = dbClient->query(sqlQuery);
     record {|record {} value;|}? data = check streamData.next();
     check streamData.close();
     record {}? value = data?.value;

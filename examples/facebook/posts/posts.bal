@@ -27,12 +27,12 @@ configurable string pageAccessToken = ?;
 
 jdbc:Options options = {
     properties: {
-                    InitiateOAuth: InitiateOAuth,
-                    AuthenticateAsPage: pageId,
-                    OAuthClientId: appId,
-                    OAuthClientSecret: appSecret,
-                    OAuthAccessToken: pageAccessToken
-                }
+        InitiateOAuth: InitiateOAuth,
+        AuthenticateAsPage: pageId,
+        OAuthClientId: appId,
+        OAuthClientSecret: appSecret,
+        OAuthAccessToken: pageAccessToken
+    }
 };
 
 public type PostInfo record {
@@ -58,7 +58,7 @@ service /facebook on fbListener {
         return postIds;
     }
 
-    isolated resource function get posts/[string id]() returns record{}?|error {
+    isolated resource function get posts/[string id]() returns record {}?|error {
         string[] postIds = [];
         stream<PostInfo, error?> resultStream = dbClient->query(`SELECT * FROM Posts WHERE ID = ${id}`);
         return check resultStream.next();

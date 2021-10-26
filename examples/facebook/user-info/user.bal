@@ -23,7 +23,7 @@ configurable string fbUserName = ?;
 configurable string fbPassword = ?;
 
 jdbc:Options options = {
-    properties: { InitiateOAuth: InitiateOAuth }
+    properties: {InitiateOAuth: InitiateOAuth}
 };
 
 public type User record {
@@ -38,7 +38,7 @@ public type User record {
 
 jdbc:Client dbClient = check new (jdbcFBUrl, fbUserName, fbPassword, options = options);
 
-public function main () returns error? {
+public function main() returns error? {
     stream<User, error?> resultStream = dbClient->query(`SELECT * FROM Users`);
     io:println("User Info: ", check resultStream.next());
     check resultStream.close();
