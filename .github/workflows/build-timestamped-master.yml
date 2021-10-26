@@ -40,4 +40,3 @@ jobs:
         with:
           name: ballerina-runtime
           path: target/ballerina-runtime/
-
