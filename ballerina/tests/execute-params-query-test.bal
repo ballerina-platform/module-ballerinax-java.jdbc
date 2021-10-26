@@ -156,7 +156,7 @@ function deleteDataTable3() returns error? {
     groups: ["execute", "execute-params"]
 }
 function insertIntoComplexTable() returns error? {
-    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
+    record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BLOB_TYPE");
     int rowId = 5;
     string stringType = "very long text";
@@ -171,9 +171,9 @@ function insertIntoComplexTable() returns error? {
     dependsOn: [insertIntoComplexTable]
 }
 function insertIntoComplexTable2() returns error? {
-    io:ReadableByteChannel blobChannel = getBlobColumnChannel();
-    io:ReadableCharacterChannel clobChannel = getClobColumnChannel();
-    io:ReadableByteChannel byteChannel = getByteColumnChannel();
+    io:ReadableByteChannel blobChannel = check getBlobColumnChannel();
+    io:ReadableCharacterChannel clobChannel = check getClobColumnChannel();
+    io:ReadableByteChannel byteChannel = check getByteColumnChannel();
 
     sql:BlobValue blobType = new (blobChannel);
     sql:ClobValue clobType = new (clobChannel);
@@ -204,7 +204,7 @@ function insertIntoComplexTable3() returns error? {
     dependsOn: [insertIntoComplexTable3]
 }
 function deleteComplexTable() returns error? {
-    record {}|error? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
+    record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BLOB_TYPE");
 
     int rowId = 2;
@@ -362,7 +362,7 @@ function insertIntoArrayTable() returns error? {
     string[] paraString = ["Hello", "Ballerina"];
     boolean[] paraBool = [true, false, true];
 
-    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
+    record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[][] dataBlob = [<byte[]>getUntaintedData(value, "BLOB_TYPE")];
 
     sql:ArrayValue paraBlob = new (dataBlob);
@@ -447,8 +447,8 @@ function insertIntoArrayTable3() returns error? {
     byte[] byteArray2 = [4, 5, 6];
     sql:BinaryArrayValue paraBinary = new ([byteArray1, byteArray2]);
     sql:VarBinaryArrayValue paraVarBinary = new ([byteArray1, byteArray2]);
-    io:ReadableByteChannel byteChannel = getByteColumnChannel();
-    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
+    io:ReadableByteChannel byteChannel = check getByteColumnChannel();
+    record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[][] paraBlob = [<byte[]>getUntaintedData(value, "BLOB_TYPE")];
     int rowId = 7;
 
@@ -540,11 +540,11 @@ function insertIntoArrayTable6() returns error? {
     sql:TimeArrayValue paraTime = new (["20:08:59", "21:18:59"]);
     sql:DateTimeArrayValue paraDatetime = new (["2008-08-08 20:08:08", "2009-09-09 23:09:09"]);
     sql:TimestampArrayValue paraTimestamp = new (["2008-08-08 20:08:08", "2008-08-08 20:08:09"]);
-    io:ReadableByteChannel byteChannel1 = getByteColumnChannel();
-    io:ReadableByteChannel byteChannel2 = getByteColumnChannel();
+    io:ReadableByteChannel byteChannel1 = check getByteColumnChannel();
+    io:ReadableByteChannel byteChannel2 = check getByteColumnChannel();
     sql:BinaryArrayValue paraBinary = new ([byteChannel1, byteChannel2]);
-    io:ReadableByteChannel varbinaryChannel1 = getBlobColumnChannel();
-    io:ReadableByteChannel varbinaryChannel2 = getBlobColumnChannel();
+    io:ReadableByteChannel varbinaryChannel1 = check getBlobColumnChannel();
+    io:ReadableByteChannel varbinaryChannel2 = check getBlobColumnChannel();
     sql:VarBinaryArrayValue paraVarBinary = new ([varbinaryChannel1, varbinaryChannel2]);
     int rowId = 10;
 
@@ -665,24 +665,24 @@ function executeQueryJDBCClient(sql:ParameterizedQuery sqlQuery) returns sql:Exe
     return result;
 }
 
-function queryJDBCClient(sql:ParameterizedQuery sqlQuery) returns record {}? {
-    Client dbClient = checkpanic new (url = executeParamsDb, user = user, password = password);
+function queryJDBCClient(sql:ParameterizedQuery sqlQuery) returns record {}|error? {
+    Client dbClient = check new (url = executeParamsDb, user = user, password = password);
     stream<record{}, error?> streamData = dbClient->query(sqlQuery);
-    record {|record {} value;|}? data = checkpanic streamData.next();
-    checkpanic streamData.close();
+    record {|record {} value;|}? data = check streamData.next();
+    check streamData.close();
     record {}? value = data?.value;
-    checkpanic dbClient.close();
+    check dbClient.close();
     return value;
 }
 
 isolated function validateResult(sql:ExecutionResult result, int rowCount, int? lastId = ()) {
     test:assertExactEquals(result.affectedRowCount, rowCount, "Affected row count is different.");
 
-    if (lastId is ()) {
+    if lastId is () {
         test:assertEquals(result.lastInsertId, (), "Last Insert Id is not nil.");
     } else {
         int|string? lastInsertIdVal = result.lastInsertId;
-        if (lastInsertIdVal is int) {
+        if lastInsertIdVal is int {
             test:assertTrue(lastInsertIdVal > 1, "Last Insert Id is nil.");
         } else {
             test:assertFail("The last insert id should be an integer found type '" + lastInsertIdVal.toString());

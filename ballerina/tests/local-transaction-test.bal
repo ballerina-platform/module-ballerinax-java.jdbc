@@ -66,13 +66,13 @@ function testLocalTransaction() returns error? {
         `);
         transInfo = transactions:info();
         var commitResult = commit;
-        if(commitResult is ()){
+        if commitResult is () {
             committedBlockExecuted = true;
         }
     }
     retryVal = transInfo.retryNumber;
     //check whether update action is performed
-    int count = getCount(dbClient, "200");
+    int count = check getCount(dbClient, "200");
     check dbClient.close();
 
     test:assertEquals(retryVal, 0);
@@ -89,7 +89,7 @@ int retryValRWC = -1;
 function testTransactionRollbackWithCheck() returns error? {
     Client dbClient = check new (url = localTransactionDB, user = user, password = password);
     error? result = testTransactionRollbackWithCheckHelper(dbClient);
-    int count = getCount(dbClient, "210");
+    int count = check getCount(dbClient, "210");
     check dbClient.close();
 
     test:assertEquals(retryValRWC, 1);
@@ -130,24 +130,24 @@ function testTransactionRollbackWithRollback() returns error? {
             Insert into Customers (firstName, lastName, registrationID, creditLimit, country)
             values ('James', 'Clerk', 211, 5000.75, 'USA')
         `);
-        if (e1 is error){
+        if e1 is error {
             rollback;
         } else {
             var e2 = dbClient->execute(`
                 Insert into Customers2 (firstName, lastName, registrationID, creditLimit, country)
                 values ('James', 'Clerk', 211, 5000.75, 'USA')
             `);
-            if (e2 is error){
+            if e2 is error {
                 rollback;
                 stmtAfterFailureExecuted  = true;
             } else {
-                checkpanic commit;
+                check commit;
             }
         }
     }
     retryVal = transInfo.retryNumber;
-    int count = getCount(dbClient, "211");
-    checkpanic dbClient.close();
+    int count = check getCount(dbClient, "211");
+    check dbClient.close();
 
     test:assertEquals(retryVal, 0);
     test:assertEquals(count, 0);
@@ -173,12 +173,12 @@ function testLocalTransactionUpdateWithGeneratedKeys() returns error? {
             Insert into Customers (firstName, lastName, registrationID, creditLimit, country)
             values ('James', 'Clerk', 615, 5000.75, 'USA')
         `);
-        checkpanic commit;
+        check commit;
     }
     returnVal = transInfo.retryNumber;
     //Check whether the update action is performed.
-    int count = getCount(dbClient, "615");
-    checkpanic dbClient.close();
+    int count = check getCount(dbClient, "615");
+    check dbClient.close();
 
     test:assertEquals(returnVal, 0);
     test:assertEquals(count, 2);
@@ -193,7 +193,7 @@ function testLocalTransactionRollbackWithGeneratedKeys() returns error? {
     Client dbClient = check new (url = localTransactionDB, user = user, password = password);
     error? result = testLocalTransactionRollbackWithGeneratedKeysHelper(dbClient);
     //check whether update action is performed
-    int count = getCount(dbClient, "615");
+    int count = check getCount(dbClient, "615");
     check dbClient.close();
     test:assertEquals(returnValRGK, 1);
     test:assertEquals(count, 2);
@@ -240,16 +240,16 @@ function testTransactionAbort() returns error? {
             values ('James', 'Clerk', 220, 5000.75, 'USA')
         `);
         int i = 0;
-        if (i == 0) {
+        if i == 0 {
             rollback;
         } else {
-            checkpanic commit;
+            check commit;
         }
     }
     int returnVal = transInfo.retryNumber;
     //Check whether the update action is performed.
-    int count = getCount(dbClient, "220");
-    checkpanic dbClient.close();
+    int count = check getCount(dbClient, "220");
+    check dbClient.close();
 
     test:assertEquals(returnVal, 0);
     test:assertEquals(count, 0);
@@ -266,11 +266,11 @@ function testTransactionErrorPanic() returns error? {
     int catchValue = 0;
     var ret = trap testTransactionErrorPanicHelper(dbClient);
     io:println(ret);
-    if (ret is error) {
+    if ret is error {
         catchValue = -1;
     }
     //Check whether the update action is performed.
-    int count = getCount(dbClient, "260");
+    int count = check getCount(dbClient, "260");
     check dbClient.close();
     test:assertEquals(testTransactionErrorPanicRetVal, 1);
     test:assertEquals(catchValue, -1);
@@ -287,7 +287,7 @@ function testTransactionErrorPanicHelper(Client dbClient) returns error? {
             values ('James', 'Clerk', 260, 5000.75, 'USA')
         `);
         int i = 0;
-        if (i == 0) {
+        if i == 0 {
             error e = error("error");
             panic e;
         } else {
@@ -303,7 +303,7 @@ function testTransactionErrorPanicHelper(Client dbClient) returns error? {
     dependsOn: [testTransactionAbort]
 }
 function testTransactionErrorPanicAndTrap() returns error? {
-   Client dbClient = checkpanic new (url = localTransactionDB, user = user, password = password);
+   Client dbClient = check new (url = localTransactionDB, user = user, password = password);
 
     int catchValue = 0;
     transactions:Info transInfo;
@@ -314,22 +314,22 @@ function testTransactionErrorPanicAndTrap() returns error? {
             values ('James', 'Clerk', 250, 5000.75, 'USA')
         `);
         var ret = trap testTransactionErrorPanicAndTrapHelper(0);
-        if (ret is error) {
+        if ret is error {
             catchValue = -1;
         }
         check commit;
     }
     int returnVal = transInfo.retryNumber;
     //Check whether the update action is performed.
-    int count = getCount(dbClient, "250");
-    checkpanic dbClient.close();
+    int count = check getCount(dbClient, "250");
+    check dbClient.close();
     test:assertEquals(returnVal, 0);
     test:assertEquals(catchValue, -1);
     test:assertEquals(count, 1);
 }
 
 isolated function testTransactionErrorPanicAndTrapHelper(int i) {
-    if (i == 0) {
+    if i == 0 {
         error err = error("error");
         panic err;
     }
@@ -368,13 +368,13 @@ function testTwoTransactions() returns error? {
             Insert into Customers (firstName,lastName,registrationID,creditLimit,country)
             values ('James', 'Clerk', 400, 5000.75, 'USA')
         `);
-         checkpanic commit;
+         check commit;
      }
      int returnVal2 = transInfo2.retryNumber;
 
      //Check whether the update action is performed.
-     int count = getCount(dbClient, "400");
-     checkpanic dbClient.close();
+     int count = check getCount(dbClient, "400");
+     check dbClient.close();
     test:assertEquals(returnVal1, 0);
     test:assertEquals(returnVal2, 0);
     test:assertEquals(count, 4);
@@ -395,10 +395,10 @@ function testTransactionWithoutHandlers() returns error? {
             Insert into Customers (firstName,lastName,registrationID,creditLimit,country)
             values ('James', 'Clerk', 350, 5000.75, 'USA')
         `);
-        checkpanic commit;
+        check commit;
     }
     //Check whether the update action is performed.
-    int count = getCount(dbClient, "350");
+    int count = check getCount(dbClient, "350");
     check dbClient.close();
     test:assertEquals(count, 2);
 }
@@ -416,13 +416,13 @@ function testLocalTransactionFailed() returns error? {
     string a = "beforetx";
 
     var ret = trap testLocalTransactionFailedHelper(dbClient);
-    if (ret is string) {
+    if ret is string {
         a += ret;
     } else {
         a += ret.message() + " trapped";
     }
     a = a + " afterTrx";
-    int count = getCount(dbClient, "111");
+    int count = check getCount(dbClient, "111");
     check dbClient.close();
     test:assertEquals(a, "beforetx inTrx trxAborted inTrx trxAborted inTrx trapped afterTrx");
     test:assertEquals(count, 0);
@@ -452,7 +452,7 @@ function testLocalTransactionFailedHelper(Client dbClient) returns string|error 
             Insert into Customers2 (firstName,lastName,registrationID,creditLimit,country)
             values ('Anne', 'Clerk', 111, 5000.75, 'USA')
         `);
-        if(e2 is error){
+        if e2 is error {
            check getError();
         }
         check commit;
@@ -477,14 +477,14 @@ function testLocalTransactionSuccessWithFailed() returns error? {
 
     string a = "beforetx";
     string | error ret = trap testLocalTransactionSuccessWithFailedHelper(a, dbClient);
-    if (ret is string) {
+    if ret is string {
         a = ret;
     } else {
         a = a + "trapped";
     }
     a = a + " afterTrx";
-    int count = getCount(dbClient, "222");
-    checkpanic dbClient.close();
+    int count = check getCount(dbClient, "222");
+    check dbClient.close();
      test:assertEquals(a, "beforetx inTrx inTrx inTrx committed afterTrx");
     test:assertEquals(count, 2);
 }
@@ -499,7 +499,7 @@ isolated function testLocalTransactionSuccessWithFailedHelper(string status,Clie
             Insert into Customers (firstName,lastName,registrationID,creditLimit,country)
             values ('James', 'Clerk', 222, 5000.75, 'USA')
         `);
-        if (i == 3) {
+        if i == 3 {
             var e2 = check dbClient->execute(`
                 Insert into Customers (firstName,lastName,registrationID,creditLimit,country)
                 values ('Anne', 'Clerk', 222, 5000.75, 'USA')
@@ -516,15 +516,15 @@ isolated function testLocalTransactionSuccessWithFailedHelper(string status,Clie
     return a;
 }
 
-isolated function getCount(Client dbClient, string id) returns int {
+isolated function getCount(Client dbClient, string id) returns int|error {
     stream<TransactionResultCount, sql:Error?> streamData = dbClient->query(`
         Select COUNT(*) as countval from Customers where registrationID = ${id}
     `);
-    record {|TransactionResultCount value;|}? data = checkpanic streamData.next();
-    checkpanic streamData.close();
+    record {|TransactionResultCount value;|}? data = check streamData.next();
+    check streamData.close();
     TransactionResultCount? value = data?.value;
-    if(value is TransactionResultCount){
-       return value["COUNTVAL"];
+    if value is TransactionResultCount {
+        return value["COUNTVAL"];
     }
     return 0;
 }

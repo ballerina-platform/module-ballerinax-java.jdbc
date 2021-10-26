@@ -37,53 +37,53 @@ type XAResultCount record {
 @test:Config {
     groups: ["transaction", "xa-transaction"]
 }
-function testXATransactionSuccess() {
-    Client dbClient1 = checkpanic new (url = xaTransactionDB1, user = user, password = password,
+function testXATransactionSuccess() returns error? {
+    Client dbClient1 = check new (url = xaTransactionDB1, user = user, password = password,
     connectionPool = {maxOpenConnections: 1});
-    Client dbClient2 = checkpanic new (url = xaTransactionDB2, user = user, password = password,
+    Client dbClient2 = check new (url = xaTransactionDB2, user = user, password = password,
     connectionPool = {maxOpenConnections: 1});
 
     transaction {
-        var e1 = checkpanic dbClient1->execute(`
+        var e1 = check dbClient1->execute(`
             insert into Customers (customerId, name, creditLimit, country) values (1, 'Anne', 1000, 'UK')
         `);
-        var e2 = checkpanic dbClient2->execute(`insert into Salary (id, value ) values (1, 1000)`);
-        checkpanic commit;
+        var e2 = check dbClient2->execute(`insert into Salary (id, value ) values (1, 1000)`);
+        check commit;
     }
 
-    int count1 = checkpanic getCustomerCount(dbClient1, "1");
-    int count2 = checkpanic getSalaryCount(dbClient2, "1");
+    int count1 = check getCustomerCount(dbClient1, "1");
+    int count2 = check getSalaryCount(dbClient2, "1");
     test:assertEquals(count1, 1, "First transaction failed"); 
     test:assertEquals(count2, 1, "Second transaction failed"); 
 
-    checkpanic dbClient1.close();
-    checkpanic dbClient2.close();
+    check dbClient1.close();
+    check dbClient2.close();
 }
 
 @test:Config {
     groups: ["transaction", "xa-transaction"]
 }
-function testXATransactionSuccessWithDataSource() {
-    Client dbClient1 = checkpanic new (url = xaTransactionDB1, user = user, password = password,
+function testXATransactionSuccessWithDataSource() returns error? {
+    Client dbClient1 = check new (url = xaTransactionDB1, user = user, password = password,
     options = {datasourceName: xaDatasourceName});
-    Client dbClient2 = checkpanic new (url = xaTransactionDB2, user = user, password = password,
+    Client dbClient2 = check new (url = xaTransactionDB2, user = user, password = password,
     options = {datasourceName: xaDatasourceName});
     
     transaction {
-        var e1 = checkpanic dbClient1->execute(`
+        var e1 = check dbClient1->execute(`
             insert into Customers (customerId, name, creditLimit, country) values (10, 'Anne', 1000, 'UK')
         `);
-        var e2 = checkpanic dbClient2->execute(`insert into Salary (id, value ) values (10, 1000)`);
-        checkpanic commit;
+        var e2 = check dbClient2->execute(`insert into Salary (id, value ) values (10, 1000)`);
+        check commit;
     }
     
-    int count1 = checkpanic getCustomerCount(dbClient1, "10");
-    int count2 = checkpanic getSalaryCount(dbClient2, "10");
+    int count1 = check getCustomerCount(dbClient1, "10");
+    int count2 = check getSalaryCount(dbClient2, "10");
     test:assertEquals(count1, 1, "First transaction failed"); 
     test:assertEquals(count2, 1, "Second transaction failed"); 
 
-    checkpanic dbClient1.close();
-    checkpanic dbClient2.close();
+    check dbClient1.close();
+    check dbClient2.close();
 }
 
 isolated function getCustomerCount(Client dbClient, string id) returns int|error{
@@ -100,11 +100,11 @@ isolated function getSalaryCount(Client dbClient, string id) returns int|error{
     return getResult(streamData);
 }
 
-isolated function getResult(stream<XAResultCount,  sql:Error?> streamData) returns int{
-    record {|XAResultCount value;|}? data = checkpanic streamData.next();
-    checkpanic streamData.close();
+isolated function getResult(stream<XAResultCount,  sql:Error?> streamData) returns int|error {
+    record {|XAResultCount value;|}? data = check streamData.next();
+    check streamData.close();
     XAResultCount? value = data?.value;
-    if(value is XAResultCount){
+    if value is XAResultCount {
        return value.COUNTVAL;
     }
     return 0;
