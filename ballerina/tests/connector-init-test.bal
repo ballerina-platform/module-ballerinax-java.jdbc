@@ -31,7 +31,6 @@ isolated function initConnectionDB() {
 function testConnection1() returns error? {
     Client testDB = check new (url = jdbcUrl, user = user, password = password);
     test:assertEquals(testDB.close(), (), "JDBC connection failure.");
-    return;
 }
 
 @test:Config {
@@ -40,7 +39,6 @@ function testConnection1() returns error? {
 function testConnection2() returns error? {
     Client testDB = check new (jdbcUrl, user, password);
     test:assertEquals(testDB.close(), (), "JDBC connection failure.");
-    return;
 }
 
 @test:Config {
@@ -53,7 +51,6 @@ isolated function testConnectionInvalidUrl() returns error? {
         check dbClient.close();
         test:assertFail("Invalid does not throw DatabaseError");
     }
-    return;
 }
 
 @test:Config {
@@ -65,7 +62,6 @@ function testConnectionNoUserPassword() returns error? {
         check dbClient.close();
         test:assertFail("No username does not throw DatabaseError");
     }
-    return;
 }
 
 @test:Config {
@@ -78,7 +74,6 @@ function testConnectionWithValidDriver() returns error? {
     } else {
         check dbClient.close();
     }
-    return;
 }
 
 @test:Config {
@@ -91,7 +86,6 @@ function testConnectionWithInvalidDriver() returns error? {
         check dbClient.close();
         test:assertFail("Invalid driver does not throw DatabaseError");
     }
-    return;
 }
 
 @test:Config {
@@ -108,7 +102,6 @@ function testConnectionWithDatasourceOptions() returns error? {
     } else {
         check dbClient.close();
     }
-    return;
 }
 
 @test:Config {
@@ -127,7 +120,6 @@ function testConnectionWithDatasourceInvalidProperty() returns error? {
         check dbClient.close();
         test:assertFail("Invalid driver does not throw DatabaseError");
     }
-    return;
 }
 
 @test:Config {
@@ -146,7 +138,6 @@ function testWithConnectionPool() returns error? {
         test:assertEquals(connectionPool.maxConnectionLifeTime, <decimal>2000.5);
         test:assertEquals(connectionPool.minIdleConnections, 5);
     }
-    return;
 }
 
 @test:Config {
@@ -166,8 +157,6 @@ function testWithSharedConnPool() returns error? {
     test:assertEquals(dbClient1.close(), (), "JDBC connection failure.");
     test:assertEquals(dbClient2.close(), (), "JDBC connection failure.");
     test:assertEquals(dbClient3.close(), (), "JDBC connection failure.");
-
-    return;
 }
 
 @test:Config {
@@ -183,5 +172,4 @@ function testWithAllParams() returns error? {
     };
     Client dbClient = check new (jdbcUrl, user, password, options, connectionPool);
     test:assertEquals(dbClient.close(), (), "JDBC connection failure.");
-    return;
 }

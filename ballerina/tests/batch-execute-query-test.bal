@@ -39,7 +39,6 @@ function batchInsertIntoDataTable() returns error? {
         from var row in data
         select `INSERT INTO DataTable (int_type, long_type, float_type) VALUES (${row.intVal}, ${row.longVal}, ${row.floatVal})`;
     validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries), [1, 1, 1], [2,3,4]);
-    return;
 }
 
 @test:Config {
@@ -51,7 +50,6 @@ function batchInsertIntoDataTable2() returns error? {
     sql:ParameterizedQuery sqlQuery = `INSERT INTO DataTable (int_type) VALUES(${intType})`;
     sql:ParameterizedQuery[] sqlQueries = [sqlQuery];
     validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries), [1], [5]);
-    return;
 }
 
 @test:Config {
@@ -97,7 +95,6 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysAll() returns error? {
         from var row in data
         select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
     validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [2, 3, 4]);
-    return;
 }
 
 @test:Config {
@@ -116,7 +113,6 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysNone() returns error? {
         from var row in data
         select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
     validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [-1, -1, -1]);
-    return;
 }
 
 @test:Config {
@@ -135,7 +131,6 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysExecute() returns error
         from var row in data
         select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
     validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [-1, -1, -1]);
-    return;
 }
 
 @test:Config {
@@ -154,7 +149,6 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysBatchExecute() returns 
         from var row in data
         select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
     validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [2, 3, 4]);
-    return;
 }
 
 isolated function validateBatchExecutionResult(sql:ExecutionResult[] results, int[] rowCount, int[] lastId) {

@@ -27,7 +27,6 @@ string executeParamsDb = "jdbc:h2:" + dbPath + "/" + "EXECUTE_PARAMS_DB";
 }
 isolated function initExecuteParamsDB() returns error? {
     initializeDatabase("EXECUTE_PARAMS_DB", "execute", "execute-params-test-data.sql");
-    return;
 }
 
 @test:Config {
@@ -47,7 +46,6 @@ function insertIntoDataTable() returns error? {
       `INSERT INTO DataTable (row_id, int_type, long_type, float_type, double_type, boolean_type, string_type, decimal_type)
        VALUES(${rowId}, ${intType}, ${longType}, ${floatType}, ${doubleType}, ${boolType}, ${stringType}, ${decimalType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -58,7 +56,6 @@ function insertIntoDataTable2() returns error? {
     int rowId = 5;
     sql:ParameterizedQuery sqlQuery = `INSERT INTO DataTable (row_id) VALUES(${rowId})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -79,7 +76,6 @@ function insertIntoDataTable3() returns error? {
       `INSERT INTO DataTable (row_id, int_type, long_type, float_type, double_type, boolean_type, string_type, decimal_type)
         VALUES(${rowId}, ${intType}, ${longType}, ${floatType}, ${doubleType}, ${boolType}, ${stringType}, ${decimalType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -101,7 +97,6 @@ function insertIntoDataTable4() returns error? {
       `INSERT INTO DataTable (row_id, int_type, long_type, float_type, double_type, boolean_type, string_type, decimal_type)
         VALUES(${rowId}, ${intType}, ${longType}, ${floatType}, ${doubleType}, ${boolType}, ${stringType}, ${decimalType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -123,7 +118,6 @@ function deleteDataTable1() returns error? {
               AND float_type=${floatType} AND double_type=${doubleType} AND boolean_type=${boolType}
               AND string_type=${stringType} AND decimal_type=${decimalType}`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -134,7 +128,6 @@ function deleteDataTable2() returns error? {
     int rowId = 2;
     sql:ParameterizedQuery sqlQuery = `DELETE FROM DataTable where row_id = ${rowId}`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -157,7 +150,6 @@ function deleteDataTable3() returns error? {
               AND double_type=${doubleType} AND boolean_type=${boolType}
               AND string_type=${stringType} AND decimal_type=${decimalType}`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -172,7 +164,6 @@ function insertIntoComplexTable() returns error? {
         `INSERT INTO ComplexTypes (row_id, blob_type, clob_type, binary_type, var_binary_type) VALUES (
         ${rowId}, ${binaryData}, CONVERT(${stringType}, CLOB), ${binaryData}, ${binaryData})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -193,7 +184,6 @@ function insertIntoComplexTable2() returns error? {
         `INSERT INTO ComplexTypes (row_id, blob_type, clob_type, binary_type, var_binary_type) VALUES (
         ${rowId}, ${blobType}, CONVERT(${clobType}, CLOB), ${binaryType}, ${binaryType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -207,7 +197,6 @@ function insertIntoComplexTable3() returns error? {
             `INSERT INTO ComplexTypes (row_id, blob_type, clob_type, binary_type, var_binary_type) VALUES (
             ${rowId}, ${nilType}, CONVERT(${nilType}, CLOB), ${nilType}, ${nilType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -222,7 +211,6 @@ function deleteComplexTable() returns error? {
     sql:ParameterizedQuery sqlQuery =
             `DELETE FROM ComplexTypes where row_id = ${rowId} AND blob_type= ${binaryData}`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -239,7 +227,6 @@ function deleteComplexTable2() returns error? {
     sql:ParameterizedQuery sqlQuery =
             `DELETE FROM ComplexTypes where row_id = ${rowId} AND blob_type= ${blobType} AND clob_type=${clobType}`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 0);
-    return;
 }
 
 @test:Config {
@@ -259,7 +246,6 @@ function insertIntoNumericTable() returns error? {
         numeric_type, float_type, real_type) VALUES(${intType},${bigIntType},${smallIntType},${tinyIntType},
         ${bitType},${decimalType},${decimalType},${decimalType},${decimalType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1, 2);
-    return;
 }
 
 @test:Config {
@@ -274,7 +260,6 @@ function insertIntoNumericTable2() returns error? {
             numeric_type, float_type, real_type) VALUES(${nilType},${nilType},${nilType},${nilType},
             ${nilType},${nilType},${nilType},${nilType},${nilType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1, 2);
-    return;
 }
 
 @test:Config {
@@ -299,7 +284,6 @@ function insertIntoNumericTable3() returns error? {
         numeric_type, float_type, real_type) VALUES(${intType},${bigIntType},${smallIntType},${tinyIntType},
         ${bitType},${decimalType},${numbericType},${floatType},${realType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1, 2);
-    return;
 }
 
 @test:Config {
@@ -316,7 +300,6 @@ function insertIntoDateTimeTable() returns error? {
         `INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type)
         VALUES(${rowId}, ${dateType}, ${timeType}, ${dateTimeType}, ${timeStampType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -334,7 +317,6 @@ function insertIntoDateTimeTable2() returns error? {
             `INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type)
             VALUES(${rowId}, ${dateVal}, ${timeVal}, ${dateTimeVal}, ${timestampVal})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -352,7 +334,6 @@ function insertIntoDateTimeTable3() returns error? {
                 `INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type)
                 VALUES(${rowId}, ${dateVal}, ${timeVal}, ${dateTimeVal}, ${timestampVal})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -367,7 +348,6 @@ function insertIntoDateTimeTable4() returns error? {
             `INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestamp_type)
             VALUES(${rowId}, ${nilType}, ${nilType}, ${nilType}, ${nilType})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -393,7 +373,6 @@ function insertIntoArrayTable() returns error? {
          string_array, blob_array) VALUES(${rowId}, ${paraInt}, ${paraLong}, ${paraFloat}, ${paraDouble}, ${paraDecimal},
          ${paraBool}, ${paraString}, ${paraBlob})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -416,7 +395,6 @@ function insertIntoArrayTable2() returns error? {
          string_array, blob_array) VALUES(${rowId}, ${paraInt}, ${paraLong}, ${paraFloat}, ${paraDouble}, ${paraDecimal},
          ${paraBool}, ${paraString}, ${paraBlob})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -436,7 +414,6 @@ function insertIntoArrayTable13() returns error? {
     sql:ParameterizedQuery sqlQuery =
         `INSERT INTO ArrayTypes2 (row_id, int_array) VALUES (${rowId}, ${paraInt})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -480,7 +457,6 @@ function insertIntoArrayTable3() returns error? {
          string_array, smallint_array, numeric_array, real_array, char_array, varchar_array, nvarchar_array, date_array, time_array, datetime_array, timestamp_array, binary_array, varbinary_array, blob_array) VALUES(${rowId}, ${paraInt}, ${paraLong}, ${paraFloat}, ${paraDouble}, ${paraDecimal},
          ${paraBool}, ${paraString}, ${paraSmallint}, ${paraNumeric}, ${paraReal}, ${paraChar}, ${paraVarchar}, ${paraNVarchar}, ${paraDate}, ${paraTime}, ${paraDatetime}, ${paraTimestamp}, ${paraBinary}, ${paraVarBinary}, ${paraBlob})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -514,7 +490,6 @@ function insertIntoArrayTable4() returns error? {
          string_array, smallint_array, numeric_array, real_array, char_array, varchar_array, nvarchar_array, date_array, time_array, datetime_array, timestamp_array, binary_array, varbinary_array, blob_array) VALUES(${rowId}, ${paraInt}, ${paraLong}, ${paraFloat}, ${paraDouble}, ${paraDecimal},
          ${paraBool}, ${paraString}, ${paraSmallint}, ${paraNumeric}, ${paraReal}, ${paraChar}, ${paraVarchar}, ${paraNVarchar}, ${paraDate}, ${paraTime}, ${paraDatetime}, ${paraTimestamp}, ${paraBinary}, ${paraVarBinary}, ${paraBlob})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -546,7 +521,6 @@ function insertIntoArrayTable5() returns error? {
          smallint_array, numeric_array, real_array, char_array, varchar_array, nvarchar_array, date_array, time_array, datetime_array, timestamp_array, binary_array, varbinary_array) VALUES(${rowId}, ${paraInt}, ${paraLong}, ${paraFloat}, ${paraDouble}, ${paraDecimal},
          ${paraBool}, ${paraSmallint}, ${paraNumeric}, ${paraReal}, ${paraChar}, ${paraVarchar}, ${paraNVarchar}, ${paraDate}, ${paraTime}, ${paraDatetime}, ${paraTimestamp}, ${paraBinary}, ${paraVarBinary})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -579,7 +553,6 @@ function insertIntoArrayTable6() returns error? {
          numeric_array, real_array, date_array, time_array, datetime_array, timestamp_array, binary_array, varbinary_array) VALUES(${rowId}, ${paraFloat}, ${paraDouble}, ${paraDecimal},
          ${paraNumeric}, ${paraReal}, ${paraDate}, ${paraTime}, ${paraDatetime}, ${paraTimestamp}, ${paraBinary}, ${paraVarBinary})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -599,7 +572,6 @@ function insertIntoArrayTable7() returns error? {
          numeric_array, real_array) VALUES(${rowId}, ${paraDouble}, ${paraDecimal},
          ${paraNumeric}, ${paraReal})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -635,8 +607,6 @@ function insertIntoArrayTable8() returns error? {
     result = executeQueryJDBCClient(sqlQuery);
     test:assertTrue(result is error, "Error Expected for timestamp array");
     test:assertTrue(strings:includes((<error>result).message(), "Unsupported String Value"));
-
-    return;
 }
 
 @test:Config {
@@ -658,7 +628,6 @@ function insertIntoArrayTable9() returns error? {
         `INSERT INTO ArrayTypes2 (row_id, time_array, date_array, timestamp_array) VALUES(${rowId},
                 ${paraTime}, ${paraDate}, ${paraTimestamp})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -669,10 +638,9 @@ function insertIntoArrayTable10() returns error? {
     sql:TimeArrayValue paraTimeWithTZ = new ([timeWithTzRecord]);
     int rowId = 14;
     sql:ParameterizedQuery sqlQuery =
-        `INSERT INTO ArrayTypes2 (row_id, time_tz_array) VALUES(${rowId},
-                ${paraTimeWithTZ})`;
+       `INSERT INTO ArrayTypes2 (row_id, time_tz_array) VALUES(${rowId},
+               ${paraTimeWithTZ})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
-    return;
 }
 
 @test:Config {
@@ -696,7 +664,6 @@ function insertIntoArrayTable11() returns error? {
                 ${paraDatetimeWithTZ})`;
     sql:ExecutionResult|error result = executeQueryJDBCClient(sqlQuery);
     test:assertTrue(result is error, "Error Expected for timestamp array");
-    return;
 }
 
 function executeQueryJDBCClient(sql:ParameterizedQuery sqlQuery) returns sql:ExecutionResult|error {

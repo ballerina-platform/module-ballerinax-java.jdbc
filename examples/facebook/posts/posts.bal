@@ -50,7 +50,7 @@ listener http:Listener fbListener = new (9092);
 service /facebook on fbListener {
 
     resource function get posts() returns string[]|error {
-        final string[] postIds = [];
+        string[] postIds = [];
         stream<record {}, error?> resultStream = dbClient->query(`SELECT * FROM Posts`);
         check resultStream.forEach(function(record {} result) {
             postIds.push(<string>result["ID"]);

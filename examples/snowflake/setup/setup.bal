@@ -48,7 +48,6 @@ public function main() returns error? {
                 VALUES (${row.first_name}, ${row.last_name}, ${row.email}, ${row.address}, ${row.joined_date}, ${row.salary})`;
     _ = check dbClient->batchExecute(sqlQueries);
     check dbClient.close();
-    return;
 }
 
 function init() returns error? {
@@ -76,5 +75,4 @@ function init() returns error? {
             salary NUMBER
         );
     `);
-    return;
 }

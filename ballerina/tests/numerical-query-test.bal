@@ -64,7 +64,6 @@ function testQuery() returns error? {
     } else {
         test:assertFail("Return data is nil.");
     }
-    return;
 
 }
 
@@ -90,8 +89,6 @@ function testQueryNumericTypeRecord() returns error? {
     test:assertTrue(returnData?.decimal_type is decimal);
     test:assertTrue(returnData?.numeric_type is decimal);
     test:assertTrue(returnData?.float_type is float);
-
-    return;
 }
 
 type NumericInvalidColumn record {|
@@ -119,7 +116,6 @@ function testQueryNumericInvalidColumnRecord() returns error? {
     test:assertTrue(data is error);
     error dbError = <error>data;
     test:assertEquals(dbError.message(), "No mapping field found for SQL table column 'ID' in the record type 'NumericInvalidColumn'", "Error message differs");
-    return;
 }
 
 type NumericOptionalType record {
@@ -156,8 +152,6 @@ function testQueryNumericOptionalTypeRecord() returns error? {
     test:assertTrue(returnData?.decimal_type is decimal);
     test:assertTrue(returnData?.numeric_type is decimal);
     test:assertTrue(returnData?.float_type is float);
-
-    return;
 }
 
 type NumericUnionType record {
@@ -194,8 +188,7 @@ function testQueryNumericUnionTypeRecord() returns error? {
     test:assertTrue(returnData?.decimal_type is decimal);
     test:assertTrue(returnData?.numeric_type is decimal);
     test:assertTrue(returnData?.float_type is float);
-
-    return;
+    
 }
 
 type NumericStringType record {
@@ -231,8 +224,6 @@ function testQueryNumericStringTypeRecord() returns error? {
     test:assertFalse(returnData?.decimal_type is ());
     test:assertFalse(returnData?.numeric_type is ());
     test:assertFalse(returnData?.float_type is ());
-
-    return;
 }
 
 public type CustomType int|decimal|float;
@@ -272,8 +263,6 @@ function testQueryNumericCustomTypeRecord() returns error? {
     test:assertTrue(returnData?.numeric_type is decimal);
     test:assertTrue(returnData?.float_type is float);
 
-    return;
-
 }
 
 @test:Config {
@@ -299,6 +288,4 @@ function testQueryFromNullTable() returns error? {
     test:assertEquals(returnData["DECIMAL_TYPE"], ());
     test:assertEquals(returnData["NUMERIC_TYPE"], ());
     test:assertEquals(returnData["REAL_TYPE"], ());
-
-    return;
 }
