@@ -93,7 +93,7 @@ function testGlobalConnectionPoolSingleDestinationConcurrent() returns error? {
     // Since each select operation hold up one connection each, the last select operation should
     // return an error
     int i = 0;
-    while (i < 4) {
+    while i < 4 {
         if returnArray[i][0] is anydata {
             test:assertEquals(returnArray[i][0], 1);
             if returnArray[i][1] is anydata {
@@ -146,7 +146,7 @@ function testLocalSharedConnectionPoolConfigSingleDestination() returns error? {
     // custom pool options. Since each select operation holds up one connection each, the last select
     // operation should return an error
     i = 0;
-    while (i < 5) {
+    while i < 5 {
         test:assertEquals(returnArray[i], 1);
         i = i + 1;
     }
@@ -199,7 +199,7 @@ function testLocalSharedConnectionPoolConfigDifferentDbOptions() returns error? 
 
     // Since max pool size is 3, the last select function call going through each pool should fail.
     i = 0;
-    while (i < 3) {
+    while i < 3 {
         test:assertEquals(returnArray[i], 1);
         test:assertEquals(returnArray[i + 4], 1);
         i = i + 1;
@@ -249,7 +249,7 @@ function testLocalSharedConnectionPoolConfigMultipleDestinations() returns error
 
     // Since max pool size is 3, the last select function call going through each pool should fail.
     i = 0;
-    while (i < 3) {
+    while i < 3 {
         test:assertEquals(returnArray[i], 1);
         test:assertEquals(returnArray[i + 4], 1);
         i = i + 1;
@@ -560,7 +560,7 @@ function drainGlobalPool(string jdbcUrl) returns error? {
     // Since each select operation hold up one connection each, the last select operation should
     // return an error
     i = 0;
-    while (i < 10) {
+    while i < 10 {
         test:assertEquals(returnArray[i], 1);
         i = i + 1;
     }

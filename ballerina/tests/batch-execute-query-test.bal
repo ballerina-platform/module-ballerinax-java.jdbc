@@ -155,7 +155,7 @@ isolated function validateBatchExecutionResult(sql:ExecutionResult[] results, in
     test:assertEquals(results.length(), rowCount.length());
 
     int i = 0;
-    while (i < results.length()) {
+    while i < results.length() {
         test:assertEquals(results[i].affectedRowCount, rowCount[i]);
         int|string? lastInsertIdVal = results[i].lastInsertId;
         if lastId[i] == -1 {
