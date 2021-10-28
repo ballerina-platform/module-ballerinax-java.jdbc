@@ -244,7 +244,6 @@ function testMultipleRecoredRetrieval() returns error? {
     test:assertEquals(mixTypesActual, mixTypesExpected, "Expected record did not match.");
     test:assertEquals(counter, 4);
     check dbClient.close();
-
 }
 
 type ResultDates record {
