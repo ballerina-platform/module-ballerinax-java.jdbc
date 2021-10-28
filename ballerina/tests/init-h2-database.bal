@@ -18,9 +18,9 @@ import ballerina/io;
 import ballerina/test;
 import ballerina/file;
 
-string libPath = checkpanic file:getAbsolutePath("lib");
-string dbPath = checkpanic file:getAbsolutePath("target/databases");
-string scriptPath = checkpanic file:getAbsolutePath("tests/resources/sql");
+string libPath = check file:getAbsolutePath("lib");
+string dbPath = check file:getAbsolutePath("target/databases");
+string scriptPath = check file:getAbsolutePath("tests/resources/sql");
 
 string user = "test";
 string password = "Test123";

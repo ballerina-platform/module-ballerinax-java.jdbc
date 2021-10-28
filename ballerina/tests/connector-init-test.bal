@@ -28,28 +28,27 @@ isolated function initConnectionDB() {
 @test:Config {
     groups: ["connection"]
 }
-function testConnection1() {
-    Client testDB = checkpanic new (url = jdbcUrl, user = user, password = password);
+function testConnection1() returns error? {
+    Client testDB = check new (url = jdbcUrl, user = user, password = password);
     test:assertEquals(testDB.close(), (), "JDBC connection failure.");
 }
 
 @test:Config {
     groups: ["connection"]
 }
-function testConnection2() {
-    Client testDB = checkpanic new (jdbcUrl, user, password);
+function testConnection2() returns error? {
+    Client testDB = check new (jdbcUrl, user, password);
     test:assertEquals(testDB.close(), (), "JDBC connection failure.");
 }
-
 
 @test:Config {
     groups: ["connection"]
 }
-isolated function testConnectionInvalidUrl() {
+isolated function testConnectionInvalidUrl() returns error? {
     string invalidUrl = "jdbc:h3:";
     Client|sql:Error dbClient = new (invalidUrl);
-    if (!(dbClient is sql:Error)) {
-        checkpanic dbClient.close();
+    if dbClient !is sql:Error {
+        check dbClient.close();
         test:assertFail("Invalid does not throw DatabaseError");
     }
 }
@@ -57,10 +56,10 @@ isolated function testConnectionInvalidUrl() {
 @test:Config {
     groups: ["connection"]
 }
-function testConnectionNoUserPassword() {
+function testConnectionNoUserPassword() returns error? {
     Client|sql:Error dbClient = new (jdbcUrl);
-    if (!(dbClient is sql:Error)) {
-        checkpanic dbClient.close();
+    if dbClient !is sql:Error {
+        check dbClient.close();
         test:assertFail("No username does not throw DatabaseError");
     }
 }
@@ -68,23 +67,23 @@ function testConnectionNoUserPassword() {
 @test:Config {
     groups: ["connection"]
 }
-function testConnectionWithValidDriver() {
+function testConnectionWithValidDriver() returns error? {
     Client|sql:Error dbClient = new (jdbcUrl, user, password, {datasourceName: "org.h2.jdbcx.JdbcDataSource"});
-    if (dbClient is sql:Error) {
+    if dbClient is sql:Error {
         test:assertFail("Valid driver throws DatabaseError");
     } else {
-        checkpanic dbClient.close();
+        check dbClient.close();
     }
 }
 
 @test:Config {
     groups: ["connection"]
 }
-function testConnectionWithInvalidDriver() {
+function testConnectionWithInvalidDriver() returns error? {
     Client|sql:Error dbClient = new (jdbcUrl, user, password,
         {datasourceName: "org.h2.jdbcx.JdbcDataSourceInvalid"});
-    if (!(dbClient is sql:Error)) {
-        checkpanic dbClient.close();
+    if dbClient !is sql:Error {
+        check dbClient.close();
         test:assertFail("Invalid driver does not throw DatabaseError");
     }
 }
@@ -92,33 +91,33 @@ function testConnectionWithInvalidDriver() {
 @test:Config {
     groups: ["connection"]
 }
-function testConnectionWithDatasourceOptions() {
+function testConnectionWithDatasourceOptions() returns error? {
     Options options = {
         datasourceName: "org.h2.jdbcx.JdbcDataSource",
         properties: {"loginTimeout": 5000}
     };
     Client|sql:Error dbClient = new (jdbcUrl, user, password, options);
-    if (dbClient is sql:Error) {
+    if dbClient is sql:Error {
         test:assertFail("Datasource options throws DatabaseError");
     } else {
-        checkpanic dbClient.close();
+        check dbClient.close();
     }
 }
 
 @test:Config {
     groups: ["connection"]
 }
-function testConnectionWithDatasourceInvalidProperty() {
+function testConnectionWithDatasourceInvalidProperty() returns error? {
     Options options = {
         datasourceName: "org.h2.jdbcx.JdbcDataSource",
         properties: {"invalidProperty": 109}
     };
     Client|sql:Error dbClient = new (jdbcUrl, user, password, options);
-    if (dbClient is sql:Error) {
+    if dbClient is sql:Error {
         test:assertEquals(dbClient.message(),
         "Error in SQL connector configuration: Property invalidProperty does not exist on target class org.h2.jdbcx.JdbcDataSource");
     } else {
-        checkpanic dbClient.close();
+        check dbClient.close();
         test:assertFail("Invalid driver does not throw DatabaseError");
     }
 }
@@ -126,17 +125,17 @@ function testConnectionWithDatasourceInvalidProperty() {
 @test:Config {
     groups: ["connection"]
 }
-function testWithConnectionPool() {
+function testWithConnectionPool() returns error? {
     sql:ConnectionPool connectionPool = {
         maxOpenConnections: 25
     };
-    Client dbClient = checkpanic new (url = jdbcUrl, user = user,
+    Client dbClient = check new (url = jdbcUrl, user = user,
         password = password, connectionPool = connectionPool);
     error? err = dbClient.close();
-    if (err is error) {
+    if err is error {
         test:assertFail("DB connection not created properly.");
     } else {
-        test:assertEquals(connectionPool.maxConnectionLifeTime, <decimal> 2000.5);
+        test:assertEquals(connectionPool.maxConnectionLifeTime, <decimal>2000.5);
         test:assertEquals(connectionPool.minIdleConnections, 5);
     }
 }
@@ -144,15 +143,15 @@ function testWithConnectionPool() {
 @test:Config {
     groups: ["connection"]
 }
-function testWithSharedConnPool() {
+function testWithSharedConnPool() returns error? {
     sql:ConnectionPool connectionPool = {
         maxOpenConnections: 25
     };
-    Client dbClient1 = checkpanic new (url = jdbcUrl, user = user,
+    Client dbClient1 = check new (url = jdbcUrl, user = user,
         password = password, connectionPool = connectionPool);
-    Client dbClient2 = checkpanic new (url = jdbcUrl, user = user,
+    Client dbClient2 = check new (url = jdbcUrl, user = user,
         password = password, connectionPool = connectionPool);
-    Client dbClient3 = checkpanic new (url = jdbcUrl, user = user,
+    Client dbClient3 = check new (url = jdbcUrl, user = user,
         password = password, connectionPool = connectionPool);
 
     test:assertEquals(dbClient1.close(), (), "JDBC connection failure.");
@@ -163,7 +162,7 @@ function testWithSharedConnPool() {
 @test:Config {
     groups: ["connection"]
 }
-function testWithAllParams() {
+function testWithAllParams() returns error? {
     Options options = {
         datasourceName: "org.h2.jdbcx.JdbcDataSource",
         properties: {"loginTimeout": 5000}
@@ -171,6 +170,6 @@ function testWithAllParams() {
     sql:ConnectionPool connectionPool = {
         maxOpenConnections: 25
     };
-    Client dbClient = checkpanic new (jdbcUrl, user, password, options, connectionPool);
+    Client dbClient = check new (jdbcUrl, user, password, options, connectionPool);
     test:assertEquals(dbClient.close(), (), "JDBC connection failure.");
 }

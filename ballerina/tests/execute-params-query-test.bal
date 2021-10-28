@@ -156,7 +156,7 @@ function deleteDataTable3() returns error? {
     groups: ["execute", "execute-params"]
 }
 function insertIntoComplexTable() returns error? {
-    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
+    record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BLOB_TYPE");
     int rowId = 5;
     string stringType = "very long text";
@@ -171,9 +171,9 @@ function insertIntoComplexTable() returns error? {
     dependsOn: [insertIntoComplexTable]
 }
 function insertIntoComplexTable2() returns error? {
-    io:ReadableByteChannel blobChannel = getBlobColumnChannel();
-    io:ReadableCharacterChannel clobChannel = getClobColumnChannel();
-    io:ReadableByteChannel byteChannel = getByteColumnChannel();
+    io:ReadableByteChannel blobChannel = check getBlobColumnChannel();
+    io:ReadableCharacterChannel clobChannel = check getClobColumnChannel();
+    io:ReadableByteChannel byteChannel = check getByteColumnChannel();
 
     sql:BlobValue blobType = new (blobChannel);
     sql:ClobValue clobType = new (clobChannel);
@@ -204,7 +204,7 @@ function insertIntoComplexTable3() returns error? {
     dependsOn: [insertIntoComplexTable3]
 }
 function deleteComplexTable() returns error? {
-    record {}|error? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
+    record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[] binaryData = <byte[]>getUntaintedData(value, "BLOB_TYPE");
 
     int rowId = 2;
@@ -309,7 +309,7 @@ function insertIntoDateTimeTable() returns error? {
 function insertIntoDateTimeTable2() returns error? {
     sql:DateValue dateVal = new ("2017-02-03");
     sql:TimeValue timeVal = new ("11:35:45");
-    sql:DateTimeValue dateTimeVal =  new ("2017-02-03 11:53:00");
+    sql:DateTimeValue dateTimeVal = new ("2017-02-03 11:53:00");
     sql:TimestampValue timestampVal = new ("2017-02-03 11:53:00");
     int rowId = 3;
 
@@ -326,7 +326,7 @@ function insertIntoDateTimeTable2() returns error? {
 function insertIntoDateTimeTable3() returns error? {
     sql:DateValue dateVal = new ();
     sql:TimeValue timeVal = new ();
-    sql:DateTimeValue dateTimeVal =  new ();
+    sql:DateTimeValue dateTimeVal = new ();
     sql:TimestampValue timestampVal = new ();
     int rowId = 4;
 
@@ -362,7 +362,7 @@ function insertIntoArrayTable() returns error? {
     string[] paraString = ["Hello", "Ballerina"];
     boolean[] paraBool = [true, false, true];
 
-    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
+    record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[][] dataBlob = [<byte[]>getUntaintedData(value, "BLOB_TYPE")];
 
     sql:ArrayValue paraBlob = new (dataBlob);
@@ -422,13 +422,13 @@ function insertIntoArrayTable13() returns error? {
 function insertIntoArrayTable3() returns error? {
     float float1 = 19.21;
     float float2 = 492.98;
-    sql:SmallIntArrayValue paraSmallint = new([1211, 478]);
-    sql:IntegerArrayValue paraInt = new([121, 498]);
+    sql:SmallIntArrayValue paraSmallint = new ([1211, 478]);
+    sql:IntegerArrayValue paraInt = new ([121, 498]);
     sql:BigIntArrayValue paraLong = new ([121, 498]);
     float[] paraFloat = [19.21, 492.98];
     sql:DoubleArrayValue paraDouble = new ([float1, float2]);
     sql:RealArrayValue paraReal = new ([float1, float2]);
-    sql:DecimalArrayValue paraDecimal = new ([<decimal> 12.245, <decimal> 13.245]);
+    sql:DecimalArrayValue paraDecimal = new ([<decimal>12.245, <decimal>13.245]);
     sql:NumericArrayValue paraNumeric = new ([float1, float2]);
     sql:CharArrayValue paraChar = new (["Char value", "Character"]);
     sql:VarcharArrayValue paraVarchar = new (["Varchar value", "Varying Char"]);
@@ -447,8 +447,8 @@ function insertIntoArrayTable3() returns error? {
     byte[] byteArray2 = [4, 5, 6];
     sql:BinaryArrayValue paraBinary = new ([byteArray1, byteArray2]);
     sql:VarBinaryArrayValue paraVarBinary = new ([byteArray1, byteArray2]);
-    io:ReadableByteChannel byteChannel = getByteColumnChannel();
-    record {}? value = queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
+    io:ReadableByteChannel byteChannel = check getByteColumnChannel();
+    record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[][] paraBlob = [<byte[]>getUntaintedData(value, "BLOB_TYPE")];
     int rowId = 7;
 
@@ -540,11 +540,11 @@ function insertIntoArrayTable6() returns error? {
     sql:TimeArrayValue paraTime = new (["20:08:59", "21:18:59"]);
     sql:DateTimeArrayValue paraDatetime = new (["2008-08-08 20:08:08", "2009-09-09 23:09:09"]);
     sql:TimestampArrayValue paraTimestamp = new (["2008-08-08 20:08:08", "2008-08-08 20:08:09"]);
-    io:ReadableByteChannel byteChannel1 = getByteColumnChannel();
-    io:ReadableByteChannel byteChannel2 = getByteColumnChannel();
+    io:ReadableByteChannel byteChannel1 = check getByteColumnChannel();
+    io:ReadableByteChannel byteChannel2 = check getByteColumnChannel();
     sql:BinaryArrayValue paraBinary = new ([byteChannel1, byteChannel2]);
-    io:ReadableByteChannel varbinaryChannel1 = getBlobColumnChannel();
-    io:ReadableByteChannel varbinaryChannel2 = getBlobColumnChannel();
+    io:ReadableByteChannel varbinaryChannel1 = check getBlobColumnChannel();
+    io:ReadableByteChannel varbinaryChannel2 = check getBlobColumnChannel();
     sql:VarBinaryArrayValue paraVarBinary = new ([varbinaryChannel1, varbinaryChannel2]);
     int rowId = 10;
 
@@ -613,14 +613,14 @@ function insertIntoArrayTable8() returns error? {
     groups: ["execute", "execute-params"]
 }
 function insertIntoArrayTable9() returns error? {
-     time:TimeOfDay timeRecord = {hour: 14, minute: 15, second:23};
-     sql:TimeArrayValue paraTime = new ([timeRecord]);
+    time:TimeOfDay timeRecord = {hour: 14, minute: 15, second: 23};
+    sql:TimeArrayValue paraTime = new ([timeRecord]);
 
-     time:Date dateRecord = {year: 2017, month: 5, day: 23};
-     sql:DateArrayValue paraDate = new ([dateRecord]);
+    time:Date dateRecord = {year: 2017, month: 5, day: 23};
+    sql:DateArrayValue paraDate = new ([dateRecord]);
 
-     time:Utc timestampRecord = time:utcNow();
-     sql:TimestampArrayValue paraTimestamp = new ([timestampRecord]);
+    time:Utc timestampRecord = time:utcNow();
+    sql:TimestampArrayValue paraTimestamp = new ([timestampRecord]);
 
     int rowId = 13;
 
@@ -634,28 +634,36 @@ function insertIntoArrayTable9() returns error? {
     groups: ["execute", "execute-params"]
 }
 function insertIntoArrayTable10() returns error? {
-     time:TimeOfDay timeWithTzRecord = {utcOffset: {hours: 6, minutes: 30}, hour: 16, minute: 33, second: 55, "timeAbbrev": "+06:30"};
-     sql:TimeArrayValue paraTimeWithTZ = new ([timeWithTzRecord]);
-     int rowId = 14;
-     sql:ParameterizedQuery sqlQuery =
-        `INSERT INTO ArrayTypes2 (row_id, time_tz_array) VALUES(${rowId},
-                ${paraTimeWithTZ})`;
-     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
+    time:TimeOfDay timeWithTzRecord = {utcOffset: {hours: 6, minutes: 30}, hour: 16, minute: 33, second: 55, "timeAbbrev": "+06:30"};
+    sql:TimeArrayValue paraTimeWithTZ = new ([timeWithTzRecord]);
+    int rowId = 14;
+    sql:ParameterizedQuery sqlQuery =
+       `INSERT INTO ArrayTypes2 (row_id, time_tz_array) VALUES(${rowId},
+               ${paraTimeWithTZ})`;
+    validateResult(check executeQueryJDBCClient(sqlQuery), 1);
 }
 
 @test:Config {
     groups: ["execute", "execute-params"]
 }
 function insertIntoArrayTable11() returns error? {
-     time:Civil timestampWithTzRecord = {utcOffset: {hours: -8, minutes: 0}, timeAbbrev: "-08:00", year:2017,
-                                            month:1, day:25, hour: 16, minute: 33, second:55};
-     sql:DateTimeArrayValue paraDatetimeWithTZ = new ([timestampWithTzRecord]);
-     int rowId = 14;
-     sql:ParameterizedQuery sqlQuery =
+    time:Civil timestampWithTzRecord = {
+        utcOffset: {hours: -8, minutes: 0},
+        timeAbbrev: "-08:00",
+        year: 2017,
+        month: 1,
+        day: 25,
+        hour: 16,
+        minute: 33,
+        second: 55
+    };
+    sql:DateTimeArrayValue paraDatetimeWithTZ = new ([timestampWithTzRecord]);
+    int rowId = 14;
+    sql:ParameterizedQuery sqlQuery =
         `INSERT INTO ArrayTypes2 (row_id, timestamp_tz_array) VALUES(${rowId},
                 ${paraDatetimeWithTZ})`;
-     sql:ExecutionResult|error result = executeQueryJDBCClient(sqlQuery);
-     test:assertTrue(result is error, "Error Expected for timestamp array");
+    sql:ExecutionResult|error result = executeQueryJDBCClient(sqlQuery);
+    test:assertTrue(result is error, "Error Expected for timestamp array");
 }
 
 function executeQueryJDBCClient(sql:ParameterizedQuery sqlQuery) returns sql:ExecutionResult|error {
@@ -665,24 +673,24 @@ function executeQueryJDBCClient(sql:ParameterizedQuery sqlQuery) returns sql:Exe
     return result;
 }
 
-function queryJDBCClient(sql:ParameterizedQuery sqlQuery) returns record {}? {
-    Client dbClient = checkpanic new (url = executeParamsDb, user = user, password = password);
-    stream<record{}, error?> streamData = dbClient->query(sqlQuery);
-    record {|record {} value;|}? data = checkpanic streamData.next();
-    checkpanic streamData.close();
+function queryJDBCClient(sql:ParameterizedQuery sqlQuery) returns record {}|error? {
+    Client dbClient = check new (url = executeParamsDb, user = user, password = password);
+    stream<record {}, error?> streamData = dbClient->query(sqlQuery);
+    record {|record {} value;|}? data = check streamData.next();
+    check streamData.close();
     record {}? value = data?.value;
-    checkpanic dbClient.close();
+    check dbClient.close();
     return value;
 }
 
 isolated function validateResult(sql:ExecutionResult result, int rowCount, int? lastId = ()) {
     test:assertExactEquals(result.affectedRowCount, rowCount, "Affected row count is different.");
 
-    if (lastId is ()) {
+    if lastId is () {
         test:assertEquals(result.lastInsertId, (), "Last Insert Id is not nil.");
     } else {
         int|string? lastInsertIdVal = result.lastInsertId;
-        if (lastInsertIdVal is int) {
+        if lastInsertIdVal is int {
             test:assertTrue(lastInsertIdVal > 1, "Last Insert Id is nil.");
         } else {
             test:assertFail("The last insert id should be an integer found type '" + lastInsertIdVal.toString());

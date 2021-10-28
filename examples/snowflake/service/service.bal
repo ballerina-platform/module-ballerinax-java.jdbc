@@ -23,7 +23,7 @@ configurable string jdbcUrlSF = ?;
 configurable string dbUsernameSF = ?;
 configurable string dbPasswordSF = ?;
 
-type Employee record {| 
+type Employee record {|
     string first_name;
     string last_name;
     string email;
@@ -41,18 +41,18 @@ type EmployeeNotFound record {|
 |};
 
 jdbc:Options options = {
-   properties: {
-       db: "CompanyDB",
-       schema: "PUBLIC",
-       warehouse: "TestWarehouse"
-   },
-   requestGeneratedKeys: jdbc:NONE
+    properties: {
+        db: "CompanyDB",
+        schema: "PUBLIC",
+        warehouse: "TestWarehouse"
+    },
+    requestGeneratedKeys: jdbc:NONE
 };
-jdbc:Client dbClient = check new (jdbcUrlSF, dbUsernameSF, dbPasswordSF, options = options);
+final jdbc:Client dbClient = check new (jdbcUrlSF, dbUsernameSF, dbPasswordSF, options = options);
 
 service /employee on new http:Listener(9090) {
 
-    resource function get [string email]() returns Employee|EmployeeNotFound|error {
+    isolated resource function get [string email]() returns Employee|EmployeeNotFound|error {
         Employee|sql:Error data = dbClient->queryRow(`
             SELECT * FROM Employees WHERE email = ${email};
         `);
@@ -62,14 +62,14 @@ service /employee on new http:Listener(9090) {
         return data;
     }
 
-    resource function post .(@http:Payload Employee employee) returns EmployeeCreated|error {
+    isolated resource function post .(@http:Payload Employee employee) returns EmployeeCreated|error {
         _ = check dbClient->execute(`
             INSERT INTO Employees (first_name, last_name, email, address, joined_date, salary)
             VALUES (${employee.first_name}, ${employee.last_name}, ${employee.email}, 
                     ${employee.address}, ${employee?.joined_date}, ${employee.salary});
         `);
         return {
-            body: {status: "New employee " + employee.email + " created."}     
-        };    
+            body: {status: "New employee " + employee.email + " created."}
+        };
     }
 }

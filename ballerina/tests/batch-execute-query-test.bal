@@ -29,27 +29,27 @@ isolated function initBatchExecuteDB() {
 @test:Config {
     groups: ["batch-execute"]
 }
-function batchInsertIntoDataTable() {
+function batchInsertIntoDataTable() returns error? {
     var data = [
-        {intVal:3, longVal:9223372036854774807, floatVal:123.34},
-        {intVal:4, longVal:9223372036854774807, floatVal:123.34},
-        {intVal:5, longVal:9223372036854774807, floatVal:123.34}
+        {intVal: 3, longVal: 9223372036854774807, floatVal: 123.34},
+        {intVal: 4, longVal: 9223372036854774807, floatVal: 123.34},
+        {intVal: 5, longVal: 9223372036854774807, floatVal: 123.34}
     ];
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
         select `INSERT INTO DataTable (int_type, long_type, float_type) VALUES (${row.intVal}, ${row.longVal}, ${row.floatVal})`;
-    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries), [1, 1, 1], [2,3,4]);
+    validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries), [1, 1, 1], [2,3,4]);
 }
 
 @test:Config {
     groups: ["batch-execute"],
     dependsOn: [batchInsertIntoDataTable]
 }
-function batchInsertIntoDataTable2() {
+function batchInsertIntoDataTable2() returns error? {
     int intType = 6;
     sql:ParameterizedQuery sqlQuery = `INSERT INTO DataTable (int_type) VALUES(${intType})`;
     sql:ParameterizedQuery[] sqlQueries = [sqlQuery];
-    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries), [1], [5]);
+    validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries), [1], [5]);
 }
 
 @test:Config {
@@ -58,17 +58,17 @@ function batchInsertIntoDataTable2() {
 }
 function batchInsertIntoDataTableFailure() {
     var data = [
-        {intVal:7, longVal:9223372036854774807, floatVal:123.34},
-        {intVal:1, longVal:9223372036854774807, floatVal:123.34},
-        {intVal:9, longVal:9223372036854774807, floatVal:123.34}
+        {intVal: 7, longVal: 9223372036854774807, floatVal: 123.34},
+        {intVal: 1, longVal: 9223372036854774807, floatVal: 123.34},
+        {intVal: 9, longVal: 9223372036854774807, floatVal: 123.34}
     ];
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
         select `INSERT INTO DataTable (int_type, long_type, float_type) VALUES (${row.intVal}, ${row.longVal}, ${row.floatVal})`;
-    sql:ExecutionResult[]|error result = trap batchExecuteQueryJDBCClient(sqlQueries);
+    sql:ExecutionResult[]|error result = batchExecuteQueryJDBCClient(sqlQueries);
     test:assertTrue(result is error);
 
-    if (result is sql:BatchExecuteError) {
+    if result is sql:BatchExecuteError {
         sql:BatchExecuteErrorDetail errorDetails = result.detail();
         test:assertEquals(errorDetails.executionResults.length(), 3);
         test:assertEquals(errorDetails.executionResults[0].affectedRowCount, 1);
@@ -82,11 +82,11 @@ function batchInsertIntoDataTableFailure() {
 @test:Config {
     groups: ["batch-execute"]
 }
-function batchInsertIntoDataTableWithRequestGeneratedKeysAll() {
+function batchInsertIntoDataTableWithRequestGeneratedKeysAll() returns error? {
     var data = [
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34}
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34}
     ];
     Options options = {
         requestGeneratedKeys: ALL
@@ -94,17 +94,17 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysAll() {
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
         select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
-    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [2, 3, 4]);
+    validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [2, 3, 4]);
 }
 
 @test:Config {
     groups: ["batch-execute"]
 }
-function batchInsertIntoDataTableWithRequestGeneratedKeysNone() {
+function batchInsertIntoDataTableWithRequestGeneratedKeysNone() returns error? {
     var data = [
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34}
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34}
     ];
     Options options = {
         requestGeneratedKeys: NONE
@@ -112,17 +112,17 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysNone() {
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
         select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
-    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [-1, -1, -1]);
+    validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [-1, -1, -1]);
 }
 
 @test:Config {
     groups: ["batch-execute"]
 }
-function batchInsertIntoDataTableWithRequestGeneratedKeysExecute() {
+function batchInsertIntoDataTableWithRequestGeneratedKeysExecute() returns error? {
     var data = [
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34}
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34}
     ];
     Options options = {
         requestGeneratedKeys: EXECUTE
@@ -130,17 +130,17 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysExecute() {
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
         select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
-    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [-1, -1, -1]);
+    validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [-1, -1, -1]);
 }
 
 @test:Config {
     groups: ["batch-execute"]
 }
-function batchInsertIntoDataTableWithRequestGeneratedKeysBatchExecute() {
+function batchInsertIntoDataTableWithRequestGeneratedKeysBatchExecute() returns error? {
     var data = [
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34},
-        {longVal:9223372036854774807, floatVal:123.34}
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34},
+        {longVal: 9223372036854774807, floatVal: 123.34}
     ];
     Options options = {
         requestGeneratedKeys: BATCH_EXECUTE
@@ -148,19 +148,19 @@ function batchInsertIntoDataTableWithRequestGeneratedKeysBatchExecute() {
     sql:ParameterizedQuery[] sqlQueries =
         from var row in data
         select `INSERT INTO DataTable (long_type, float_type) VALUES (${row.longVal}, ${row.floatVal})`;
-    validateBatchExecutionResult(batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [2, 3, 4]);
+    validateBatchExecutionResult(check batchExecuteQueryJDBCClient(sqlQueries, options), [1, 1, 1], [2, 3, 4]);
 }
 
 isolated function validateBatchExecutionResult(sql:ExecutionResult[] results, int[] rowCount, int[] lastId) {
     test:assertEquals(results.length(), rowCount.length());
 
     int i = 0;
-    while (i < results.length()) {
+    while i < results.length() {
         test:assertEquals(results[i].affectedRowCount, rowCount[i]);
         int|string? lastInsertIdVal = results[i].lastInsertId;
-        if (lastId[i] == -1) {
+        if lastId[i] == -1 {
             test:assertEquals(lastInsertIdVal, ());
-        } else if (lastInsertIdVal is int) {
+        } else if lastInsertIdVal is int {
             test:assertTrue(lastInsertIdVal > 1, "Last Insert Id is nil.");
         } else {
             test:assertFail("The last insert id should be an integer.");
@@ -170,9 +170,9 @@ isolated function validateBatchExecutionResult(sql:ExecutionResult[] results, in
 }
 
 function batchExecuteQueryJDBCClient(sql:ParameterizedQuery[] sqlQueries, Options? options = ())
-returns sql:ExecutionResult[] {
-    Client dbClient = checkpanic new (url = batchExecuteDB, user = user, password = password, options = options);
-    sql:ExecutionResult[] result = checkpanic dbClient->batchExecute(sqlQueries);
-    checkpanic dbClient.close();
+returns sql:ExecutionResult[]|error {
+    Client dbClient = check new (url = batchExecuteDB, user = user, password = password, options = options);
+    sql:ExecutionResult[] result = check dbClient->batchExecute(sqlQueries);
+    check dbClient.close();
     return result;
 }
