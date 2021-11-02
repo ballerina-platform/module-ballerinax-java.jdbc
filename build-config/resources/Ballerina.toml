@@ -4,7 +4,7 @@ name = "java.jdbc"
 version = "@toml.version@"
 authors = ["Ballerina"]
 keywords = ["database", "client", "network", "SQL", "RDBMS", "JDBC"]
-repository = "https://github.com/ballerina-platform/module-ballerinax-mssql"
+repository = "https://github.com/ballerina-platform/module-ballerinax-java.jdbc"
 license = ["Apache-2.0"]
 distribution = "slbeta3"
 
