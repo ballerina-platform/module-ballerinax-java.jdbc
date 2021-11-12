@@ -15,12 +15,14 @@ rootProject.name = 'ballerinax-java.jdbc'
 
 include ':checkstyle'
 include ':java.jdbc-native'
+include ':java.jdbc-compiler-plugin'
 include ':java.jdbc-ballerina'
 include ':java.jdbc-examples'
 include ':java.jdbc-compiler-plugin-tests'
 
 project(':checkstyle').projectDir = file("build-config${File.separator}checkstyle")
 project(':java.jdbc-native').projectDir = file('native')
+project(':java.jdbc-compiler-plugin').projectDir = file('compiler-plugin')
 project(':java.jdbc-ballerina').projectDir = file('ballerina')
 project(':java.jdbc-examples').projectDir = file('examples')
 project(':java.jdbc-compiler-plugin-tests').projectDir = file('compiler-plugin-tests')
