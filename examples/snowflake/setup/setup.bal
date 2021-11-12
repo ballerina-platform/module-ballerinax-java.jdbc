@@ -52,7 +52,7 @@ public function main() returns error? {
 
 function init() returns error? {
     // Create database
-    sql:ExecutionResult res = check dbClient->execute(`CREATE OR REPLACE DATABASE CompanyDB`);
+    _ = check dbClient->execute(`CREATE OR REPLACE DATABASE CompanyDB`);
 
     // Create warehouse
     _ = check dbClient->execute(`
