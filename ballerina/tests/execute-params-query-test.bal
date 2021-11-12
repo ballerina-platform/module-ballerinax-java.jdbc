@@ -437,7 +437,7 @@ function insertIntoArrayTable3() returns error? {
     int rowId = 7;
 
     sql:ParameterizedQuery sqlQuery =
-        `INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, decimal_array, boolean_array, bit_array
+        `INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, decimal_array, boolean_array, bit_array,
          string_array, smallint_array, numeric_array, real_array, char_array, varchar_array, nvarchar_array, date_array, time_array, datetime_array, timestamp_array, binary_array, varbinary_array, blob_array) VALUES(${rowId}, ${paraInt}, ${paraLong}, ${paraFloat}, ${paraDouble}, ${paraDecimal},
          ${paraBool}, ${paraBit}, ${paraString}, ${paraSmallint}, ${paraNumeric}, ${paraReal}, ${paraChar}, ${paraVarchar}, ${paraNVarchar}, ${paraDate}, ${paraTime}, ${paraDatetime}, ${paraTimestamp}, ${paraBinary}, ${paraVarBinary}, ${paraBlob})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
