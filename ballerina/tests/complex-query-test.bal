@@ -156,7 +156,6 @@ function testArrayRetrieval() returns error? {
     record {}? value = data?.value;
     check dbClient.close();
 
-    float[] doubleTypeArray = [245.23, 5559.49, 8796.123];
     var mixTypesExpected = {
         INT_TYPE: 1,
         INT_ARRAY: [1, 2, 3],
@@ -262,7 +261,7 @@ function testDateTime() returns error? {
         Insert into DateTimeTypes (row_id, date_type, time_type, timestamp_type, datetime_type)
         values (1,'2017-05-23','14:15:23','2017-01-25 16:33:55','2017-01-25 16:33:55')
     `;
-    sql:ExecutionResult? result = check dbClient->execute(insertQuery);
+    _ = check dbClient->execute(insertQuery);
     stream<record {}, error?> queryResult = dbClient->query(`
         SELECT date_type, time_type, timestamp_type, datetime_type from DateTimeTypes where row_id = 1`, ResultDates);
     record {|record {} value;|}? data = check queryResult.next();

@@ -138,7 +138,6 @@ function deleteDataTable3() returns error? {
     sql:IntegerValue rowId = new (3);
     sql:IntegerValue intType = new (1);
     sql:BigIntValue longType = new (9372036854774807);
-    sql:FloatValue floatType = new (124.34);
     sql:DoubleValue doubleType = new (29095039);
     sql:BooleanValue boolType = new (false);
     sql:VarcharValue stringType = new ("1");
@@ -220,8 +219,6 @@ function deleteComplexTable() returns error? {
 function deleteComplexTable2() returns error? {
     sql:BlobValue blobType = new ();
     sql:ClobValue clobType = new ();
-    sql:BinaryValue binaryType = new ();
-    sql:VarBinaryValue varBinaryType = new ();
 
     int rowId = 4;
     sql:ParameterizedQuery sqlQuery =
@@ -234,7 +231,6 @@ function deleteComplexTable2() returns error? {
 }
 function insertIntoNumericTable() returns error? {
     sql:BitValue bitType = new (1);
-    int rowId = 3;
     int intType = 2147483647;
     int bigIntType = 9223372036854774807;
     int smallIntType = 32767;
@@ -253,7 +249,6 @@ function insertIntoNumericTable() returns error? {
     dependsOn: [insertIntoNumericTable]
 }
 function insertIntoNumericTable2() returns error? {
-    int rowId = 4;
     var nilType = ();
     sql:ParameterizedQuery sqlQuery =
             `INSERT INTO NumericTypes (int_type, bigint_type, smallint_type, tinyint_type, bit_type, decimal_type,
@@ -267,7 +262,6 @@ function insertIntoNumericTable2() returns error? {
     dependsOn: [insertIntoNumericTable2]
 }
 function insertIntoNumericTable3() returns error? {
-    sql:IntegerValue id = new (5);
     sql:IntegerValue intType = new (2147483647);
     sql:BigIntValue bigIntType = new (9223372036854774807);
     sql:SmallIntValue smallIntType = new (32767);
@@ -365,7 +359,7 @@ function insertIntoArrayTable() returns error? {
     record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[][] dataBlob = [<byte[]>getUntaintedData(value, "BLOB_TYPE")];
 
-    sql:ArrayValue paraBlob = new (dataBlob);
+    sql:ArrayValue paraBlob = new(dataBlob);
     int rowId = 5;
 
     sql:ParameterizedQuery sqlQuery =
@@ -402,17 +396,8 @@ function insertIntoArrayTable2() returns error? {
 }
 function insertIntoArrayTable13() returns error? {
     int[] paraInt = [1, 2, 3];
-    int[] paraLong = [100000000, 200000000, 300000000];
-    float[] paraFloat = [245.23, 5559.49, 8796.123];
-    float[] paraDouble = [245.23, 5559.49, 8796.123];
-    decimal[] paraDecimal = [245, 5559, 8796];
-    string[] paraString = ["Hello", "Ballerina"];
-    boolean[] paraBool = [true, false, true];
-
     int rowId = 5;
-
-    sql:ParameterizedQuery sqlQuery =
-        `INSERT INTO ArrayTypes2 (row_id, int_array) VALUES (${rowId}, ${paraInt})`;
+    sql:ParameterizedQuery sqlQuery = `INSERT INTO ArrayTypes2 (row_id, int_array) VALUES (${rowId}, ${paraInt})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
 }
 
@@ -447,15 +432,14 @@ function insertIntoArrayTable3() returns error? {
     byte[] byteArray2 = [4, 5, 6];
     sql:BinaryArrayValue paraBinary = new ([byteArray1, byteArray2]);
     sql:VarBinaryArrayValue paraVarBinary = new ([byteArray1, byteArray2]);
-    io:ReadableByteChannel byteChannel = check getByteColumnChannel();
     record {}? value = check queryJDBCClient(`Select * from ComplexTypes where row_id = 1`);
     byte[][] paraBlob = [<byte[]>getUntaintedData(value, "BLOB_TYPE")];
     int rowId = 7;
 
     sql:ParameterizedQuery sqlQuery =
-        `INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, decimal_array, boolean_array,
+        `INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, decimal_array, boolean_array, bit_array,
          string_array, smallint_array, numeric_array, real_array, char_array, varchar_array, nvarchar_array, date_array, time_array, datetime_array, timestamp_array, binary_array, varbinary_array, blob_array) VALUES(${rowId}, ${paraInt}, ${paraLong}, ${paraFloat}, ${paraDouble}, ${paraDecimal},
-         ${paraBool}, ${paraString}, ${paraSmallint}, ${paraNumeric}, ${paraReal}, ${paraChar}, ${paraVarchar}, ${paraNVarchar}, ${paraDate}, ${paraTime}, ${paraDatetime}, ${paraTimestamp}, ${paraBinary}, ${paraVarBinary}, ${paraBlob})`;
+         ${paraBool}, ${paraBit}, ${paraString}, ${paraSmallint}, ${paraNumeric}, ${paraReal}, ${paraChar}, ${paraVarchar}, ${paraNVarchar}, ${paraDate}, ${paraTime}, ${paraDatetime}, ${paraTimestamp}, ${paraBinary}, ${paraVarBinary}, ${paraBlob})`;
     validateResult(check executeQueryJDBCClient(sqlQuery), 1);
 }
 
