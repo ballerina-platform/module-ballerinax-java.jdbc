@@ -59,7 +59,6 @@ service /facebook on fbListener {
     }
 
     isolated resource function get posts/[string id]() returns record {}?|error {
-        string[] postIds = [];
         stream<PostInfo, error?> resultStream = dbClient->query(`SELECT * FROM Posts WHERE ID = ${id}`);
         return check resultStream.next();
     }
