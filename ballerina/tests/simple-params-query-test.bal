@@ -814,7 +814,6 @@ function queryJsonParam2() returns error? {
     groups: ["query", "query-simple-params"]
 }
 function queryJsonParam3() returns error? {
-    json jsonType = {"id": 100, "name": "Joe", "groups": [2, 5]};
     int id = 100;
     string name = "Joe";
     string arrayVal = "[2, 5]";

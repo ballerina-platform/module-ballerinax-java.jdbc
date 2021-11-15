@@ -44,10 +44,10 @@ function testXATransactionSuccess() returns error? {
     connectionPool = {maxOpenConnections: 1});
 
     transaction {
-        var e1 = check dbClient1->execute(`
+        _ = check dbClient1->execute(`
             insert into Customers (customerId, name, creditLimit, country) values (1, 'Anne', 1000, 'UK')
         `);
-        var e2 = check dbClient2->execute(`insert into Salary (id, value ) values (1, 1000)`);
+        _ = check dbClient2->execute(`insert into Salary (id, value ) values (1, 1000)`);
         check commit;
     }
 
@@ -70,10 +70,10 @@ function testXATransactionSuccessWithDataSource() returns error? {
     options = {datasourceName: xaDatasourceName});
 
     transaction {
-        var e1 = check dbClient1->execute(`
+        _ = check dbClient1->execute(`
             insert into Customers (customerId, name, creditLimit, country) values (10, 'Anne', 1000, 'UK')
         `);
-        var e2 = check dbClient2->execute(`insert into Salary (id, value ) values (10, 1000)`);
+        _ = check dbClient2->execute(`insert into Salary (id, value ) values (10, 1000)`);
         check commit;
     }
 
