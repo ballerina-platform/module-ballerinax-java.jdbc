@@ -505,8 +505,7 @@ function queryDateStringInvalidParam() {
     test:assertTrue(result is error);
 
     if result is sql:ApplicationError {
-        test:assertTrue(result.message().startsWith("Error while executing SQL query: SELECT * from " +
-                "DateTimeTypes WHERE date_type =  ? . java.lang.IllegalArgumentException"));
+        test:assertTrue(result.message().startsWith("Unsupported value"), result.message());
     } else {
         test:assertFail("ApplicationError Error expected.");
     }

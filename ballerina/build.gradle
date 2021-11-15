@@ -200,6 +200,10 @@ List<Database> batchExeDbs = new ArrayList<Database>()
 batchExeDbs.add(new Database('BATCH_EXECUTE_DB', 'batchexecute', 'batch-execute-test-data.sql'))
 testDatabasesList.add(new DatabaseMeta('batch-execute', 'batch-execute', batchExeDbs))
 
+List<Database> errorDbs = new ArrayList<Database>()
+errorDbs.add(new Database('ERROR_DB', 'error', 'error-test-data.sql'))
+testDatabasesList.add(new DatabaseMeta('error', 'error', errorDbs))
+
 List<Database> queryDbs = new ArrayList<Database>()
 Database querySimple = new Database('QUERY_SIMPLE_PARAMS_DB', 'query', 'simple-params-test-data.sql')
 Database queryNumeric = new Database('QUERY_NUMERIC_PARAMS_DB', 'query', 'numerical-test-data.sql')
@@ -220,7 +224,7 @@ testDatabasesList.add(new DatabaseMeta('query-complex-params', 'query', queryCom
 
 task createTestDatabases {
     List<DatabaseMeta> dbsNeeded = new ArrayList<DatabaseMeta>()
-    def MainGroupList = ['connection', 'pool', 'transaction', 'execute', 'batch-execute', 'query']
+    def MainGroupList = ['connection', 'pool', 'transaction', 'execute', 'batch-execute', 'query', 'error']
     String[] tempGroups
     if (project.hasProperty('groups')) {
         tempGroups = project.findProperty('groups').toString().split(',')
