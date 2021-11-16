@@ -26,17 +26,17 @@ isolated function initErrorDB() {
     initializeDatabase("ERROR_DB", "error", "error-test-data.sql");
 }
 
- @test:Config {
-     groups: ["error"]
- }
- function TestAuthenticationError() {
-     Client|error dbClient = new (jdbcErrorTestUrl, "asd", "asd");
-      test:assertTrue(dbClient is sql:ApplicationError);
-     error sqlerror = <error> dbClient;
-     test:assertTrue(strings:includes(sqlerror.message(), "Error in SQL connector configuration: Failed to " +
+@test:Config {
+    groups: ["error"]
+}
+function TestAuthenticationError() {
+    Client|error dbClient = new (jdbcErrorTestUrl, "asd", "asd");
+    test:assertTrue(dbClient is sql:ApplicationError);
+    error sqlerror = <error>dbClient;
+    test:assertTrue(strings:includes(sqlerror.message(), "Error in SQL connector configuration: Failed to " +
                 "initialize pool: Wrong user name or password [28000-199] Caused by :Wrong user name or password " +
                 "[28000-199]"), sqlerror.message());
- }
+}
 
 @test:Config {
     groups: ["error"]

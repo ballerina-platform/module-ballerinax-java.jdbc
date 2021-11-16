@@ -505,7 +505,7 @@ function queryDateStringInvalidParam() {
     test:assertTrue(result is error);
 
     if result is sql:ApplicationError {
-        test:assertTrue(result.message().startsWith("Unsupported value"), result.message());
+        test:assertEquals(result.message(), "Unsupported value: 2017/2/3 for Date Value", result.message());
     } else {
         test:assertFail("ApplicationError Error expected.");
     }
