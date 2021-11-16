@@ -53,10 +53,10 @@ function TestLinkFailure() {
     groups: ["error"]
 }
 function TestInvalidDB() {
-    Client|error dbClient = new ("jdbc:h2:" + dbPath + "/a", user, password);
-    // test:assertTrue(dbClient is sql:ApplicationError);
+    Client|error dbClient = new ("jdbc:h2:" + dbPath + "/", user, password);
+    test:assertTrue(dbClient is sql:ApplicationError);
     error sqlerror = <error>dbClient;
-    test:assertTrue(strings:includes(sqlerror.message(), "Unknown database 'errorD'"), sqlerror.message());
+    test:assertTrue(strings:includes(sqlerror.message(), "Invalid database name"), sqlerror.message());
 }
 
 @test:Config {
