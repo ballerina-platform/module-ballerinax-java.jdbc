@@ -24,6 +24,7 @@ public class Constants {
 
     public static final String BALLERINAX = "ballerinax";
     public static final String JDBC = "java.jdbc";
+    public static final String CONNECTION_POOL_PARM_NAME = "connectionPool";
 
     /**
      * Constants related to Client object.
@@ -33,4 +34,16 @@ public class Constants {
         public static final String QUERY = "query";
         public static final String QUERY_ROW = "queryRow";
     }
+
+    /**
+     * Constants for fields in sql:ConnectionPool.
+     */
+    public static class ConnectionPool {
+        public static final String MAX_OPEN_CONNECTIONS = "maxOpenConnections";
+        public static final String MAX_CONNECTION_LIFE_TIME = "maxConnectionLifeTime";
+        public static final String MIN_IDLE_CONNECTIONS = "minIdleConnections";
+    }
+
+    public static final String UNNECESSARY_CHARS_REGEX = "\"|\\n";
+
 }
