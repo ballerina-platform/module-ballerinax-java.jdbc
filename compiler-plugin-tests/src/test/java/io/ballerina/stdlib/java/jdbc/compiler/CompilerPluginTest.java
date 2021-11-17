@@ -26,12 +26,16 @@ import io.ballerina.projects.ProjectEnvironmentBuilder;
 import io.ballerina.projects.directory.BuildProject;
 import io.ballerina.projects.environment.Environment;
 import io.ballerina.projects.environment.EnvironmentBuilder;
+import io.ballerina.tools.diagnostics.Diagnostic;
+import io.ballerina.tools.diagnostics.DiagnosticInfo;
 import io.ballerina.tools.diagnostics.DiagnosticSeverity;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Tests the custom SQL compiler plugin.
@@ -61,7 +65,24 @@ public class CompilerPluginTest {
         DiagnosticResult diagnosticResult = compilation.diagnosticResult();
         long availableErrors = diagnosticResult.diagnostics().stream()
                 .filter(r -> r.diagnosticInfo().severity().equals(DiagnosticSeverity.ERROR)).count();
-        Assert.assertEquals(availableErrors, 0);
-    }
+        Assert.assertEquals(availableErrors, 3);
 
+        List<Diagnostic> diagnosticHints = diagnosticResult.diagnostics().stream()
+                .filter(r -> r.diagnosticInfo().severity().equals(DiagnosticSeverity.HINT))
+                .collect(Collectors.toList());
+        long availableHints = diagnosticHints.size();
+        Assert.assertEquals(availableHints, 3);
+
+        DiagnosticInfo hint1 = diagnosticHints.get(0).diagnosticInfo();
+        Assert.assertEquals(hint1.code(), JDBCDiagnosticsCode.JDBC_101.getCode());
+        Assert.assertEquals(hint1.messageFormat(), JDBCDiagnosticsCode.JDBC_101.getMessage());
+
+        DiagnosticInfo hint2 = diagnosticHints.get(1).diagnosticInfo();
+        Assert.assertEquals(hint2.code(), JDBCDiagnosticsCode.JDBC_102.getCode());
+        Assert.assertEquals(hint2.messageFormat(), JDBCDiagnosticsCode.JDBC_102.getMessage());
+
+        DiagnosticInfo hint3 = diagnosticHints.get(2).diagnosticInfo();
+        Assert.assertEquals(hint3.code(), JDBCDiagnosticsCode.JDBC_101.getCode());
+        Assert.assertEquals(hint3.messageFormat(), JDBCDiagnosticsCode.JDBC_101.getMessage());
+    }
 }

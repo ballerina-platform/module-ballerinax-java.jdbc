@@ -15,10 +15,17 @@
 // under the License.
 
 import ballerina/file;
+import ballerina/sql;
 import ballerinax/java.jdbc;
 
 public function main() returns error? {
     jdbc:Client dbClient = check new("jdbc:h2:" + check file:getAbsolutePath("target/databases") + "/BATCH_EXECUTE_DB");
-    _ = check dbClient->batchExecute([]);
+    _ = check dbClient->query(``);
+    _ = check dbClient->queryRow(``);
+    check invokeQuery(dbClient);
     check dbClient.close();
+}
+
+function invokeQuery(jdbc:Client dbClient) returns error? {
+    _ = check dbClient->query(``);
 }
