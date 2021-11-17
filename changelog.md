@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-
+- [Tooling support for JDBC client](https://github.com/ballerina-platform/ballerina-standard-library/issues/2280)
 
 ### Changed
 - [Change queryRow return type to anydata](https://github.com/ballerina-platform/ballerina-standard-library/issues/2390)
