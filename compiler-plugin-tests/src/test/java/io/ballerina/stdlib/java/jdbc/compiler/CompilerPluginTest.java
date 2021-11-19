@@ -18,7 +18,6 @@
 
 package io.ballerina.stdlib.java.jdbc.compiler;
 
-
 import io.ballerina.projects.DiagnosticResult;
 import io.ballerina.projects.Package;
 import io.ballerina.projects.PackageCompilation;
