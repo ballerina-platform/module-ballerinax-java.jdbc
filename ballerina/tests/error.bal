@@ -224,16 +224,16 @@ function TestFieldMismatchError() returns error? {
 }
 function TestIntegrityConstraintViolation() returns error? {
     Client dbClient = check new (jdbcErrorTestUrl, user, password);
-    sql:ExecutionResult|error result = check dbClient->execute(`CREATE TABLE employees( employee_id int (20) not null,
+    _ = check dbClient->execute(`CREATE TABLE employees( employee_id int (20) not null,
                                                          employee_name varchar (75) not null,supervisor_name varchar(75),
                                                          CONSTRAINT employee_pk PRIMARY KEY (employee_id))`);
-    result = check dbClient->execute(`CREATE TABLE departments( department_id int (20) not null,employee_id int not
+    _ = check dbClient->execute(`CREATE TABLE departments( department_id int (20) not null,employee_id int not
                                         null,CONSTRAINT fk_employee FOREIGN KEY (employee_id)
                                         REFERENCES employees (employee_id))`);
-    sql:ExecutionResult|error result1 = dbClient->execute(
+    sql:ExecutionResult|error result = dbClient->execute(
                                     `INSERT INTO departments(department_id, employee_id) VALUES (250, 600)`);
     check dbClient.close();
-    sql:DatabaseError sqlerror = <sql:DatabaseError>result1;
+    sql:DatabaseError sqlerror = <sql:DatabaseError>result;
     test:assertTrue(strings:includes(sqlerror.message(), "Referential integrity constraint violation: \"FK_EMPLOYEE: " +
             "PUBLIC.DEPARTMENTS FOREIGN KEY(EMPLOYEE_ID) REFERENCES PUBLIC.EMPLOYEES(EMPLOYEE_ID) (600)\""),
             sqlerror.message());

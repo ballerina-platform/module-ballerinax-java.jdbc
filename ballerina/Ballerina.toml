@@ -12,4 +12,4 @@ distribution = "slbeta3"
 path = "../native/build/libs/java.jdbc-native-1.1.0-SNAPSHOT.jar"
 
 [[platform.java11.dependency]]
-path = "./lib/sql-native-1.1.0-20211115-201400-bd1fcce.jar"
+path = "./lib/sql-native-1.1.0-20211116-182500-a223f1c.jar"

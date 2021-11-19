@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- [Tooling support for JDBC client](https://github.com/ballerina-platform/ballerina-standard-library/issues/2280)
+
+### Changed
+- [Change queryRow return type to anydata](https://github.com/ballerina-platform/ballerina-standard-library/issues/2390)
+
+## [1.0.0] - 2021-10-09
+
 ### Changed
 - [Add completion type as nil in SQL query return stream type](https://github.com/ballerina-platform/ballerina-standard-library/issues/1654)
 
