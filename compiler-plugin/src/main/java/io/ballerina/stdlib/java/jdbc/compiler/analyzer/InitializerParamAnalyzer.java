@@ -86,6 +86,11 @@ public class InitializerParamAnalyzer implements AnalysisTask<SyntaxNodeAnalysis
         } else {
             return;
         }
+
+        if (!(connectionPool instanceof MappingConstructorExpressionNode)) {
+            // connection pool is null scenario
+            return;
+        }
         SeparatedNodeList<MappingFieldNode> fields =
                 ((MappingConstructorExpressionNode) connectionPool).fields();
         for (MappingFieldNode field : fields) {
