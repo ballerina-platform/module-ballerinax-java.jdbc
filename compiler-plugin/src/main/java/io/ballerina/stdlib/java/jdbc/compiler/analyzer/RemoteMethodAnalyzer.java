@@ -32,8 +32,8 @@ import org.ballerinalang.util.diagnostic.DiagnosticErrorCode;
 import java.util.List;
 import java.util.Optional;
 
-import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.JDBC_101;
-import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.JDBC_102;
+import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.JDBC_901;
+import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.JDBC_902;
 import static org.ballerinalang.util.diagnostic.DiagnosticErrorCode.CANNOT_INFER_TYPE_FOR_PARAM;
 
 /**
@@ -72,12 +72,12 @@ public class RemoteMethodAnalyzer implements AnalysisTask<SyntaxNodeAnalysisCont
         switch (methodName.get()) {
             case Constants.Client.QUERY:
                 ctx.reportDiagnostic(DiagnosticFactory.createDiagnostic(
-                        new DiagnosticInfo(JDBC_101.getCode(), JDBC_101.getMessage(), JDBC_101.getSeverity()),
+                        new DiagnosticInfo(JDBC_901.getCode(), JDBC_901.getMessage(), JDBC_901.getSeverity()),
                         node.location()));
                 break;
             case Constants.Client.QUERY_ROW:
                 ctx.reportDiagnostic(DiagnosticFactory.createDiagnostic(
-                        new DiagnosticInfo(JDBC_102.getCode(), JDBC_102.getMessage(), JDBC_102.getSeverity()),
+                        new DiagnosticInfo(JDBC_902.getCode(), JDBC_902.getMessage(), JDBC_902.getSeverity()),
                         node.location()));
                 break;
             default:
