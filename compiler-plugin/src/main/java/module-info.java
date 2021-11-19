@@ -16,7 +16,7 @@
  * under the License.
  */
 
-module io.ballerina.stdlib.sql.compiler {
+module io.ballerina.stdlib.java.jdbc.compiler {
     requires io.ballerina.lang;
     requires io.ballerina.tools.api;
     requires io.ballerina.parser;
