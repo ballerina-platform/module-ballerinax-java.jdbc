@@ -9,7 +9,7 @@ license = ["Apache-2.0"]
 distribution = "slbeta3"
 
 [[platform.java11.dependency]]
-path = "../native/build/libs/java.jdbc-native-1.1.0-SNAPSHOT.jar"
+path = "../native/build/libs/java.jdbc-native-1.1.0.jar"
 
 [[platform.java11.dependency]]
-path = "./lib/sql-native-1.1.0-20211116-182500-a223f1c.jar"
+path = "./lib/sql-native-1.1.0.jar"
