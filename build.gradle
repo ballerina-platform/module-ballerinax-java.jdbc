@@ -123,3 +123,6 @@ task build {
     dependsOn("${packageName}-compiler-plugin-tests:build")
     dependsOn("${packageName}-examples:build")
 }
+
+publish.dependsOn build
+publishToMavenLocal.dependsOn build
