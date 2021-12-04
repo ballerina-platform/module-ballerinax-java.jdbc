@@ -30,6 +30,7 @@ public isolated client class Client {
     # + options - The database-specific JDBC client properties
     # + connectionPool - The `sql:ConnectionPool` to be used for the connection. If there is no
     #                    `connectionPool` provided, the global connection pool (shared by all clients) will be used
+    # + return - An `sql:Error` if the client creation fails
     public isolated function init(string url, string? user = (), string? password = (),
         Options? options = (), sql:ConnectionPool? connectionPool = ()) returns sql:Error? {
         ClientConfiguration clientConf = {
