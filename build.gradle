@@ -94,7 +94,7 @@ subprojects {
             transitive = false
         }
 
-        externalJars (group: 'com.h2database', name: 'h2', version: "1.4.200") {
+        externalJars (group: 'com.h2database', name: 'h2', version: "${h2DriverVersion}") {
             transitive = false
         }
     }
