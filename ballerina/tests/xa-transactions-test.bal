@@ -47,7 +47,7 @@ function testXATransactionSuccess() returns error? {
         _ = check dbClient1->execute(`
             insert into Customers (customerId, name, creditLimit, country) values (1, 'Anne', 1000, 'UK')
         `);
-        _ = check dbClient2->execute(`insert into Salary (id, value ) values (1, 1000)`);
+        _ = check dbClient2->execute(`insert into Salary (id, amount) values (1, 1000)`);
         check commit;
     }
 
@@ -73,7 +73,7 @@ function testXATransactionSuccessWithDataSource() returns error? {
         _ = check dbClient1->execute(`
             insert into Customers (customerId, name, creditLimit, country) values (10, 'Anne', 1000, 'UK')
         `);
-        _ = check dbClient2->execute(`insert into Salary (id, value ) values (10, 1000)`);
+        _ = check dbClient2->execute(`insert into Salary (id, amount ) values (10, 1000)`);
         check commit;
     }
 

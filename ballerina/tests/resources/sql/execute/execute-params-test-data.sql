@@ -19,7 +19,7 @@ INSERT INTO DataTable (row_id, int_type, long_type, float_type, double_type, boo
   VALUES(3, 1, 9372036854774807, 124.34, 29095039, false, '1', 25.45);
 
 CREATE TABLE ComplexTypes(
-  row_id         INTEGER NOT NULL,
+  row_id         INT NOT NULL,
   blob_type      BLOB(1024),
   clob_type      CLOB(1024),
   binary_type  BINARY(27),
@@ -73,15 +73,15 @@ INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestam
   (1,'2017-02-03', '11:35:45', '2017-02-03 11:53:00', '2017-02-03 11:53:00');
 
 CREATE TABLE ArrayTypes(
-  row_id        INTEGER NOT NULL,
-  int_array     ARRAY,
-  long_array    ARRAY,
-  float_array   ARRAY,
-  double_array  ARRAY,
-  decimal_array ARRAY,
-  boolean_array ARRAY,
-  string_array  ARRAY,
-  blob_array    ARRAY,
+  row_id        INT AUTO_INCREMENT,
+  int_array     INT ARRAY,
+  long_array    BIGINT ARRAY,
+  float_array   FLOAT ARRAY,
+  double_array  DOUBLE ARRAY,
+  decimal_array DECIMAL ARRAY,
+  boolean_array BOOLEAN ARRAY,
+  string_array  VARCHAR ARRAY,
+  blob_array    BLOB ARRAY,
   PRIMARY KEY (row_id)
 );
 
@@ -103,33 +103,34 @@ INSERT INTO ArrayTypes (row_id, int_array, long_array, float_array, double_array
   ARRAY[NULL, NULL, NULL], ARRAY[NULL , NULL, NULL], ARRAY[NULL , NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL]);
 
 CREATE TABLE IF NOT EXISTS ArrayTypes2 (
-  row_id        INTEGER NOT NULL,
-  smallint_array ARRAY,
-  int_array ARRAY,
-  long_array ARRAY,
-  float_array ARRAY,
-  double_array ARRAY,
-  real_array ARRAY,
-  decimal_array  ARRAY,
-  numeric_array ARRAY,
-  boolean_array ARRAY,
-  bit_array ARRAY,
-  char_array ARRAY,
-  varchar_array ARRAY,
-  binary_array ARRAY,
-  varbinary_array ARRAY,
-  nvarchar_array ARRAY,
-  string_array ARRAY,
-  blob_array ARRAY,
-  date_array ARRAY,
-  time_array ARRAY,
-  datetime_array ARRAY,
-  timestamp_array ARRAY,
-  time_tz_array ARRAY,
-  timestamp_tz_array ARRAY,
+  row_id INT NOT NULL,
+  smallint_array SMALLINT ARRAY,
+  int_array INT ARRAY,
+  long_array BIGINT ARRAY,
+  float_array FLOAT ARRAY,
+  double_array DOUBLE ARRAY,
+  real_array REAL ARRAY,
+  decimal_array  DECIMAL ARRAY,
+  numeric_array NUMBER ARRAY,
+  boolean_array BOOLEAN ARRAY,
+  bit_array BIT ARRAY,
+  char_array CHAR ARRAY,
+  varchar_array VARCHAR ARRAY,
+  binary_array BINARY(30) ARRAY,
+  varbinary_array VARBINARY ARRAY,
+  nvarchar_array NVARCHAR ARRAY,
+  string_array VARCHAR ARRAY,
+  blob_array BLOB ARRAY,
+  date_array DATE ARRAY,
+  time_array TIME ARRAY,
+  datetime_array DATETIME ARRAY,
+  timestamp_array TIMESTAMP ARRAY,
+  time_tz_array TIME WITH TIME ZONE ARRAY,
+  timestamp_tz_array TIMESTAMP WITH TIME ZONE ARRAY,
   PRIMARY KEY (row_id)
 );
 
-INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, real_array, decimal_array, boolean_array, char_array, date_array, time_array, datetime_array, timestamp_array, time_tz_array, timestamp_tz_array) VALUES (1, (1, 2, 3), (100000000, 200000000, 300000000), (245.23, 5559.49, 8796.123), (245.23, 5559.49, 8796.123), (245.12, 5559.12, 8796.92), (245.12, 5559.12, 8796.92), (TRUE, FALSE, TRUE), ('Hello', 'Ballerina'), ('2017-02-03', '2017-02-03'), ('11:22:42', '12:23:45'), ('2017-02-03 11:53:00', '2019-04-05 12:33:10'), ('2017-02-03 11:53:00', '2019-04-05 12:33:10'), ('16:33:55+6:30', '16:33:55+4:30'), ('2017-01-25 16:33:55-8:00', '2017-01-25 16:33:55-5:00'));
+INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, real_array, decimal_array, boolean_array, varchar_array, date_array, time_array, datetime_array, timestamp_array, time_tz_array, timestamp_tz_array) 
+VALUES (1, ARRAY[1, 2, 3], ARRAY[100000000, 200000000, 300000000], ARRAY[245.23, 5559.49, 8796.123], ARRAY[245.23, 5559.49, 8796.123], ARRAY[245.12, 5559.12, 8796.92], ARRAY[245.12, 5559.12, 8796.92], ARRAY[TRUE, FALSE, TRUE], ARRAY['Hello', 'Ballerina'], ARRAY['2017-02-03', '2017-02-03'], ARRAY['11:22:42', '12:23:45'], ARRAY['2017-02-03 11:53:00', '2019-04-05 12:33:10'], ARRAY['2017-02-03 11:53:00', '2019-04-05 12:33:10'], ARRAY['16:33:55+6:30', '16:33:55+4:30'], ARRAY['2017-01-25 16:33:55-8:00', '2017-01-25 16:33:55-5:00']);
 
-INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, real_array, decimal_array, boolean_array, char_array, date_array, time_array, datetime_array, timestamp_array, time_tz_array, timestamp_tz_array) VALUES (2, (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL), (NULL, NULL));
+INSERT INTO ArrayTypes2 (row_id, int_array, long_array, float_array, double_array, real_array, decimal_array, boolean_array, char_array, date_array, time_array, datetime_array, timestamp_array, time_tz_array, timestamp_tz_array) VALUES (2, ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL], ARRAY[NULL, NULL]);
