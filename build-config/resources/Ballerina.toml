@@ -14,3 +14,7 @@ path = "../native/build/libs/java.jdbc-native-@project.version@.jar"
 
 [[platform.java11.dependency]]
 path = "./lib/sql-native-@sql.native.version@.jar"
+
+[[platform.java11.dependency]]
+path = "./lib/h2-@h2.connector.version@.jar"
+scope = "testOnly"
