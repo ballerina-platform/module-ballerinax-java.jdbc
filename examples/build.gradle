@@ -28,6 +28,7 @@ def examples = ["facebook/posts", "facebook/user-info", "snowflake/setup", "snow
 clean {
     examples.forEach { example ->
         delete "${projectDir}/${example}/target"
+        delete "${projectDir}/${example}/Dependencies.toml"
     }
 }
 

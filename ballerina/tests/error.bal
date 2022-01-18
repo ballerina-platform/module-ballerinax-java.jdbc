@@ -34,8 +34,8 @@ function TestAuthenticationError() {
     test:assertTrue(dbClient is sql:ApplicationError);
     error sqlerror = <error>dbClient;
     test:assertTrue(strings:includes(sqlerror.message(), "Error in SQL connector configuration: Failed to " +
-                "initialize pool: Wrong user name or password [28000-199] Caused by :Wrong user name or password " +
-                "[28000-199]"), sqlerror.message());
+                "initialize pool: Wrong user name or password [28000-206] Caused by :Wrong user name or password " +
+                "[28000-206]"), sqlerror.message());
 }
 
 @test:Config {
@@ -198,7 +198,7 @@ function TestTypeMismatchError() returns error? {
     test:assertTrue(queryResult is sql:TypeMismatchError);
     sql:TypeMismatchError sqlError = <sql:TypeMismatchError>queryResult;
     test:assertEquals(sqlError.message(), "The field 'string_type' of type int cannot be mapped to the column " +
-                    "'STRING_TYPE' of SQL type 'VARCHAR'", sqlError.message());
+                    "'STRING_TYPE' of SQL type 'CHARACTER VARYING'", sqlError.message());
 }
 
 type stringValue record {|
@@ -224,10 +224,10 @@ function TestFieldMismatchError() returns error? {
 }
 function TestIntegrityConstraintViolation() returns error? {
     Client dbClient = check new (jdbcErrorTestUrl, user, password);
-    _ = check dbClient->execute(`CREATE TABLE employees( employee_id int (20) not null,
+    _ = check dbClient->execute(`CREATE TABLE employees( employee_id int not null,
                                                          employee_name varchar (75) not null,supervisor_name varchar(75),
                                                          CONSTRAINT employee_pk PRIMARY KEY (employee_id))`);
-    _ = check dbClient->execute(`CREATE TABLE departments( department_id int (20) not null,employee_id int not
+    _ = check dbClient->execute(`CREATE TABLE departments( department_id int not null,employee_id int not
                                         null,CONSTRAINT fk_employee FOREIGN KEY (employee_id)
                                         REFERENCES employees (employee_id))`);
     sql:ExecutionResult|error result = dbClient->execute(
@@ -253,5 +253,5 @@ function TestDuplicateKey() returns error? {
     sql:DatabaseError sqlerror = <sql:DatabaseError>insertResult;
     test:assertTrue(strings:includes(sqlerror.message(), "Error while executing SQL query: Insert into Details " +
                 "(id, age) values (1,10). Unique index or primary key violation: \"PRIMARY KEY ON PUBLIC.DETAILS(ID) " +
-                "[1, 10]\""), sqlerror.message());
+                "( /* key:1 */ 1, 10)\""), sqlerror.message());
 }

@@ -35,7 +35,7 @@ INSERT INTO ComplexTypes (row_id, blob_type, clob_type, binary_type, var_binary_
   (2, null, null, null, null);
 
 CREATE TABLE NumericTypes (
-   id INT IDENTITY,
+   id INT AUTO_INCREMENT,
    int_type INT NOT NULL,
    bigint_type BIGINT NOT NULL,
    smallint_type SMALLINT NOT NULL ,
@@ -70,14 +70,14 @@ INSERT INTO DateTimeTypes (row_id, date_type, time_type, datetime_type, timestam
 
 CREATE TABLE IF NOT EXISTS ArrayTypes(
   row_id        INTEGER NOT NULL,
-  int_array     ARRAY,
-  long_array    ARRAY,
-  float_array   ARRAY,
-  double_array  ARRAY,
-  decimal_array ARRAY,
-  boolean_array ARRAY,
-  string_array  ARRAY,
-  blob_array    ARRAY,
+  int_array     INT ARRAY,
+  long_array    BIGINT ARRAY,
+  float_array   FLOAT ARRAY,
+  double_array  DOUBLE ARRAY,
+  decimal_array DECIMAL ARRAY,
+  boolean_array BOOLEAN ARRAY,
+  string_array  VARCHAR ARRAY,
+  blob_array    BLOB ARRAY,
   PRIMARY KEY (row_id)
 );
 
@@ -132,4 +132,4 @@ CREATE TABLE IntervalTable (
     interval_type INTERVAL HOUR TO MINUTE
 );
 
-INSERT INTO IntervalTable(id, interval_type) values (1, INTERVAL 2 HOUR);
+INSERT INTO IntervalTable(id, interval_type) values (1, INTERVAL '+2' HOUR);

@@ -284,7 +284,6 @@ function testDateTime() returns error? {
 type ResultSetTestAlias record {
     int INT_TYPE;
     int LONG_TYPE;
-    string FLOAT_TYPE;
     float DOUBLE_TYPE;
     boolean BOOLEAN_TYPE;
     string STRING_TYPE;
@@ -297,14 +296,13 @@ type ResultSetTestAlias record {
 function testColumnAlias() returns error? {
     Client dbClient = check new (url = complexQueryDb, user = user, password = password);
     stream<record {}, error?> queryResult = dbClient->query(`
-        SELECT dt1.int_type, dt1.long_type, dt1.float_type, dt1.double_type, dt1.boolean_type, dt1.string_type, dt2.int_type
+        SELECT dt1.int_type, dt1.long_type, dt1.double_type, dt1.boolean_type, dt1.string_type, dt2.int_type
         as dt2int_type from DataTable dt1 left join DataTableRep dt2 on dt1.row_id = dt2.row_id
         WHERE dt1.row_id = 1;
     `, ResultSetTestAlias);
     ResultSetTestAlias expectedData = {
         INT_TYPE: 1,
         LONG_TYPE: 9223372036854774807,
-        FLOAT_TYPE: "123.34",
         DOUBLE_TYPE: 2139095039,
         BOOLEAN_TYPE: true,
         STRING_TYPE: "Hello",

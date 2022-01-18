@@ -5,11 +5,16 @@ version = "@toml.version@"
 authors = ["Ballerina"]
 keywords = ["database", "client", "network", "SQL", "RDBMS", "JDBC"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-java.jdbc"
+icon = "icon.png"
 license = ["Apache-2.0"]
-distribution = "slbeta3"
+distribution = "2201.0.0"
 
 [[platform.java11.dependency]]
 path = "../native/build/libs/java.jdbc-native-@project.version@.jar"
 
 [[platform.java11.dependency]]
 path = "./lib/sql-native-@sql.native.version@.jar"
+
+[[platform.java11.dependency]]
+path = "./lib/h2-@h2.connector.version@.jar"
+scope = "testOnly"

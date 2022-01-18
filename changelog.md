@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+- [Fix Compiler plugin crash when variable is passed for `sql:ConnectionPool`](https://github.com/ballerina-platform/ballerina-standard-library/issues/2536)
+
+## [1.2.0] - 2021-12-13
+
+### Changed
+- Release module on top of Swan Lake Beta6 distribution
+
+## [1.1.0] - 2021-11-20
+
+### Added
 - [Tooling support for JDBC client](https://github.com/ballerina-platform/ballerina-standard-library/issues/2280)
 
 ### Changed

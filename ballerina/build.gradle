@@ -71,6 +71,7 @@ task updateTomlFiles {
         def newConfig = ballerinaTomlFilePlaceHolder.text.replace('@project.version@', project.version.toString())
         newConfig = newConfig.replace('@toml.version@', tomlVersion)
         newConfig = newConfig.replace('@sql.native.version@', project.stdlibSqlVersion)
+        newConfig = newConfig.replace('@h2.connector.version@', project.h2DriverVersion)
         ballerinaTomlFile.text = newConfig
 
         def newCompilerPluginToml = compilerPluginTomlFilePlaceHolder.text.replace("@project.version@", project.version)
@@ -263,12 +264,12 @@ task createTestDatabases {
                 try {
                     exec {
                         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-                            commandLine 'cmd', '/c', "java -classpath $project.projectDir\\lib\\h2-1.4.200.jar " +
+                            commandLine 'cmd', '/c', "java -classpath $project.projectDir\\lib\\h2-${h2DriverVersion}.jar " +
                                     "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir\\target\\databases\\${db.getDb()}" +
                                     ' -user test -password Test123 -script ' +
                                     "$project.projectDir\\tests\\resources\\sql\\${db.getCategory()}\\${db.getScript()}"
                         } else {
-                            commandLine 'sh', '-c', "java -cp $project.projectDir/lib/h2-1.4.200.jar " +
+                            commandLine 'sh', '-c', "java -cp $project.projectDir/lib/h2-${h2DriverVersion}.jar " +
                                     "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir/target/databases/${db.getDb()}" +
                                     ' -user test -password Test123 -script ' +
                                     "$project.projectDir/tests/resources/sql/${db.getCategory()}/${db.getScript()}"
@@ -314,6 +315,3 @@ test.dependsOn ":${packageName}-compiler-plugin:build"
 
 build.finalizedBy removeTestDatabases
 test.dependsOn createTestDatabases
-
-publishToMavenLocal.dependsOn build
-publish.dependsOn build

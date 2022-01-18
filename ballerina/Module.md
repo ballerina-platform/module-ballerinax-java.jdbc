@@ -19,7 +19,7 @@ Follow one of the following ways to add the corresponding database JAR in the fi
     ```
     [[platform.java11.dependency]]
     artifactId = "h2"
-    version = "1.4.200"
+    version = "2.0.206"
     groupId = "com.h2database"
     ```
 
