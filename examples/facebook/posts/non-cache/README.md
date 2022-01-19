@@ -40,7 +40,7 @@ This is an HTTP RESTful service that is used to insert, create, and retrieve dat
   * Updating the `Config.toml` file with the above configurations.
 
 ## Run the Example
-To start the service, move into the `facebook/posts` folder and execute the command below.
+To start the service, move into the `facebook/posts/non-cache` folder and execute the command below.
 It will build the posts of the Ballerina project and then run it.
  
 ```
