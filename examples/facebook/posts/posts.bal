@@ -52,9 +52,10 @@ service /facebook on fbListener {
     resource function get posts() returns string[]|error {
         string[] postIds = [];
         stream<record {}, error?> resultStream = dbClient->query(`SELECT * FROM Posts`);
-        check resultStream.forEach(function(record {} result) {
-            postIds.push(<string>result["ID"]);
-        });
+        check from record{} result in resultStream
+            do {
+                postIds.push(<string>result["ID"]);
+            };
         return postIds;
     }
 

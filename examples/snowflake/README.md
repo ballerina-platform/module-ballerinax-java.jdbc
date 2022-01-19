@@ -83,9 +83,10 @@ _ = check dbClient->execute(`
 `);
 
 stream<record{}, sql:Error?> streamData = dbClient->query("SELECT * FROM Employees");
-_ = check streamData.forEach(function(record {} data) {
+from record{} data in streamData
+  do {
     io:println(data);
-});
+  };
 ```
 
 ## Examples
