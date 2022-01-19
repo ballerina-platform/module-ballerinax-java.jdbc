@@ -11,14 +11,15 @@ public type PostInfo record {
     string MessageTags;
 };
 
-public isolated client class Client {
+public isolated class Client {
 
-    final cache:Cache cache;
     final jdbc:Client dbClient;
+    // cache:Cache cache = new (capacity = 50, evictionFactor = 0.2);
+    final cache:Cache cache;
 
     public isolated function init(string url, jdbc:Options options, cache:CacheConfig cacheConfig) returns error? {
         self.dbClient = check new (url, options = options);
-        self.cache = new cache:Cache(cacheConfig);
+        self.cache = new (cacheConfig);
     }
  
     public isolated function addData(string msg) returns error|string {
@@ -26,19 +27,19 @@ public isolated client class Client {
         sql:ExecutionResult result = check self.dbClient->execute(query);
         string id = result.lastInsertId.toString();
         _ = check self.getData(id);
-        return result.lastInsertId.toString();
+        return id;
     }
 
-    public isolated function getData(string id) returns record {}|error {
+    public isolated function getData(string id) returns string|error {
         any|error data = self.cache.get(id);
         if data !is error {
-            return <PostInfo>data;
+            return data.toString();
         }
         stream<PostInfo, error?> resultStream = self.dbClient->query(`SELECT * FROM Posts WHERE ID = ${id}`);
         any result = check resultStream.next();
-        check resultStream.close();
         check self.cache.put(id, result);
-        return <PostInfo>result;
+        check resultStream.close();
+        return result.toString();
     }
 
     public isolated function removeData(string id) returns error|string {

@@ -23,7 +23,7 @@ apply plugin: 'java'
 description = 'Ballerina - JDBC Examples'
 
 def ballerinaDist = "${project.rootDir}/target/ballerina-runtime"
-def examples = ["facebook/posts", "facebook/user-info", "snowflake/setup", "snowflake/service"]
+def examples = ["facebook/posts", "facebook/user-info", "snowflake/setup", "snowflake/service", "jdbcCaching"]
 
 clean {
     examples.forEach { example ->

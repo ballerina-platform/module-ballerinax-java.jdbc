@@ -65,7 +65,7 @@ service /facebook on fbListener {
         return cacheClient.getIds();
     }
 
-    isolated resource function get posts/[string id]() returns record {}|error {
+    isolated resource function get posts/[string id]() returns string|error {
         return cacheClient.getData(id);
     }
 

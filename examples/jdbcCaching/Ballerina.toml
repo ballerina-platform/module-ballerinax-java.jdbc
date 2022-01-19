@@ -2,3 +2,6 @@
 org = "jdbc"
 name = "cache"
 version = "0.1.0"
+
+[[platform.java11.dependency]]
+path = "/Applications/CData JDBC Driver for Facebook 2021/lib/cdata.jdbc.facebook.jar"
