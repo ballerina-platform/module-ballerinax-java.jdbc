@@ -47,7 +47,7 @@ final jdbc:Client dbClient = check new (jdbcFBUrl, options = options);
 
 listener http:Listener fbListener = new (9092);
 
-service /facebook on fbListener {
+isolated service /facebook on fbListener {
 
     isolated resource function get posts() returns string[]|error {
         string[] postIds = [];
