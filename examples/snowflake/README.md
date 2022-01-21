@@ -83,7 +83,7 @@ _ = check dbClient->execute(`
 `);
 
 stream<record{}, sql:Error?> streamData = dbClient->query("SELECT * FROM Employees");
-from record{} data in streamData
+check from record{} data in streamData
   do {
     io:println(data);
   };
