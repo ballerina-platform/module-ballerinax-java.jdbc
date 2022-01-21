@@ -47,14 +47,15 @@ final jdbc:Client dbClient = check new (jdbcFBUrl, options = options);
 
 listener http:Listener fbListener = new (9092);
 
-service /facebook on fbListener {
+isolated service /facebook on fbListener {
 
-    resource function get posts() returns string[]|error {
+    isolated resource function get posts() returns string[]|error {
         string[] postIds = [];
         stream<record {}, error?> resultStream = dbClient->query(`SELECT * FROM Posts`);
-        check resultStream.forEach(function(record {} result) {
-            postIds.push(<string>result["ID"]);
-        });
+        check from record{} result in resultStream
+            do {
+                postIds.push(<string>result["ID"]);
+            };
         return postIds;
     }
 
