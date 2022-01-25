@@ -1,5 +1,5 @@
 [container.image]
-repository = "ashakalai"
+repository = "ballerina"
 name = "non_cache"
 
 [cloud.deployment]

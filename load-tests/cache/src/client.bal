@@ -24,7 +24,7 @@ public isolated class Client {
     final cache:Cache cache;
 
     public isolated function init(string url, string dbUsername, string dbPassword, cache:CacheConfig cacheConfig)
-                            returns error? {
+                             returns error? {
         self.dbClient = check new (url = url, user = dbUsername, password = dbPassword);
         self.cache = new (cacheConfig);
     }
@@ -45,7 +45,7 @@ public isolated class Client {
             return data.toString();
         }
         stream<record {}, error?> resultStream = self.dbClient->query(
-                                                                    `SELECT * FROM Customers WHERE customerId = ${id}`);
+                                                        `SELECT * FROM Customers WHERE customerId = ${id}`);
         any result = check resultStream.next();
         error? err = self.cache.put(id.toString(), result);
         check resultStream.close();

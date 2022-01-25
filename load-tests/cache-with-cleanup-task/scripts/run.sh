@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# Copyright 2021 WSO2 Inc. (http://wso2.org)
+# Copyright 2022 WSO2 Inc. (http://wso2.org)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,4 +16,6 @@
 # ----------------------------------------------------------------------------
 # Execution script for ballerina performance tests
 # ----------------------------------------------------------------------------
-jmeter -n -t http-post-request.jmx -l original.jtl -Jusers=60 -Jduration=600 -Jhost=192.168.64.4 -Jport=30940
+set -e
+source base-scenario.sh
+jmeter -n -t "$scriptsDir/"http-post-request.jmx -l "$resultsDir/"original.jtl -Jusers="$concurrent_users" -Jduration=600 -Jhost=bal.perf.test -Jport=80

@@ -1,5 +1,5 @@
 [container.image]
-repository = "ashakalai"
+repository = "ballerina"
 name = "cache_with_cleanup_task"
 
 [cloud.deployment]
