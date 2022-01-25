@@ -71,7 +71,7 @@ jdbc:Client|sql:Error dbClient = new (
 ```
 
 The `jdbc:Client` receives some custom properties within the
-[`jdbc:Options`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/records/Options),
+[`jdbc:Options`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/records/Options)
 and those properties will be used by the defined `datasourceName`.
 As per the provided sample, the `org.h2.jdbcx.JdbcDataSource` datasource will be configured with a `loginTimeout`
 of `2000` milliseconds.
@@ -197,15 +197,15 @@ sql:ParameterizedQuery query1 = ` WHERE id < ${id} AND age > ${age}`;
 sql:ParameterizedQuery sqlQuery = sql:queryConcat(query, query1);
 ```
 
-The query with the `IN` operator can be created using the `sql:ParameterizedQuery` as shown below. Here you need to flatten the array and pass each element separated by a comma.
+The query with the `IN` operator can be created using the `sql:ParameterizedQuery` as shown below. Here, you need to flatten the array and pass each element separated by a comma.
 
 ```ballerina
 int[] ids = [1, 2, 3];
 sql:ParameterizedQuery query = `SELECT count(*) as total FROM DataTable 
-                                WHERE row_id IN (${ids[0]}, ${ids[1]}, ${ids[2]})`
+                                 WHERE row_id IN (${ids[0]}, ${ids[1]}, ${ids[2]})`
 ```
 
-The util function `sql:arrayFlattenQuery()` is used to make the array flatten easier. It makes the inclusion of varying array elements into the query easier by flattening the array to return a parameterized query. You can construct the complex dynamic query with the `IN` operator by using both functions as shown below.
+The `sql:arrayFlattenQuery()` util function is used to make the array flatten easier. It makes the inclusion of varying array elements into the query easier by flattening the array to return a parameterized query. You can construct the complex dynamic query with the `IN` operator by using both functions as shown below.
 
 ```ballerina
 int[] ids = [1, 2];
@@ -216,8 +216,8 @@ sql:ParameterizedQuery sqlQuery =
 
 #### Creating Tables
 
-This sample creates a table with three columns. The first column is a primary key of type `int`,
-while the second column is of type `int`, and the other is of type `varchar`.
+This sample creates a table with three columns. The first column is a primary key of type `int`
+while the second column is of type `int` and the other is of type `varchar`.
 The `CREATE` statement is executed via the `execute` remote function of the client.
 
 ```ballerina
@@ -229,7 +229,7 @@ sql:ExecutionResult result =
                                            name VARCHAR(255), 
                                            PRIMARY KEY (id)
                                          )`);
-// A value of the sql:ExecutionResult type is returned for 'result'. 
+// A value of the `sql:ExecutionResult` type is returned for the 'result'. 
 ```
 
 #### Inserting Data
@@ -303,7 +303,7 @@ according to the requirement. If an open record is defined, the returned stream 
 in the record and additional database columns fetched by the SQL query which are not defined in the record.
 Note the mapping of the database column to the returned record's property is case-insensitive if it is defined in the
 record(i.e., the `ID` column in the result can be mapped to the `id` property in the record). Additional column names
-added to the returned record as in the SQL query. If the record is defined as a closed record, only defined fields in the
+are added to the returned record as in the SQL query. If the record is defined as a closed record, only defined fields in the
 record are returned or gives an error when additional columns present in the SQL query. Next, the `SELECT` query is executed
 via the `query` remote function of the client. Once the query is executed, each data record can be retrieved by looping
 the result set. The `stream` returned by the `SELECT` operation holds a pointer to the actual data in the database and it

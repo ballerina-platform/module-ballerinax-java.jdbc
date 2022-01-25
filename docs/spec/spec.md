@@ -3,14 +3,14 @@
 _Owners_: @daneshk @niveathika  
 _Reviewers_: @daneshk  
 _Created_: 2022/01/14   
-_Updated_: 2022/01/25  
+_Updated_: 2022/01/26  
 _Issue_: [#2290](https://github.com/ballerina-platform/ballerina-standard-library/issues/2290)
 
 # Introduction
 
 This is the specification for the JDBC standard library, which provides the functionality that is required to access and 
 manipulate data stored in any type of relational database, which is accessible via the Java Database Connectivity (JDBC)
-API in the [Ballerina programming language](https://ballerina.io/), which is an open-source programming
+API in the [Ballerina programming language](https://ballerina.io/). Ballerina is an open-source programming
 language for the cloud that makes it easier to use, combine, and create network services.
 
 # Contents
@@ -34,7 +34,7 @@ MSSQL, Postgresql and OracleDB.
 4. Executes the SQL query with multiple sets of parameters in a batch. Only the metadata of the execution is returned.
 5. Executes an SQL query, which calls a stored procedure. This can either return results or nil.
 
-All the above operations make use of `sql:ParameterizedQuery` object, backtick surrounded string template to pass
+All the above operations make use of the sql:ParameterizedQuery` object and the string template surrounded by backticks to pass
 SQL statements to the database. `sql:ParameterizedQuery` supports passing of Ballerina basic types or typed SQL values 
 such as `sql:CharValue`, `sql:BigIntValue`, etc. to indicate parameter types in SQL statements.
 
@@ -61,10 +61,10 @@ public isolated function init(string url, string? user = (), string? password = 
 **Configurations available for initializing the JDBC client:**
 * Connection properties:
    ```ballerina
-   # Provides an additional set of configurations related to a database connection.
+   # An additional set of configurations related to a database connection.
    #
    # + datasourceName - The driver class name to be used to get the connection
-   # + properties - The database properties which should be applied when getting the connection
+   # + properties - The database properties, which should be applied when getting the connection
    # + requestGeneratedKeys - The database operations for which auto-generated keys should be returned
    public type Options record {|
        string? datasourceName = ();
@@ -75,7 +75,7 @@ public isolated function init(string url, string? user = (), string? password = 
 
 ## 2.1. Connection Pool Handling
 
-Connection pool handling is generic and implemented through `sql` module. For more information, see the 
+Connection pool handling is generic and implemented through the `sql` module. For more information, see the 
 [SQL Specification](https://github.com/ballerina-platform/module-ballerina-sql/blob/master/docs/spec/spec.md#21-connection-pool-handling)
 
 ## 2.2. Closing the Client
@@ -93,7 +93,7 @@ operation. This will close the corresponding connection pool if it is not shared
 # 3. Queries and Values
 
 All the generic `sql` queries and values are supported. For more information, see the 
-[SQL Specification](https://github.com/ballerina-platform/module-ballerina-sql/blob/master/docs/spec/spec.md#3-queries-and-values)
+[SQL Specification](https://github.com/ballerina-platform/module-ballerina-sql/blob/master/docs/spec/spec.md#3-queries-and-values).
 
 # 4. Database Operations
 

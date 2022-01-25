@@ -55,7 +55,7 @@ public isolated client class Client {
     } external;
 
     # Executes the query, which is expected to return at most one row of the result.
-    # If the query does not return any results, `sql:NoRowsError` is returned.
+    # If the query does not return any results, an `sql:NoRowsError` is returned.
     #
     # + sqlQuery - The SQL query
     # + returnType - The `typedesc` of the record to which the result needs to be returned.
@@ -110,10 +110,10 @@ public isolated client class Client {
     } external;
 }
 
-# Provides an additional set of configurations related to a database connection.
+# An additional set of configurations related to a database connection.
 #
 # + datasourceName - The driver class name to be used to get the connection
-# + properties - The database properties which should be applied when getting the connection
+# + properties - The database properties, which should be applied when getting the connection
 # + requestGeneratedKeys - The database operations for which auto-generated keys should be returned
 public type Options record {|
     string? datasourceName = ();
@@ -129,7 +129,7 @@ public enum Operations {
     ALL
 }
 
-# Provides an additional set of configurations for the JDBC Client to be passed internally within the module.
+# An additional set of configurations for the JDBC Client to be passed internally within the module.
 #
 # + url - The JDBC URL to be used for the database connection
 # + user - If the database is secured, the username
