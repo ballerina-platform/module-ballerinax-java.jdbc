@@ -24,10 +24,10 @@ public isolated client class Client {
 
     # Initializes the JDBC client.
     #
-    # + url - The JDBC URL
+    # + url - The JDBC URL to be used for the database connection
     # + user - If the database is secured, the username
-    # + password - The password of the provided username
-    # + options - The database-specific JDBC client properties
+    # + password - The password of the database associated with the provided username
+    # + options - The JDBC client properties
     # + connectionPool - The `sql:ConnectionPool` to be used for the connection. If there is no
     #                    `connectionPool` provided, the global connection pool (shared by all clients) will be used
     # + return - An `sql:Error` if the client creation fails
@@ -55,11 +55,11 @@ public isolated client class Client {
     } external;
 
     # Executes the query, which is expected to return at most one row of the result.
-    # If the query does not return any results, `sql:NoRowsError` is returned
+    # If the query does not return any results, `sql:NoRowsError` is returned.
     #
     # + sqlQuery - The SQL query
     # + returnType - The `typedesc` of the record to which the result needs to be returned.
-    #                It can be a basic type if the query contains only one column
+    #                It can be a basic type if the query result contains only one column
     # + return - Result in the `returnType` type or an `sql:Error`
     remote isolated function queryRow(sql:ParameterizedQuery sqlQuery, typedesc<anydata> returnType = <>)
     returns returnType|sql:Error = @java:Method {
@@ -90,10 +90,10 @@ public isolated client class Client {
         return nativeBatchExecute(self, sqlQueries);
     }
 
-    # Executes a SQL query, which calls a stored procedure. This can return results or not.
+    # Executes a SQL query, which calls a stored procedure. This may or may not return results.
     #
     # + sqlQuery - The SQL query
-    # + rowTypes - The array `typedesc` of the records to which the results needs to be returned
+    # + rowTypes - `typedesc` array of the records to which the results need to be returned
     # + return - Summary of the execution and results are returned in an `sql:ProcedureCallResult`, or an `sql:Error`
     remote isolated function call(sql:ParameterizedCallQuery sqlQuery, typedesc<record {}>[] rowTypes = [])
     returns sql:ProcedureCallResult|sql:Error = @java:Method {
@@ -110,18 +110,18 @@ public isolated client class Client {
     } external;
 }
 
-# Provides a set of configuration related to database.
+# Provides an additional set of configurations related to a database connection.
 #
 # + datasourceName - The driver class name to be used to get the connection
 # + properties - The database properties which should be applied when getting the connection
-# + requestGeneratedKeys - The database operations for which generated keys should be returned
+# + requestGeneratedKeys - The database operations for which auto-generated keys should be returned
 public type Options record {|
     string? datasourceName = ();
     map<anydata>? properties = ();
     Operations requestGeneratedKeys = ALL;
 |};
 
-# Constants to indicate database operations.
+# Constants to represent database operations.
 public enum Operations {
     NONE,
     EXECUTE,
@@ -129,13 +129,14 @@ public enum Operations {
     ALL
 }
 
-# Provides a set of configurations for the JDBC Client to be passed internally within the module.
+# Provides an additional set of configurations for the JDBC Client to be passed internally within the module.
 #
-# + url - URL of the database to connect
-# + user - Username for the database connection
-# + password - Password for the database connection
-# + options - A map of DB-specific `jdbc:Options`
-# + connectionPool - Properties for the connection pool configuration. Refer the `sql:ConnectionPool` for more details
+# + url - The JDBC URL to be used for the database connection
+# + user - If the database is secured, the username
+# + password - The password of the database associated with the provided username
+# + options - The JDBC client properties
+# + connectionPool - The `sql:ConnectionPool` to be used for the connection. If there is no `connectionPool` provided,
+                     the global connection pool (shared by all clients) will be used
 type ClientConfiguration record {|
     string? url;
     string? user;
