@@ -136,7 +136,7 @@ public enum Operations {
 # + password - The password of the database associated with the provided username
 # + options - The JDBC client properties
 # + connectionPool - The `sql:ConnectionPool` to be used for the connection. If there is no `connectionPool` provided,
-                     the global connection pool (shared by all clients) will be used
+#                    the global connection pool (shared by all clients) will be used
 type ClientConfiguration record {|
     string? url;
     string? user;
