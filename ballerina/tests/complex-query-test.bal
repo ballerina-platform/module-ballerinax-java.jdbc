@@ -231,15 +231,13 @@ function testMultipleRecoredRetrieval() returns error? {
 
     ResultMap? mixTypesActual = ();
     int counter = 0;
-    error? e = streamData.forEach(function(record {} value) {
-        if value is ResultMap && counter == 0 {
-            mixTypesActual = value;
-        }
-        counter = counter + 1;
-    });
-    if e is error {
-        test:assertFail("Error when iterating through records " + e.message());
-    }
+    check from record{} value in streamData
+        do {
+            if value is ResultMap && counter == 0 {
+                mixTypesActual = value;
+            }
+            counter = counter + 1;
+        };
     test:assertEquals(mixTypesActual, mixTypesExpected, "Expected record did not match.");
     test:assertEquals(counter, 4);
     check dbClient.close();
@@ -309,17 +307,15 @@ function testColumnAlias() returns error? {
         DT2INT_TYPE: 100
     };
     int counter = 0;
-    error? e = queryResult.forEach(function(record {} value) {
-        if value is ResultSetTestAlias {
-            test:assertEquals(value, expectedData, "Expected record did not match.");
-            counter = counter + 1;
-        } else {
-            test:assertFail("Expected data type is ResultSetTestAlias");
-        }
-    });
-    if e is error {
-        test:assertFail("Query failed");
-    }
+    check from record{} value in queryResult
+        do {
+            if value is ResultSetTestAlias {
+                test:assertEquals(value, expectedData, "Expected record did not match.");
+                counter = counter + 1;
+            } else {
+                test:assertFail("Expected data type is ResultSetTestAlias");
+            }
+        };
     test:assertEquals(counter, 1, "Expected only one data row.");
     check dbClient.close();
 }

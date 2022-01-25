@@ -50,7 +50,7 @@ jdbc:Options options = {
 };
 final jdbc:Client dbClient = check new (jdbcUrlSF, dbUsernameSF, dbPasswordSF, options = options);
 
-service /employee on new http:Listener(9090) {
+isolated service /employee on new http:Listener(9090) {
 
     isolated resource function get [string email]() returns Employee|EmployeeNotFound|error {
         Employee|sql:Error data = dbClient->queryRow(`
