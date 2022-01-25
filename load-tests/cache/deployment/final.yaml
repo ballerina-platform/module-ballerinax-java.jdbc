@@ -1,0 +1,191 @@
+apiVersion: v1
+data:
+  Config.toml: |-
+    dbHost = "postgres-service"
+    dbUsername = "postgres"
+    dbPassword = "postgres"
+    dbName = "postgres"
+    dbPort = 5432
+    # Change the cache configurations if need.
+    capacity = 100
+    evictionFactor = 0.2
+    defaultMaxAge = 120.0
+    #cleanupInterval = 5.0
+kind: ConfigMap
+metadata:
+  name: config-config-map
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cache
+  name: cache-svc
+spec:
+  ports:
+  - name: port-1-cache-sv
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  selector:
+    app: cache
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-deployment
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: postgres
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgres-server
+  name: postgres-service
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: postgres
+  type: NodePort
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cache
+  name: cache-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cache
+  template:
+    metadata:
+      labels:
+        app: cache
+        logs: "true"
+    spec:
+      containers:
+      - env:
+        - name: BAL_CONFIG_FILES
+          value: '/home/ballerina/conf/Config.toml:'
+        image: ashakalai/cache:latest
+        imagePullPolicy: Always
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - sleep
+              - "15"
+        name: cache-deployment
+        ports:
+        - containerPort: 9092
+          name: port-1-cache-sv
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /home/ballerina/conf/
+          name: config-config-map-volume
+          readOnly: false
+      nodeSelector: {}
+      volumes:
+      - configMap:
+          name: config-config-map
+        name: config-config-map-volume
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgres
+        logs: "true"
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        image: postgres
+        name: postgres
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgres
+          name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: postgres-data-pvc
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: cache
+  name: cache-hpa
+spec:
+  maxReplicas: 1
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: cache-deployment
+  targetCPUUtilizationPercentage: 50
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: cache
+spec:
+  rules:
+  - host: bal.perf.test
+    http:
+      paths:
+      - backend:
+          service:
+            name: cache-svc
+            port:
+              number: 9092
+        path: /
+        pathType: Prefix

@@ -1,0 +1,88 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    app: "non_cache"
+  name: "non-cache-svc"
+spec:
+  ports:
+  - name: "port-1-non-cach"
+    port: 9092
+    protocol: "TCP"
+    targetPort: 9092
+  selector:
+    app: "non_cache"
+  type: "ClusterIP"
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "config-config-map"
+data:
+  Config.toml: "dbHost = \"postgres-service\"\ndbUsername = \"postgres\"\ndbPassword\
+    \ = \"postgres\"\ndbName = \"postgres\"\ndbPort = 5432\n"
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: "non_cache"
+  name: "non-cache-deployment"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "non_cache"
+  template:
+    metadata:
+      labels:
+        app: "non_cache"
+    spec:
+      containers:
+      - env:
+        - name: "BAL_CONFIG_FILES"
+          value: "/home/ballerina/conf/Config.toml:"
+        image: "ashakalai/non_cache:latest"
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - "sleep"
+              - "15"
+        name: "non-cache-deployment"
+        ports:
+        - containerPort: 9092
+          name: "port-1-non-cach"
+          protocol: "TCP"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+        volumeMounts:
+        - mountPath: "/home/ballerina/conf/"
+          name: "config-config-map-volume"
+          readOnly: false
+      nodeSelector: {}
+      volumes:
+      - configMap:
+          name: "config-config-map"
+        name: "config-config-map-volume"
+---
+apiVersion: "autoscaling/v1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  labels:
+    app: "non_cache"
+  name: "non-cache-hpa"
+spec:
+  maxReplicas: 1
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: "apps/v1"
+    kind: "Deployment"
+    name: "non-cache-deployment"
+  targetCPUUtilizationPercentage: 50
