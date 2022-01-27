@@ -27,17 +27,15 @@ configurable int dbPort = ?;
 final jdbc:Client dbClient = check new (url = "jdbc:postgresql://" +  dbHost + "/" + dbName, user = dbUsername, password = dbPassword);
 
 public function main() returns error? {
-
     check deleteTable();
     check createTable();
     foreach var i in 1 ... 100 {
-        _ = check addDetails("Stuart");
+        _ = check addDetails();
     }
 }
 
 isolated service /customer on new http:Listener(9092) {
-    resource isolated function post .(int id, string customerName) returns string|error {
-        _ = check updateDetail(id, customerName);
+    resource isolated function get .(int id) returns string|error {
         return getDetail(id);
     }
 }
@@ -50,27 +48,23 @@ public isolated function createTable() returns error? {
     _ = check dbClient->execute(`
         CREATE TABLE Customers (
             customerId SERIAL,
-            customerName VARCHAR(300)
+            firstName VARCHAR(300),
+            lastName  VARCHAR(300),
+            registrationID INT,
+            creditLimit FLOAT,
+            country  VARCHAR(300)
         );
     `);
 }
 
-public isolated function addDetails(string customerName) returns error|int|string? {
-    sql:ParameterizedQuery query = `INSERT INTO Customers (customerName) VALUES (${customerName})`;
+public isolated function addDetails() returns error|int|string? {
+    sql:ParameterizedQuery query = `INSERT INTO Customers(firstName, lastName, registrationID,
+                                    creditLimit, country) VALUES ('Peter','Stuart', 1, 5000.75, 'USA')`;
     sql:ExecutionResult result = check dbClient->execute(query);
     return result?.lastInsertId;
 }
 
 public isolated function getDetail(int id) returns string|error {
-    stream<record {}, error?> resultStream = dbClient->query(`SELECT * FROM Customers WHERE customerId = ${id}`);
-    any result = check resultStream.next();
-    check resultStream.close();
-    return result.toString();
-}
-
-public isolated function updateDetail(int id, string customerName) returns error|int? {
-    sql:ParameterizedQuery updateQuery =
-        `UPDATE Customers SET customerName = ${customerName} WHERE customerId = ${id}`;
-    sql:ExecutionResult result = check dbClient->execute(updateQuery);
-    return result.affectedRowCount;
+    record{} value = check dbClient->queryRow(`SELECT * FROM Customers WHERE customerId = ${id}`);
+    return value.toString();
 }

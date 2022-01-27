@@ -33,8 +33,8 @@
           <stringProp name="HTTPSampler.port">${__P(port,9092)}</stringProp>
           <stringProp name="HTTPSampler.protocol">${__P(protocol,http)}</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">customer?id=${random}&amp;customerName=kalai</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <stringProp name="HTTPSampler.path">customer?id=${random}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -65,15 +65,6 @@
             <stringProp name="variableName">random</stringProp>
         </RandomVariableConfig>
       </hashTree>
-          <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random Variable" enabled="true">
-              <stringProp name="maximumValue">15000</stringProp>
-              <stringProp name="minimumValue">0</stringProp>
-              <stringProp name="outputFormat">00000.00</stringProp>
-              <boolProp name="perThread">true</boolProp>
-              <stringProp name="randomSeed">1</stringProp>
-              <stringProp name="variableName">randomCredit</stringProp>
-          </RandomVariableConfig>
-        </hashTree>
     </hashTree>
   </hashTree>
 </jmeterTestPlan>

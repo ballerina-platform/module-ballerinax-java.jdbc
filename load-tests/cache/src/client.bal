@@ -24,17 +24,19 @@ public isolated class Client {
     final cache:Cache cache;
 
     public isolated function init(string url, string dbUsername, string dbPassword, cache:CacheConfig cacheConfig)
-                             returns error? {
+                            returns error? {
         self.dbClient = check new (url = url, user = dbUsername, password = dbPassword);
         self.cache = new (cacheConfig);
     }
 
-    public isolated function addDetails(string customerName) returns error|int|string? {
-        sql:ParameterizedQuery query = `INSERT INTO Customers (customerName) VALUES (${customerName})`;
+    public isolated function addDetails() returns error|int|string? {
+        sql:ParameterizedQuery query = `INSERT INTO Customers(firstName, lastName, registrationID,
+                                        creditLimit, country) VALUES ('Peter','Stuart', 1, 5000.75, 'USA')`;
         sql:ExecutionResult result = check self.dbClient->execute(query);
         int|string? id = result?.lastInsertId;
         if id is int {
-            check self.put(id);
+            record{} value = check self.dbClient->queryRow(`SELECT * FROM Customers WHERE customerId = ${id}`);
+            error? err = self.cache.put(id.toString(), value.toString());
         }
         return id;
     }
@@ -44,27 +46,9 @@ public isolated class Client {
         if data !is error {
             return data.toString();
         }
-        stream<record {}, error?> resultStream = self.dbClient->query(
-                                                        `SELECT * FROM Customers WHERE customerId = ${id}`);
-        any result = check resultStream.next();
-        error? err = self.cache.put(id.toString(), result);
-        check resultStream.close();
-        return result.toString();
-    }
-
-    public isolated function updateDetail(int id, string customerName) returns error|int? {
-        sql:ParameterizedQuery updateQuery =
-            `UPDATE Customers SET customerName = ${customerName} WHERE customerId = ${id}`;
-        sql:ExecutionResult result = check self.dbClient->execute(updateQuery);
-        check self.put(id);
-        return result.affectedRowCount;
-    }
-
-    public isolated function removeDetail(int id) returns error|string {
-        sql:ParameterizedQuery query = `DELETE FROM Customers WHERE customerId = ${id}`;
-        _ = check self.dbClient->execute(query);
-        check self.cache.invalidate(id.toString());
-        return "Customer details deleted successfully";
+        record{} value = check self.dbClient->queryRow(`SELECT * FROM Customers WHERE customerId = ${id}`);
+        error? err = self.cache.put(id.toString(), value.toString());
+        return value.toString();
     }
 
     public isolated function deleteTable() returns error? {
@@ -75,15 +59,12 @@ public isolated class Client {
         _ = check self.dbClient->execute(`
             CREATE TABLE Customers (
                 customerId SERIAL,
-                customerName VARCHAR(300)
+                firstName VARCHAR(300),
+                lastName  VARCHAR(300),
+                registrationID INT,
+                creditLimit FLOAT,
+                country  VARCHAR(300)
             );
         `);
-    }
-
-    isolated function put(int id) returns error? {
-        stream<record {}, error?> resultStream = self.dbClient->query(`SELECT * FROM Customers WHERE customerId = ${id}`);
-        any output = check resultStream.next();
-        error? err = self.cache.put(id.toString(), output);
-        check resultStream.close();
     }
 }

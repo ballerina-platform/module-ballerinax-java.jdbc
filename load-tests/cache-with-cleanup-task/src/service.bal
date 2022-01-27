@@ -35,25 +35,23 @@ type Customer record {
 cache:CacheConfig cacheConfig = {
     capacity: capacity,
     evictionFactor: evictionFactor,
-    defaultMaxAge: defaultMaxAge
-    //cleanupInterval: cleanupInterval
+    defaultMaxAge: defaultMaxAge,
+    cleanupInterval: cleanupInterval
 };
 
 final Client cacheClient = check new ("jdbc:postgresql://" +  dbHost + "/" + dbName, dbUsername,
                                       dbPassword, cacheConfig);
 
 public function main() returns error? {
-
     check cacheClient.deleteTable();
     check cacheClient.createTable();
     foreach var i in 1 ... 100 {
-        _ = check cacheClient.addDetails("Stuart");
+        _ = check cacheClient.addDetails();
     }
 }
 
 isolated service /customer on new http:Listener(9092) {
-    resource isolated function post .(int id, string customerName) returns string|error {
-        error|int? output = cacheClient.updateDetail(id, customerName);
+    resource isolated function get .(int id) returns string|error {
         return cacheClient.getDetail(id);
     }
 }
