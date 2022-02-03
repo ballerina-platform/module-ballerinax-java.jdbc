@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS DataTable(
-  id INT IDENTITY,
+  id INT AUTO_INCREMENT,
   int_type     INTEGER UNIQUE,
   long_type    BIGINT,
   float_type   FLOAT,

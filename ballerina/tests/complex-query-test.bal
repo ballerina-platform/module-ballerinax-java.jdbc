@@ -231,15 +231,13 @@ function testMultipleRecoredRetrieval() returns error? {
 
     ResultMap? mixTypesActual = ();
     int counter = 0;
-    error? e = streamData.forEach(function(record {} value) {
-        if value is ResultMap && counter == 0 {
-            mixTypesActual = value;
-        }
-        counter = counter + 1;
-    });
-    if e is error {
-        test:assertFail("Error when iterating through records " + e.message());
-    }
+    check from record{} value in streamData
+        do {
+            if value is ResultMap && counter == 0 {
+                mixTypesActual = value;
+            }
+            counter = counter + 1;
+        };
     test:assertEquals(mixTypesActual, mixTypesExpected, "Expected record did not match.");
     test:assertEquals(counter, 4);
     check dbClient.close();
@@ -284,7 +282,6 @@ function testDateTime() returns error? {
 type ResultSetTestAlias record {
     int INT_TYPE;
     int LONG_TYPE;
-    string FLOAT_TYPE;
     float DOUBLE_TYPE;
     boolean BOOLEAN_TYPE;
     string STRING_TYPE;
@@ -297,31 +294,28 @@ type ResultSetTestAlias record {
 function testColumnAlias() returns error? {
     Client dbClient = check new (url = complexQueryDb, user = user, password = password);
     stream<record {}, error?> queryResult = dbClient->query(`
-        SELECT dt1.int_type, dt1.long_type, dt1.float_type, dt1.double_type, dt1.boolean_type, dt1.string_type, dt2.int_type
+        SELECT dt1.int_type, dt1.long_type, dt1.double_type, dt1.boolean_type, dt1.string_type, dt2.int_type
         as dt2int_type from DataTable dt1 left join DataTableRep dt2 on dt1.row_id = dt2.row_id
         WHERE dt1.row_id = 1;
     `, ResultSetTestAlias);
     ResultSetTestAlias expectedData = {
         INT_TYPE: 1,
         LONG_TYPE: 9223372036854774807,
-        FLOAT_TYPE: "123.34",
         DOUBLE_TYPE: 2139095039,
         BOOLEAN_TYPE: true,
         STRING_TYPE: "Hello",
         DT2INT_TYPE: 100
     };
     int counter = 0;
-    error? e = queryResult.forEach(function(record {} value) {
-        if value is ResultSetTestAlias {
-            test:assertEquals(value, expectedData, "Expected record did not match.");
-            counter = counter + 1;
-        } else {
-            test:assertFail("Expected data type is ResultSetTestAlias");
-        }
-    });
-    if e is error {
-        test:assertFail("Query failed");
-    }
+    check from record{} value in queryResult
+        do {
+            if value is ResultSetTestAlias {
+                test:assertEquals(value, expectedData, "Expected record did not match.");
+                counter = counter + 1;
+            } else {
+                test:assertFail("Expected data type is ResultSetTestAlias");
+            }
+        };
     test:assertEquals(counter, 1, "Expected only one data row.");
     check dbClient.close();
 }

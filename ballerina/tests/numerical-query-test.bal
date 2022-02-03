@@ -45,9 +45,10 @@ function testQuery() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
     stream<record {}, sql:Error?> streamData = dbClient->query(`SELECT * FROM NumericTypes`);
     record {}? returnData = ();
-    check streamData.forEach(function(record {} data) {
-        returnData = data;
-    });
+    check from record{} data in streamData
+        do {
+            returnData = data;
+        };
     check dbClient.close();
 
     if returnData !is () {
@@ -74,9 +75,10 @@ function testQueryNumericTypeRecord() returns error? {
     Client dbClient = check new (url = jdbcURL, user = user, password = password);
     stream<NumericTypeForQuery, sql:Error?> streamData = dbClient->query(`SELECT * FROM NumericTypes`);
     NumericTypeForQuery? returnData = ();
-    check streamData.forEach(function(NumericTypeForQuery data) {
-        returnData = data;
-    });
+    check from NumericTypeForQuery data in streamData
+        do {
+            returnData = data;
+        };
     check dbClient.close();
 
     test:assertEquals(returnData?.id, 1);
@@ -273,10 +275,11 @@ function testQueryFromNullTable() returns error? {
     stream<record {}, sql:Error?> streamData = dbClient->query(`SELECT * FROM NumericNullTypes`);
     record {} returnData = {};
     int count = 0;
-    check streamData.forEach(function(record {} data) {
-        returnData = data;
-        count += 1;
-    });
+    check from record{} data in streamData
+        do {
+            returnData = data;
+            count += 1;
+        };
     check dbClient.close();
     test:assertEquals(count, 2, "More than one record present");
     test:assertEquals(returnData["ID"], 2);

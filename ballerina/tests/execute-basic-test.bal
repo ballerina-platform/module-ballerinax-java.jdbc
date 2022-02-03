@@ -141,7 +141,7 @@ function testInsertTableWithoutGeneratedKeys() returns error? {
     `);
     check dbClient.close();
     test:assertExactEquals(result.affectedRowCount, 1, "Affected row count is different.");
-    test:assertEquals(result.lastInsertId, (), "Last Insert Id is nil.");
+    test:assertEquals(result.lastInsertId, 20, "Last Insert Id is nil.");
 }
 
 @test:Config {
@@ -260,9 +260,9 @@ function testInsertWithStringAndSelectTable() returns error? {
     StringData expectedInsertRow = {
         id: 25,
         varchar_type: "str1",
-        charmax_type: "str2",
+        charmax_type: "str2      ",
         char_type: "s",
-        charactermax_type: "str4",
+        charactermax_type: "str4      ",
         character_type: "s",
         nvarcharmax_type: "str6",
         longvarchar_type: "str7",
@@ -296,10 +296,10 @@ function testInsertWithEmptyStringAndSelectTable() returns error? {
     StringData expectedInsertRow = {
         id: 35,
         varchar_type: "",
-        charmax_type: "",
-        char_type: "",
-        charactermax_type: "",
-        character_type: "",
+        charmax_type: "          ",
+        char_type: " ",
+        charactermax_type: "          ",
+        character_type: " ",
         nvarcharmax_type: "",
         longvarchar_type: "",
         clob_type: ""
@@ -389,7 +389,7 @@ function testInsertTableWithDataTypeError() returns error? {
     if result is sql:DatabaseError {
         test:assertTrue(result.message().startsWith("Error while executing SQL query: Insert into NumericTypes " +
                     "(int_type) values ('This is wrong type'). Data conversion error converting \"'This is wrong type' " +
-                    "(NUMERICTYPES: \"\"INT_TYPE\"\" INT)\"; SQL statement:"),
+                    "(NUMERICTYPES: \"\"INT_TYPE\"\" INTEGER)\"; SQL statement:"),
                     "Error message does not match, actual :'" + result.message() + "'");
         sql:DatabaseErrorDetail errorDetails = result.detail();
         test:assertEquals(errorDetails.errorCode, 22018, "SQL Error code does not match");
