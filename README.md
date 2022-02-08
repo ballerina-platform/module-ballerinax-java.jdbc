@@ -6,7 +6,7 @@
 [![Github issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-standard-library/module/java.jdbc.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-standard-library/labels/module%2Fjava.jdbc)
 [![codecov](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc/branch/master/graph/badge.svg)](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc)
 
-This module provides the functionality that is required to access and manipulate data stored in any type of relational database,
+This package provides the functionality that is required to access and manipulate data stored in any type of relational database,
 which is accessible via the Java Database Connectivity (JDBC) API.
 
 ### Prerequisite
@@ -60,7 +60,7 @@ In the sample below, the `jdbc:Client` uses the named parameters to pass all the
 [`jdbc:Options`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/records/Options),
 and also uses the unshared connection pool in the type of
 [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
-For more information about connection pooling, see the [`sql` module](https://docs.central.ballerina.io/ballerina/sql/latest).
+For more information about connection pooling, see the [`sql` package](https://docs.central.ballerina.io/ballerina/sql/latest).
 
 E.g., The DB client creation for an H2 database will be as follows.
 ```ballerina
@@ -103,7 +103,7 @@ all the operations defined by the `sql:Client` will be supported by the `jdbc:Cl
 
 #### Connection Pool Handling
 
-All database modules share the same connection pooling concept and there are three possible scenarios for
+All database packages share the same connection pooling concept and there are three possible scenarios for
 connection pool handling. For its properties and possible values, see the [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
 
 1. Global, shareable, default connection pool
@@ -164,7 +164,7 @@ check dbClient.close();
 
 ### Database Operations
 
-Once the client is created, database operations can be executed through that client. This module defines the interface
+Once the client is created, database operations can be executed through that client. This package defines the interface
 and common properties that are shared among multiple database clients. It also supports querying, inserting, deleting,
 updating, and batch updating data.
 
