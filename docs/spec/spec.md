@@ -3,7 +3,7 @@
 _Owners_: @daneshk @niveathika  
 _Reviewers_: @daneshk  
 _Created_: 2022/01/14   
-_Updated_: 2022/02/08
+_Updated_: 2022/02/08  
 _Edition_: Swan Lake  
 _Issue_: [#2290](https://github.com/ballerina-platform/ballerina-standard-library/issues/2290)
 
@@ -16,6 +16,7 @@ The JDBC library specification has evolved and may continue to evolve in the fut
 If you have any feedback or suggestions about the library, start a discussion via a [Github issue](https://github.com/ballerina-platform/ballerina-standard-library/issues) or in the [Slack channel](https://ballerina.io/community/). Based on the outcome of the discussion, specification and implementation can be updated. Community feedback is always welcome. Any accepted proposal which affects the specification is stored under `/docs/proposals`. Proposals under discussion can be found with the label `type/proposal` in Github.
 
 Conforming implementation of the specification is released to Ballerina central. Any deviation from the specification is considered a bug.
+
 # Contents
 
 1. [Overview](#1-overview)
