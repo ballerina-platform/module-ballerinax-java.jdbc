@@ -183,7 +183,7 @@ sql:ParameterizedQuery query = `SELECT * FROM students
                                 WHERE id < ${ids[0]} AND age > ${age}`;
 ```
 
-Moreover, the SQL package has `sql:queryConcat()` and `sql:arrayFlattenQuery()` util functions which make it easier
+Moreover, the SQL module has `sql:queryConcat()` and `sql:arrayFlattenQuery()` util functions which make it easier
 to create a dynamic/constant complex query.
 
 The `sql:queryConcat()` is used to create a single parameterized query by concatenating a set of parameterized queries.
