@@ -6,7 +6,7 @@
 [![Github issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-standard-library/module/java.jdbc.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-standard-library/labels/module%2Fjava.jdbc)
 [![codecov](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc/branch/master/graph/badge.svg)](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc)
 
-This package provides the functionality that is required to access and manipulate data stored in any type of relational database,
+This library provides the functionality that is required to access and manipulate data stored in any type of relational database,
 which is accessible via the Java Database Connectivity (JDBC) API.
 
 ### Prerequisite
