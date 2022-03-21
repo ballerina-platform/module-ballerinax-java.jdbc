@@ -101,7 +101,7 @@ The [`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/lates
 [`sql:Client`](https://docs.central.ballerina.io/ballerina/sql/latest/clients/Client) and
 all the operations defined by the `sql:Client` will be supported by the `jdbc:Client` as well.
 
-#### Handle Connection Pools
+#### Handle connection pools
 
 All database libraries share the same connection pooling concept and there are three possible scenarios for
 connection pool handling. For its properties and possible values, see the [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).

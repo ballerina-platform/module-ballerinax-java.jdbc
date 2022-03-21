@@ -21,7 +21,7 @@ The conforming implementation of the specification is released to Ballerina cent
 
 1. [Overview](#1-overview)
 2. [Client](#2-client)  
-   2.1. [Handle connection polls](#21-handle-connection-pools)  
+   2.1. [Handle connection pools](#21-handle-connection-pools)  
    2.2. [Close the client](#22-close-the-client)
 3. [Queries and values](#3-queries-and-values)  
 4. [Database operations](#4-database-operations)
