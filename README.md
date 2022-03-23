@@ -34,7 +34,7 @@ To access a database, you must first create a
 [`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) object.
 The samples for creating a JDBC client can be found below.
 
-#### Creating a Client
+#### Create a client
 This sample shows the different ways of creating the `jdbc:Client`. The client can be created by passing
 the JDBC URL, which is a mandatory property and all other fields are optional.
 
@@ -101,7 +101,7 @@ The [`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/lates
 [`sql:Client`](https://docs.central.ballerina.io/ballerina/sql/latest/clients/Client) and
 all the operations defined by the `sql:Client` will be supported by the `jdbc:Client` as well.
 
-#### Connection Pool Handling
+#### Handle connection pools
 
 All database libraries share the same connection pooling concept and there are three possible scenarios for
 connection pool handling. For its properties and possible values, see the [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
@@ -149,7 +149,7 @@ connection pool handling. For its properties and possible values, see the [`sql:
                             connectionPool = connPool);
     ```
 
-#### Closing the Client
+#### Close the client
 
 Once all the database operations are performed, you can close the client you have created by invoking the `close()`
 operation. This will close the corresponding connection pool if it is not shared by any other database clients.
@@ -162,13 +162,13 @@ Or
 check dbClient.close();
 ```
 
-### Database Operations
+### Database operations
 
 Once the client is created, database operations can be executed through that client. This library defines the interface
 and common properties that are shared among multiple database clients. It also supports querying, inserting, deleting,
 updating, and batch updating data.
 
-#### Parameterized Query
+#### Parameterized query
 
 The `sql:ParameterizedQuery` is used to construct the SQL query to be executed by the client.
 You can create a query with constant or dynamic input data as follows.
@@ -220,7 +220,7 @@ sql:ParameterizedQuery sqlQuery =
                                              arrayFlattenQuery(ids), `)`);
 ```
 
-#### Creating Tables
+#### Create tables
 
 This sample creates a table with three columns. The first column is a primary key of type `int`
 while the second column is of type `int` and the other is of type `varchar`.
@@ -238,7 +238,7 @@ sql:ExecutionResult result =
 // A value of the `sql:ExecutionResult` type is returned for the 'result'. 
 ```
 
-#### Inserting Data
+#### Insert data
 
 These samples show the data insertion by executing an `INSERT` statement using the `execute` remote function
 of the client.
@@ -278,7 +278,7 @@ sql:ParameterizedQuery query = `INSERT INTO student(age, name)
 sql:ExecutionResult result = check dbClient->execute(query);
 ```
 
-#### Inserting Data With Auto-generated Keys
+#### Insert data with auto-generated keys
 
 This sample demonstrates inserting data while returning the auto-generated keys. It achieves this by using the
 `execute` remote function to execute the `INSERT` statement.
@@ -298,7 +298,7 @@ int? count = result.affectedRowCount;
 string|int? generatedKey = result.lastInsertId;
 ```
 
-#### Querying Data
+#### Query data
 
 These samples show how to demonstrate the different usages of the `query` operation to query the
 database table and obtain the results.
@@ -381,7 +381,7 @@ sql:ParameterizedQuery query = `SELECT COUNT(*) FROM students WHERE age < ${age}
 int youngStudents = check dbClient->queryRow(query);
 ```
 
-#### Updating Data
+#### Update data
 
 This sample demonstrates modifying data by executing an `UPDATE` statement via the `execute` remote function of
 the client.
@@ -392,7 +392,7 @@ sql:ParameterizedQuery query = `UPDATE students SET name = 'John' WHERE age = ${
 sql:ExecutionResult result = check dbClient->execute(query);
 ```
 
-#### Deleting Data
+#### Delete data
 
 This sample demonstrates deleting data by executing a `DELETE` statement via the `execute` remote function of
 the client.
@@ -403,7 +403,7 @@ sql:ParameterizedQuery query = `DELETE from students WHERE name = ${name}`;
 sql:ExecutionResult result = check dbClient->execute(query);
 ```
 
-#### Batch Updating Data
+#### Batch update data
 
 This sample demonstrates how to insert multiple records with a single `INSERT` statement that is executed via the
 `batchExecute` remote function of the client. This is done by creating a `table` with multiple records and
@@ -424,7 +424,7 @@ sql:ParameterizedQuery[] batch = from var row in data
 sql:ExecutionResult[] result = check dbClient->batchExecute(batch);
 ```
 
-#### Execute SQL Stored Procedures
+#### Execute SQL stored procedures
 
 This sample demonstrates how to execute a stored procedure with a single `INSERT` statement that is executed via the
 `call` remote function of the client.
@@ -448,26 +448,26 @@ Note that you have to invoke the close operation explicitly on the `sql:Procedur
 
 >**Note:** The default thread pool size used in Ballerina is: `the number of processors available * 2`. You can configure the thread pool size by using the `BALLERINA_MAX_POOL_SIZE` environment variable.
 
-## Issues and Projects 
+## Issues and projects 
 
 Issues and Projects tabs are disabled for this repository as this is part of the Ballerina Standard Library. To report bugs, request new features, start new discussions, view project boards, etc. please visit Ballerina Standard Library [parent repository](https://github.com/ballerina-platform/ballerina-standard-library). 
 
 This repository only contains the source code for the library.
 
-## Building from the Source
+## Building from the source
 
-### Setting Up the Prerequisites
+### Set up the prerequisites
 
 1. Download and install Java SE Development Kit (JDK) version 11 (from one of the following locations).
    * [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
    * [OpenJDK](http://openjdk.java.net/install/index.html)
 
-2. Export Github Personal access token with read package permissions as follows,
+2. Export GitHub personal access token with read package permissions as follows,
         
         export packageUser=<Username>
         export packagePAT=<Personal access token>
 
-### Building the Source
+### Build the source
 
 Execute the commands below to build from the source.
 
@@ -489,7 +489,7 @@ Execute the commands below to build from the source.
 
    **Tip:** The following groups of test cases are available.
 
-   Groups | Test Cases
+   Groups | Test cases
    ---| ---
    connection | connection
    pool | pool
@@ -530,11 +530,11 @@ As an open source project, Ballerina welcomes contributions from the community.
 
 For more information, go to the [contribution guidelines](https://github.com/ballerina-platform/ballerina-lang/blob/master/CONTRIBUTING.md).
 
-## Code of Conduct
+## Code of conduct
 
-All contributors are encouraged to read the [Ballerina Code of Conduct](https://ballerina.io/code-of-conduct).
+All contributors are encouraged to read the [Ballerina code of conduct](https://ballerina.io/code-of-conduct).
 
-## Useful Links
+## Useful links
 
 * For more information go to the [`JDBC` library](https://lib.ballerina.io/ballerinax/java.jdbc/latest).
 * For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/learn/by-example/jdbc-query-operation.html).
