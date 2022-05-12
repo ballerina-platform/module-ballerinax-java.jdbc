@@ -34,8 +34,7 @@ function TestAuthenticationError() {
     test:assertTrue(dbClient is sql:ApplicationError);
     error sqlerror = <error>dbClient;
     test:assertTrue(strings:includes(sqlerror.message(), "Error in SQL connector configuration: Failed to " +
-                "initialize pool: Wrong user name or password [28000-206] Caused by :Wrong user name or password " +
-                "[28000-206]"), sqlerror.message());
+                "initialize pool: Wrong user name or password"), sqlerror.message());
 }
 
 @test:Config {
