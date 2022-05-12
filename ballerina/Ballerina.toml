@@ -16,5 +16,5 @@ path = "../native/build/libs/java.jdbc-native-1.4.0-SNAPSHOT.jar"
 path = "./lib/sql-native-1.4.0-20220324-122700-70834a7.jar"
 
 [[platform.java11.dependency]]
-path = "./lib/h2-2.0.206.jar"
+path = "./lib/h2-2.1.212.jar"
 scope = "testOnly"
