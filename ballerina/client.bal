@@ -45,7 +45,7 @@ public isolated client class Client {
 
     # Executes the query, which may return multiple results.
     #
-    # + sqlQuery - The SQL query such as `` `SELECT * from Album WHERE name={albumName}` ``
+    # + sqlQuery - The SQL query such as `` `SELECT * from Album WHERE name=${albumName}` ``
     # + rowType - The `typedesc` of the record to which the result needs to be returned
     # + return - Stream of records in the `rowType` type
     remote isolated function query(sql:ParameterizedQuery sqlQuery, typedesc<record {}> rowType = <>)
