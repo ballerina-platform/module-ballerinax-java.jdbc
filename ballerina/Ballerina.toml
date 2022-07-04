@@ -1,19 +1,19 @@
 [package]
 org = "ballerinax"
 name = "java.jdbc"
-version = "1.4.0"
+version = "1.5.0"
 authors = ["Ballerina"]
 keywords = ["database", "client", "network", "SQL", "RDBMS", "JDBC"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-java.jdbc"
 icon = "icon.png"
 license = ["Apache-2.0"]
-distribution = "2201.1.0"
+distribution = "2201.2.0"
 
 [[platform.java11.dependency]]
-path = "../native/build/libs/java.jdbc-native-1.4.0.jar"
+path = "../native/build/libs/java.jdbc-native-1.5.0-SNAPSHOT.jar"
 
 [[platform.java11.dependency]]
-path = "./lib/sql-native-1.4.0.jar"
+path = "./lib/sql-native-1.5.0-20220701-115900-61cf131.jar"
 
 [[platform.java11.dependency]]
 path = "./lib/h2-2.1.212.jar"
