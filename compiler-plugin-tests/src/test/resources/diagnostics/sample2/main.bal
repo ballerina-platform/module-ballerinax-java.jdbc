@@ -32,6 +32,18 @@ public function main() returns error? {
     });
     check dbClient1.close();
 
-    jdbc:Client dbClient2 = check new ("url", (), (), {}, {maxOpenConnections: -1});
+    jdbc:Client dbClient2 = check new ("url", (), (), {}, {
+        maxOpenConnections: -1,
+        minIdleConnections: 1,
+        maxConnectionLifeTime: 31
+    });
     check dbClient2.close();
+
+    jdbc:Client dbClient3 = check new ("url", (), (), {}, ());
+    check dbClient3.close();
+
+    jdbc:Client dbClient4 = check new ("url");
+    check dbClient4.close();
+
+    sql:ParameterizedQuery query = ``;
 }

@@ -22,6 +22,7 @@ public function main() returns error? {
     jdbc:Client dbClient = check new ("jdbc:h2:" + check file:getAbsolutePath("target/databases") + "/BATCH_EXECUTE_DB");
     _ = check dbClient->query(``);
     _ = check dbClient->queryRow(``);
+    _ = check dbClient->execute(``);
     check invokeQuery(dbClient);
     check dbClient.close();
 }
