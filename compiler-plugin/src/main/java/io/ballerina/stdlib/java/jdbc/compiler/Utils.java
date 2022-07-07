@@ -31,6 +31,10 @@ import java.util.Optional;
  * Utils class.
  */
 public class Utils {
+
+    private Utils() {
+    }
+
     public static boolean isJDBCClientObject(SyntaxNodeAnalysisContext ctx, ExpressionNode node) {
         Optional<TypeSymbol> objectType = ctx.semanticModel().typeOf(node);
         if (objectType.isEmpty()) {
