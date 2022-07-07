@@ -21,9 +21,9 @@ public function main() returns error? {
     int connectionNum = 5;
     int connectionNumInvalid = -5;
 
-    jdbc:Client dbClient1 = check new("url", connectionPool = {maxOpenConnections: connectionNum});
+    jdbc:Client dbClient1 = check new ("url", connectionPool = {maxOpenConnections: connectionNum});
     check dbClient1.close();
 
-    jdbc:Client dbClient2 = check new("url", (), (), {}, {maxOpenConnections: connectionNumInvalid});
+    jdbc:Client dbClient2 = check new ("url", (), (), {}, {maxOpenConnections: connectionNumInvalid});
     check dbClient2.close();
 }
