@@ -15,6 +15,7 @@
 // under the License.
 
 import ballerinax/java.jdbc;
+import ballerina/http;
 
 public function main() returns error? {
 
@@ -26,4 +27,6 @@ public function main() returns error? {
 
     jdbc:Client dbClient2 = check new ("url", (), (), {}, {maxOpenConnections: connectionNumInvalid});
     check dbClient2.close();
+
+    http:Client httpclient = check new ("adasdsasd");
 }

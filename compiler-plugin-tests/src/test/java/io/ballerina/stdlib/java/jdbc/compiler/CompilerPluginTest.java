@@ -68,7 +68,7 @@ public class CompilerPluginTest {
         DiagnosticResult diagnosticResult = compilation.diagnosticResult();
         long availableErrors = diagnosticResult.diagnostics().stream()
                 .filter(r -> r.diagnosticInfo().severity().equals(DiagnosticSeverity.ERROR)).count();
-        Assert.assertEquals(availableErrors, 3);
+        Assert.assertEquals(availableErrors, 4);
 
         List<Diagnostic> diagnosticHints = diagnosticResult.diagnostics().stream()
                 .filter(r -> r.diagnosticInfo().severity().equals(DiagnosticSeverity.HINT))

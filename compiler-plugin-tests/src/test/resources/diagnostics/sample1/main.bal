@@ -17,6 +17,7 @@
 import ballerina/file;
 import ballerina/sql;
 import ballerinax/java.jdbc;
+import ballerina/http;
 
 public function main() returns error? {
     jdbc:Client dbClient = check new ("jdbc:h2:" + check file:getAbsolutePath("target/databases") + "/BATCH_EXECUTE_DB");
@@ -25,6 +26,9 @@ public function main() returns error? {
     _ = check dbClient->execute(``);
     check invokeQuery(dbClient);
     check dbClient.close();
+
+    http:Client httpclient = check new ("adasdsasd");
+    _ = check httpclient->get("/sdfsdf");
 }
 
 function invokeQuery(jdbc:Client dbClient) returns error? {
