@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.SQL_101;
+import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.SQL_102;
+import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.SQL_103;
 
 /**
  * Tests the custom SQL compiler plugin.
@@ -97,12 +99,32 @@ public class CompilerPluginTest {
                 .collect(Collectors.toList());
         long availableErrors = diagnosticErrorStream.size();
 
-        Assert.assertEquals(availableErrors, 4);
+        Assert.assertEquals(availableErrors, 6);
 
-        diagnosticErrorStream.forEach(diagnostic -> {
-            Assert.assertEquals(diagnostic.diagnosticInfo().code(), SQL_101.getCode());
-            Assert.assertEquals(diagnostic.diagnosticInfo().messageFormat(), SQL_101.getMessage());
-        });
+        for (int i = 0; i < diagnosticErrorStream.size(); i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                case 2:
+                case 5:
+                    Assert.assertEquals(diagnosticErrorStream.get(i).diagnosticInfo().code(), SQL_101.getCode());
+                    Assert.assertEquals(diagnosticErrorStream.get(i).diagnosticInfo().messageFormat(),
+                            SQL_101.getMessage());
+                    break;
+                case 3:
+                    Assert.assertEquals(diagnosticErrorStream.get(i).diagnosticInfo().code(), SQL_102.getCode());
+                    Assert.assertEquals(diagnosticErrorStream.get(i).diagnosticInfo().messageFormat(),
+                            SQL_102.getMessage());
+                    break;
+                case 4:
+                    Assert.assertEquals(diagnosticErrorStream.get(i).diagnosticInfo().code(), SQL_103.getCode());
+                    Assert.assertEquals(diagnosticErrorStream.get(i).diagnosticInfo().messageFormat(),
+                            SQL_103.getMessage());
+                    break;
+                default:
+                    Assert.fail();
+            }
+        }
     }
 
     @Test
