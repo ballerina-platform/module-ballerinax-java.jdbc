@@ -68,8 +68,11 @@ ballerina {
 
 task updateTomlFiles {
     doLast {
+        def stdlibDependentSQLVersion = stripBallerinaExtensionVersion(project.stdlibSqlVersion)
+
         def newConfig = ballerinaTomlFilePlaceHolder.text.replace('@project.version@', project.version.toString())
         newConfig = newConfig.replace('@toml.version@', tomlVersion)
+        newConfig = newConfig.replace('@sql.version@', stdlibDependentSQLVersion)
         newConfig = newConfig.replace('@sql.native.version@', project.stdlibSqlVersion)
         newConfig = newConfig.replace('@h2.connector.version@', project.h2DriverVersion)
         ballerinaTomlFile.text = newConfig
