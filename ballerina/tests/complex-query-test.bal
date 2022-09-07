@@ -208,10 +208,10 @@ function testComplexWithStructDef() returns error? {
 }
 
 type ResultMap record {
-    int[] INT_ARRAY;
-    int[] LONG_ARRAY;
-    boolean[] BOOLEAN_ARRAY;
-    string[] STRING_ARRAY;
+    int?[] INT_ARRAY;
+    int?[] LONG_ARRAY;
+    boolean?[] BOOLEAN_ARRAY;
+    string?[] STRING_ARRAY;
 };
 
 @test:Config {
