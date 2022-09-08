@@ -34,6 +34,7 @@ import org.testng.annotations.Test;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.SQL_101;
@@ -44,14 +45,24 @@ import static io.ballerina.stdlib.java.jdbc.compiler.JDBCDiagnosticsCode.SQL_103
  * Tests the custom SQL compiler plugin.
  */
 public class CompilerPluginTest {
+    private static final String OS = System.getProperty("os.name").toLowerCase(Locale.getDefault());
 
     private static final Path RESOURCE_DIRECTORY = Paths.get("src", "test", "resources", "diagnostics")
             .toAbsolutePath();
     private static final Path DISTRIBUTION_PATH = Paths.get("../", "target", "ballerina-runtime")
             .toAbsolutePath();
 
+    private static final Path DISTRIBUTION_PATH_WINDOWS = Paths.get("..\\", "target", "ballerina-runtime")
+            .toAbsolutePath();
+
     private static ProjectEnvironmentBuilder getEnvironmentBuilder() {
-        Environment environment = EnvironmentBuilder.getBuilder().setBallerinaHome(DISTRIBUTION_PATH).build();
+        Path distributionPath;
+        if (OS.contains("win")) {
+            distributionPath = DISTRIBUTION_PATH_WINDOWS;
+        } else {
+            distributionPath = DISTRIBUTION_PATH;
+        }
+        Environment environment = EnvironmentBuilder.getBuilder().setBallerinaHome(distributionPath).build();
         return ProjectEnvironmentBuilder.getBuilder(environment);
     }
 
