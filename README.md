@@ -419,7 +419,7 @@ var data = [
 
 // Do the batch update by passing the batches.
 sql:ParameterizedQuery[] batch = from var row in data
-                                 select `INSERT INTO students ('name', 'age')
+                                 select `INSERT INTO students (name, age)
                                            VALUES (${row.name}, ${row.age})`;
 sql:ExecutionResult[] result = check dbClient->batchExecute(batch);
 ```
