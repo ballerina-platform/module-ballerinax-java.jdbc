@@ -538,5 +538,5 @@ All contributors are encouraged to read the [Ballerina code of conduct](https://
 
 * For more information go to the [`JDBC` library](https://lib.ballerina.io/ballerinax/java.jdbc/latest).
 * For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/learn/by-example/jdbc-query-operation.html).
-* Chat live with us via our [Slack channel](https://ballerina.io/community/slack/).
+* Chat live with us via our [Discord server](https://discord.gg/ballerinalang).
 * Post all technical questions on Stack Overflow with the [#ballerina](https://stackoverflow.com/questions/tagged/ballerina) tag.
