@@ -20,7 +20,6 @@ package io.ballerina.stdlib.java.jdbc.compiler;
 import io.ballerina.tools.diagnostics.DiagnosticSeverity;
 
 import static io.ballerina.tools.diagnostics.DiagnosticSeverity.ERROR;
-import static io.ballerina.tools.diagnostics.DiagnosticSeverity.HINT;
 
 /**
  * Enum class to hold JDBC module diagnostic codes.
@@ -31,10 +30,7 @@ public enum JDBCDiagnosticsCode {
     // todo See if this can be taken from the dependency.
     SQL_101("SQL_101", "invalid value: expected value is greater than one", ERROR),
     SQL_102("SQL_102", "invalid value: expected value is greater than zero", ERROR),
-    SQL_103("SQL_103", "invalid value: expected value is greater than or equal to 30", ERROR),
-
-    JDBC_901("JDBC_901", "parameter 'rowType' should be explicitly passed when the return data is ignored", HINT),
-    JDBC_902("JDBC_902", "parameter 'returnType' should be explicitly passed when the return data is ignored", HINT);
+    SQL_103("SQL_103", "invalid value: expected value is greater than or equal to 30", ERROR);
 
     private final String code;
     private final String message;
