@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
+
+## [1.6.0] - 2022-11-29
+
+### Changed
 - [Fix Syntax error in Batch update API docs](https://github.com/ballerina-platform/ballerina-standard-library/issues/3441)
 - [Updated API docs](https://github.com/ballerina-platform/ballerina-standard-library/issues/3463)
 
