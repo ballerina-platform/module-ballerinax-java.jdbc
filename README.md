@@ -1,10 +1,11 @@
 # Ballerina JDBC Library
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/build-timestamped-master.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/build-timestamped-master.yml)
+[![codecov](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc/branch/master/graph/badge.svg)](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc)
 [![Trivy](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/trivy-scan.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/trivy-scan.yml)
+[![GraalVM Check](https://img.shields.io/github/workflow/status/ballerina-platform/module-ballerinax-java.jdbc/Build%20with%20bal%20test%20native?label=GraalVM%20Check)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/build-with-bal-test-native.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-java.jdbc.svg)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/commits/master)
 [![Github issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-standard-library/module/java.jdbc.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-standard-library/labels/module%2Fjava.jdbc)
-[![codecov](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc/branch/master/graph/badge.svg)](https://codecov.io/gh/ballerina-platform/module-ballerinax-java.jdbc)
 
 This library provides the functionality that is required to access and manipulate data stored in any type of relational database,
 which is accessible via the Java Database Connectivity (JDBC) API.
