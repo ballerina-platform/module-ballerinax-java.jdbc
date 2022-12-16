@@ -24,6 +24,8 @@ import io.ballerina.compiler.api.symbols.TypeSymbol;
 import io.ballerina.compiler.api.symbols.UnionTypeSymbol;
 import io.ballerina.compiler.syntax.tree.ExpressionNode;
 import io.ballerina.projects.plugins.SyntaxNodeAnalysisContext;
+import io.ballerina.tools.diagnostics.Diagnostic;
+import io.ballerina.tools.diagnostics.DiagnosticSeverity;
 
 import java.util.Optional;
 
@@ -31,6 +33,16 @@ import java.util.Optional;
  * Utils class.
  */
 public class Utils {
+
+    public static boolean hasCompilationErrors(SyntaxNodeAnalysisContext ctx) {
+        for (Diagnostic diagnostic : ctx.compilation().diagnosticResult().diagnostics()) {
+            if (diagnostic.diagnosticInfo().severity() == DiagnosticSeverity.ERROR) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean isJDBCClientObject(SyntaxNodeAnalysisContext ctx, ExpressionNode node) {
         Optional<TypeSymbol> objectType = ctx.semanticModel().typeOf(node);
         if (objectType.isEmpty()) {
