@@ -21,8 +21,7 @@ import ballerina/sql;
 public isolated client class Client {
     *sql:Client;
 
-    # Initializes the JDBC Client. It should be kept open throughout the entirety of the application
-    # to perform the operations.
+    # Initializes the JDBC Client. The client must be kept open throughout the application lifetime.
     #
     # + url - The JDBC URL to be used for the database connection
     # + user - If the database is secured, the username
