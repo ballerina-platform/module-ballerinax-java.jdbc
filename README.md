@@ -34,11 +34,11 @@ To access a database, you must first create a
 [`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) object.
 The samples for creating a JDBC client can be found below.
 
+> **Tip**: The client should be used throughout the application lifetime.
+
 #### Create a client
 This sample shows the different ways of creating the `jdbc:Client`. The client can be created by passing
 the JDBC URL, which is a mandatory property and all other fields are optional.
-
-> **Tip**: The client should be used throughout the application lifetime.
 
 The `jdbc:Client` receives only the database URL.
 
@@ -108,7 +108,7 @@ all the operations defined by the `sql:Client` will be supported by the `jdbc:Cl
 All database libraries share the same connection pooling concept and there are three possible scenarios for
 connection pool handling. For its properties and possible values, see the [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
 
->**Tip**: Connection pooling is used to optimize opening and closing connections to the database. However, the pool comes with an overhead. It is best to configure the connection pool properties as per the application need to get the best performance.
+>**Note**: Connection pooling is used to optimize opening and closing connections to the database. However, the pool comes with an overhead. It is best to configure the connection pool properties as per the application need to get the best performance.
 
 1. Global, shareable, default connection pool
 
@@ -158,7 +158,7 @@ connection pool handling. For its properties and possible values, see the [`sql:
 Once all the database operations are performed, you can close the client you have created by invoking the `close()`
 operation. This will close the corresponding connection pool if it is not shared by any other database clients.
 
-> **Tip**: The client must be closed only at the end of the application lifetime (or closed for graceful stops in a service).
+> **Note**: The client must be closed only at the end of the application lifetime (or closed for graceful stops in a service).
 
 ```ballerina
 error? e = dbClient.close();
@@ -309,7 +309,7 @@ string|int? generatedKey = result.lastInsertId;
 These samples show how to demonstrate the different usages of the `query` operation to query the
 database table and obtain the results as a stream.
 
->**Tip**: When processing the stream, make sure to consume all fetched data or close the stream.
+>**Note**: When processing the stream, make sure to consume all fetched data or close the stream.
 
 This sample demonstrates querying data from a table in a database.
 First, a type is created to represent the returned result set. This record can be defined as an open or a closed record
