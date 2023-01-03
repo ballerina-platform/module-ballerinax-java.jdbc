@@ -28,6 +28,8 @@ To access a database, you must first create a
 [`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) object.
 The samples for creating a JDBC client can be found below.
 
+> **Tip**: The client should be used throughout the application lifetime.
+
 #### Create a client
 This sample shows the different ways of creating the `jdbc:Client`. The client can be created by passing
 the JDBC URL, which is a mandatory property and all other fields are optional.
@@ -100,6 +102,8 @@ all the operations defined by the `sql:Client` will be supported by the `jdbc:Cl
 All database packages share the same connection pooling concept and there are three possible scenarios for
 connection pool handling. For its properties and possible values, see the [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
 
+>**Note**: Connection pooling is used to optimize opening and closing connections to the database. However, the pool comes with an overhead. It is best to configure the connection pool properties as per the application need to get the best performance.
+
 1. Global, shareable, default connection pool
 
    If you do not provide the `connectionPool` field when creating the database client, a globally-shareable pool will be
@@ -147,6 +151,8 @@ connection pool handling. For its properties and possible values, see the [`sql:
 
 Once all the database operations are performed, you can close the client you have created by invoking the `close()`
 operation. This will close the corresponding connection pool if it is not shared by any other database clients.
+
+> **Note**: The client must be closed only at the end of the application lifetime (or closed for graceful stops in a service).
 
 ```ballerina
 error? e = dbClient.close();
@@ -295,7 +301,9 @@ string|int? generatedKey = result.lastInsertId;
 #### Query data
 
 These samples show how to demonstrate the different usages of the `query` operation to query the
-database table and obtain the results.
+database table and obtain the results as a stream.
+
+>**Note**: When processing the stream, make sure to consume all fetched data or close the stream.
 
 This sample demonstrates querying data from a table in a database.
 First, a type is created to represent the returned result set. This record can be defined as an open or a closed record
@@ -438,9 +446,10 @@ if resultStr is stream<record{}, sql:Error?> {
 }
 check result.close();
 ```
-Note that you have to invoke the close operation explicitly on the `sql:ProcedureCallResult` to release the connection resources and avoid a connection leak as shown above.
 
->**Note:** The default thread pool size used in Ballerina is: `the number of processors available * 2`. You can configure the thread pool size by using the `BALLERINA_MAX_POOL_SIZE` environment variable.
+>**Note**: Once the results are processed, the `close` method on the `sql:ProcedureCallResult` must be called.
+
+>**Note**: The default thread pool size used in Ballerina is: `the number of processors available * 2`. You can configure the thread pool size by using the `BALLERINA_MAX_POOL_SIZE` environment variable.
 
 ## Report issues
 

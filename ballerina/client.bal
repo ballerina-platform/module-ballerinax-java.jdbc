@@ -18,11 +18,10 @@ import ballerina/jballerina.java;
 import ballerina/sql;
 
 # Represents a JDBC client.
-#
 public isolated client class Client {
     *sql:Client;
 
-    # Initializes the JDBC client.
+    # Initializes the JDBC Client. The client must be kept open throughout the application lifetime.
     #
     # + url - The JDBC URL to be used for the database connection
     # + user - If the database is secured, the username
@@ -44,6 +43,7 @@ public isolated client class Client {
     }
 
     # Executes the query, which may return multiple results.
+    # When processing the stream, make sure to consume all fetched data or close the stream.
     #
     # + sqlQuery - The SQL query such as `` `SELECT * from Album WHERE name=${albumName}` ``
     # + rowType - The `typedesc` of the record to which the result needs to be returned
@@ -90,7 +90,8 @@ public isolated client class Client {
         return nativeBatchExecute(self, sqlQueries);
     }
 
-    # Executes a SQL query, which calls a stored procedure. This may or may not return results.
+    # Executes an SQL query, which calls a stored procedure. This may or may not
+    # return results. Once the results are processed, the `close` method on `sql:ProcedureCallResult` must be called.
     #
     # + sqlQuery - The SQL query such as `` `CALL sp_GetAlbums();` ``
     # + rowTypes - `typedesc` array of the records to which the results need to be returned
@@ -101,7 +102,8 @@ public isolated client class Client {
         name: "nativeCall"
     } external;
 
-    # Closes the SQL client and shuts down the connection pool.
+    # Closes the JDBC client and shuts down the connection pool. The client must be closed only at the end of the
+    # application lifetime (or closed for graceful stops in a service).
     #
     # + return - Possible error when closing the client
     public isolated function close() returns sql:Error? = @java:Method {
