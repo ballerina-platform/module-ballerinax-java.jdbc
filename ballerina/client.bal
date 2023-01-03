@@ -22,7 +22,7 @@ import ballerina/sql;
 public isolated client class Client {
     *sql:Client;
 
-    # Initializes the MySQL Client. It should be kept open throughout the entirety of the application
+    # Initializes the JDBC Client. It should be kept open throughout the entirety of the application
     # to perform the operations.
     #
     # + url - The JDBC URL to be used for the database connection
@@ -92,8 +92,8 @@ public isolated client class Client {
         return nativeBatchExecute(self, sqlQueries);
     }
 
-    # Executes a SQL query, which calls a stored procedure. This may or may not return results.
-    # Once the results are processed, invoke the `close` method on the `sql:ProcedureCallResult`.
+    # Executes an SQL query, which calls a stored procedure. This may or may not
+    # return results. Once the results are processed, the `close` method on `sql:ProcedureCallResult` must be called.
     #
     # + sqlQuery - The SQL query such as `` `CALL sp_GetAlbums();` ``
     # + rowTypes - `typedesc` array of the records to which the results need to be returned
@@ -104,7 +104,8 @@ public isolated client class Client {
         name: "nativeCall"
     } external;
 
-    # Closes the SQL client and shuts down the connection pool.
+    # Closes the JDBC client and shuts down the connection pool. The client must be closed only at the end of the
+    # application lifetime (or closed for graceful stops in a service).
     #
     # + return - Possible error when closing the client
     public isolated function close() returns sql:Error? = @java:Method {
