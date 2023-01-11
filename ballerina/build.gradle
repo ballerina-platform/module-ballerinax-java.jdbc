@@ -66,6 +66,13 @@ ballerina {
     testCoverageParam = '--code-coverage --coverage-format=xml --includes=io.ballerina.stdlib.java.jdbc.*:ballerinax.*'
 }
 
+// TODO: Remove this task after this improvement(https://github.com/ballerina-platform/ballerina-lang/issues/38826)
+task removeTrasactionTestsForNativeTest {
+    if (project.hasProperty('balNativeTest')) {
+        delete "${project.projectDir}/tests/local-transaction-test.bal"
+    }
+}
+
 task updateTomlFiles {
     doLast {
         def stdlibDependentSQLVersion = stripBallerinaExtensionVersion(project.stdlibSqlVersion)
@@ -319,3 +326,5 @@ test.dependsOn ":${packageName}-compiler-plugin:build"
 
 build.finalizedBy removeTestDatabases
 test.dependsOn createTestDatabases
+
+test.dependsOn removeTrasactionTestsForNativeTest
