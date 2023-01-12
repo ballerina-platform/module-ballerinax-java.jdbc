@@ -29,7 +29,7 @@ public isolated client class Client {
     # + password - The password of the database associated with the provided username
     # + options - The JDBC client properties
     # + connectionPool - The `sql:ConnectionPool` to be used for the connection. If there is no
-    # `connectionPool` provided, the global connection pool (shared by all clients) will be used
+    #                    `connectionPool` provided, the global connection pool (shared by all clients) will be used
     # + return - An `sql:Error` if the client creation fails
     public isolated function init(string url, string? user = (), string? password = (),
             Options? options = (), sql:ConnectionPool? connectionPool = ()) returns sql:Error? {
@@ -64,7 +64,7 @@ public isolated client class Client {
     #
     # + sqlQuery - The SQL query such as `` `SELECT * from Album WHERE name=${albumName}` ``
     # + returnType - The `typedesc` of the record to which the result needs to be returned.
-    # It can be a basic type if the query result contains only one column
+    #                It can be a basic type if the query result contains only one column
     # + return - Result in the `returnType` type or an `sql:Error`
     remote isolated function queryRow(sql:ParameterizedQuery sqlQuery, typedesc<anydata> returnType = <>)
     returns returnType|sql:Error = @java:Method {
@@ -122,8 +122,8 @@ public isolated client class Client {
 # + datasourceName - The driver class name to be used to get the connection
 # + properties - The database properties, which should be applied when getting the connection
 # + requestGeneratedKeys - The database operations for which auto-generated keys should be returned.
-# Some databases have limitations to support this. This should be configured
-# based on the database type.
+#                          Some databases have limitations to support this. This should be configured
+#                          based on the database type.
 public type Options record {|
     string? datasourceName = ();
     map<anydata>? properties = ();
@@ -145,7 +145,7 @@ public enum Operations {
 # + password - The password of the database associated with the provided username
 # + options - The JDBC client properties
 # + connectionPool - The `sql:ConnectionPool` to be used for the connection. If there is no `connectionPool` provided,
-# the global connection pool (shared by all clients) will be used
+#                    the global connection pool (shared by all clients) will be used
 type ClientConfiguration record {|
     string? url;
     string? user;
@@ -155,7 +155,7 @@ type ClientConfiguration record {|
 |};
 
 isolated function createClient(Client jdbcClient, ClientConfiguration clientConf,
-        sql:ConnectionPool globalConnPool) returns sql:Error? = @java:Method {
+    sql:ConnectionPool globalConnPool) returns sql:Error? = @java:Method {
     'class: "io.ballerina.stdlib.java.jdbc.nativeimpl.ClientProcessor"
 } external;
 
