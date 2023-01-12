@@ -1,0 +1,8 @@
+dbHost = "postgres-service"
+dbUsername = "postgres"
+dbPassword = "postgres"
+dbName = "postgres"
+dbPort = 5432
+# Change the cache configurations if need.
+capacity = 100
+evictionFactor = 0.2

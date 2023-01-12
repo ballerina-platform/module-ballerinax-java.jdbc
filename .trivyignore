@@ -1,0 +1,2 @@
+# H2 Driver defer until 30th June 2023 as it is a false positive
+ CVE-2022-45868 exp:2023-06-30

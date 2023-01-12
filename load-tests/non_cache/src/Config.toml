@@ -1,0 +1,5 @@
+dbHost = "postgres-service"
+dbUsername = "postgres"
+dbPassword = "postgres"
+dbName = "postgres"
+dbPort = 5432
