@@ -33,8 +33,7 @@ public isolated client class Client {
     # + return - An `sql:Error` if the client creation fails
     public isolated function init(string url, string? user = (), string? password = (),
         Options? options = (), sql:ConnectionPool? connectionPool = ()) returns sql:Error? {
-        if strings:startsWith(url, "jdbc:sqlserver") &&
-                    (options is () || (options is Options && options.requestGeneratedKeys == ALL)) {
+        if strings:startsWith(url, "jdbc:sqlserver") && isRequestGeneratedKeysSupportInBatchExecute(options) {
             return error sql:ApplicationError("MSSQL does not support the retrieval of auto-generated " +
                                 "keys with batch execute function");
         }
@@ -164,3 +163,7 @@ isolated function nativeBatchExecute(Client sqlClient, string[]|sql:Parameterize
 returns sql:ExecutionResult[]|sql:Error = @java:Method {
     'class: "io.ballerina.stdlib.java.jdbc.nativeimpl.ExecuteProcessor"
 } external;
+
+isolated function isRequestGeneratedKeysSupportInBatchExecute(Options? options) returns boolean {
+    return (options is () || (options is Options && (options.requestGeneratedKeys == ALL || options.requestGeneratedKeys == BATCH_EXECUTE)));
+}
