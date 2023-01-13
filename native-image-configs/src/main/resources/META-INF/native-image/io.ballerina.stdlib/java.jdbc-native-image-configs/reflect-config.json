@@ -3,6 +3,32 @@
     "name": "org.h2.Driver"
   },
   {
+    "name":"org.h2.jdbcx.JdbcDataSource",
+    "queryAllPublicMethods":true,
+    "methods":[
+      {
+        "name":"<init>",
+        "parameterTypes":[]
+      },
+      {
+        "name":"setLoginTimeout",
+        "parameterTypes":["int"]
+      },
+      {
+        "name":"setPassword",
+        "parameterTypes":["java.lang.String"]
+      },
+      {
+        "name":"setUrl",
+        "parameterTypes":["java.lang.String"]
+      },
+      {
+        "name":"setUser",
+        "parameterTypes":["java.lang.String"]
+      }
+    ]
+  },
+  {
     "name": "org.h2.mvstore.db.LobStorageMap$BlobMeta$Type",
     "fields": [
       {

@@ -329,5 +329,4 @@ test.dependsOn ":${packageName}-compiler-plugin:build"
 
 build.finalizedBy removeTestDatabases
 test.dependsOn createTestDatabases
-
 test.dependsOn removeTrasactionTestsForNativeTest
