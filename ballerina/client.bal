@@ -35,7 +35,7 @@ public isolated client class Client {
             Options? options = (), sql:ConnectionPool? connectionPool = ()) returns sql:Error? {
         if strings:startsWith(url, "jdbc:sqlserver") && isRequestGeneratedKeysSupportsBatchExecute(options) {
             return error sql:ApplicationError("Unsupported `requestGeneratedKeys` option for MSSQL database, " +
-                        "expected `jdbc:EXECUTE`");
+                        "expected `jdbc:EXECUTE`or `jdbc:NONE`);
         }
         ClientConfiguration clientConf = {
             url: url,
