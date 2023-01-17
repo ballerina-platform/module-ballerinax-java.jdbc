@@ -16,6 +16,7 @@
 
 import ballerina/jballerina.java;
 import ballerina/sql;
+import ballerina/lang.'string as strings;
 
 # Represents a JDBC client.
 public isolated client class Client {
@@ -31,7 +32,11 @@ public isolated client class Client {
     #                    `connectionPool` provided, the global connection pool (shared by all clients) will be used
     # + return - An `sql:Error` if the client creation fails
     public isolated function init(string url, string? user = (), string? password = (),
-        Options? options = (), sql:ConnectionPool? connectionPool = ()) returns sql:Error? {
+            Options? options = (), sql:ConnectionPool? connectionPool = ()) returns sql:Error? {
+        if strings:startsWith(url, "jdbc:sqlserver") && isRequestGeneratedKeysSupportsBatchExecute(options) {
+            return error sql:ApplicationError("Unsupported `requestGeneratedKeys` option for MSSQL database, " +
+                        "expected `jdbc:EXECUTE` or `jdbc:NONE`");
+        }
         ClientConfiguration clientConf = {
             url: url,
             user: user,
@@ -116,7 +121,9 @@ public isolated client class Client {
 #
 # + datasourceName - The driver class name to be used to get the connection
 # + properties - The database properties, which should be applied when getting the connection
-# + requestGeneratedKeys - The database operations for which auto-generated keys should be returned
+# + requestGeneratedKeys - The database operations for which auto-generated keys should be returned.
+#                          Some databases have limitations to support this. This should be configured
+#                          based on the database type.
 public type Options record {|
     string? datasourceName = ();
     map<anydata>? properties = ();
@@ -156,3 +163,8 @@ isolated function nativeBatchExecute(Client sqlClient, string[]|sql:Parameterize
 returns sql:ExecutionResult[]|sql:Error = @java:Method {
     'class: "io.ballerina.stdlib.java.jdbc.nativeimpl.ExecuteProcessor"
 } external;
+
+isolated function isRequestGeneratedKeysSupportsBatchExecute(Options? options) returns boolean {
+    return !(options is Options && (options.requestGeneratedKeys == EXECUTE ||
+        options.requestGeneratedKeys == NONE));
+}

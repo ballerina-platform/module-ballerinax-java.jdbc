@@ -254,3 +254,26 @@ function TestDuplicateKey() returns error? {
                 "(id, age) values (1,10). Unique index or primary key violation: \"PRIMARY KEY ON PUBLIC.DETAILS(ID) " +
                 "( /* key:1 */ 1, 10)\""), sqlerror.message());
 }
+
+@test:Config {
+    groups: ["batch-execute", "error"]
+}
+function testMssqlBatchExecuteWithDefaultRequestGeneratedKeys() {
+    Client|error dbClient = new (url = "jdbc:sqlserver://localhost:1433;", user = "sa", password = "test123");
+    test:assertTrue(dbClient is sql:ApplicationError);
+    sql:ApplicationError sqlerror = <sql:ApplicationError>dbClient;
+    test:assertTrue(strings:includes(sqlerror.message(), "Unsupported `requestGeneratedKeys` option for " +
+               "MSSQL database, expected `jdbc:EXECUTE`"), sqlerror.message());
+}
+
+@test:Config {
+    groups: ["batch-execute", "error"]
+}
+function testMssqlBatchExecuteWithRequestGeneratedKeys() {
+    Client|error dbClient = new (url = "jdbc:sqlserver://localhost:1433;", user = "sa", password = "test123",
+                options = { requestGeneratedKeys : BATCH_EXECUTE});
+    test:assertTrue(dbClient is sql:ApplicationError);
+    sql:ApplicationError sqlerror = <sql:ApplicationError>dbClient;
+    test:assertTrue(strings:includes(sqlerror.message(), "Unsupported `requestGeneratedKeys` option for " +
+               "MSSQL database, expected `jdbc:EXECUTE`"), sqlerror.message());
+}
