@@ -47,10 +47,10 @@ public class RemoteMethodAnalyzer implements AnalysisTask<SyntaxNodeAnalysisCont
         List<Diagnostic> diagnostics = ctx.semanticModel().diagnostics();
         diagnostics.stream()
                 .filter(diagnostic -> diagnostic.diagnosticInfo().severity() == DiagnosticSeverity.ERROR)
-                .filter(diagnostic ->
+                .filter(diagnostic -> diagnostic.diagnosticInfo().code() != null && (
                         diagnostic.diagnosticInfo().code().equals(CANNOT_INFER_TYPE_FOR_PARAM.diagnosticId()) ||
                         diagnostic.diagnosticInfo().code().equals(
-                                DiagnosticErrorCode.INCOMPATIBLE_TYPE_FOR_INFERRED_TYPEDESC_VALUE.diagnosticId()))
+                                DiagnosticErrorCode.INCOMPATIBLE_TYPE_FOR_INFERRED_TYPEDESC_VALUE.diagnosticId())))
                 .filter(diagnostic -> diagnostic.location().lineRange().equals(node.location().lineRange()))
                 .forEach(diagnostic -> addHint(ctx, node));
     }
