@@ -17,7 +17,7 @@
 import ballerina/sql;
 import ballerinax/java.jdbc;
 
-jdbc:Client dbClient3 = check new jdbc:Client("url", (), (), {}, { maxOpenConnections: -1});
+jdbc:Client dbClient3 = check new jdbc:Client("url", (), (), {}, {maxOpenConnections: -1});
 
 public function main() returns error? {
 
@@ -25,9 +25,25 @@ public function main() returns error? {
         maxOpenConnections: -1
     };
 
-    jdbc:Client dbClient1 = check new("url", connectionPool = {maxOpenConnections: -1});
+    jdbc:Client dbClient1 = check new ("url", connectionPool = {
+        maxOpenConnections: -1,
+        minIdleConnections: -1,
+        maxConnectionLifeTime: 10
+    });
     check dbClient1.close();
 
-    jdbc:Client dbClient2 = check new("url", (), (), {}, {maxOpenConnections: -1});
+    jdbc:Client dbClient2 = check new ("url", (), (), {}, {
+        maxOpenConnections: -1,
+        minIdleConnections: 1,
+        maxConnectionLifeTime: 31
+    });
     check dbClient2.close();
+
+    jdbc:Client dbClient3 = check new ("url", (), (), {}, ());
+    check dbClient3.close();
+
+    jdbc:Client dbClient4 = check new ("url");
+    check dbClient4.close();
+
+    sql:ParameterizedQuery query = ``;
 }
