@@ -1,0 +1,10 @@
+{
+  "resources": {
+    "includes": [
+      {
+        "pattern": "\\Qorg/h2/util/data.zip\\E"
+      }
+    ]
+  },
+  "bundles": []
+}
