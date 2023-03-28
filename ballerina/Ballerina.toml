@@ -1,19 +1,19 @@
 [package]
 org = "ballerinax"
 name = "java.jdbc"
-version = "1.7.1"
+version = "1.8.0"
 authors = ["Ballerina"]
 keywords = ["database", "client", "network", "SQL", "RDBMS", "JDBC"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-java.jdbc"
 icon = "icon.png"
 license = ["Apache-2.0"]
-distribution = "2201.4.0"
+distribution = "2201.5.0"
 
 [[platform.java11.dependency]]
 groupId = "io.ballerina.stdlib"
 artifactId = "java.jdbc-native"
-version = "1.7.1"
-path = "../native/build/libs/java.jdbc-native-1.7.1-SNAPSHOT.jar"
+version = "1.8.0"
+path = "../native/build/libs/java.jdbc-native-1.8.0-SNAPSHOT.jar"
 
 [[platform.java11.dependency]]
 groupId = "io.ballerina.stdlib"
@@ -26,5 +26,5 @@ path = "./lib/h2-2.1.212.jar"
 scope = "testOnly"
 
 [[platform.java11.dependency]]
-path = "../native-image-configs/build/libs/java.jdbc-native-image-configs-1.7.1-SNAPSHOT.jar"
+path = "../native-image-configs/build/libs/java.jdbc-native-image-configs-1.8.0-SNAPSHOT.jar"
 scope = "testOnly"
