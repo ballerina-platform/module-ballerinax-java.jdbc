@@ -40,14 +40,6 @@ public class ClientProcessor {
         if (!isJdbcUrlValid(url)) {
             return ErrorGenerator.getSQLApplicationError("Invalid JDBC URL: " + url);
         }
-        if (isInterBaseClient(url)) {
-            try {
-                Class.forName("interbase.interclient.Driver");
-            } catch (ClassNotFoundException e) {
-                return ErrorGenerator.getSQLApplicationError("Error while loading datasource class: " +
-                        e.getMessage());
-            }
-        }
         BString userVal = clientConfig.getStringValue(Constants.ClientConfiguration.USER);
         String user = userVal == null ? null : userVal.getValue();
         BString passwordVal = clientConfig.getStringValue(Constants.ClientConfiguration.PASSWORD);
@@ -110,10 +102,6 @@ public class ClientProcessor {
     // Unable to perform a complete validation since URL differs based on the database.
     private static boolean isJdbcUrlValid(String jdbcUrl) {
         return !jdbcUrl.isEmpty() && jdbcUrl.trim().startsWith("jdbc:");
-    }
-
-    private static boolean isInterBaseClient(String jdbcUrl) {
-        return jdbcUrl.contains("jdbc:interbase");
     }
 
     public static Object close(BObject client) {
