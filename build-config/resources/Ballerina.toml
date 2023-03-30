@@ -7,7 +7,7 @@ keywords = ["database", "client", "network", "SQL", "RDBMS", "JDBC"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-java.jdbc"
 icon = "icon.png"
 license = ["Apache-2.0"]
-distribution = "2201.4.0"
+distribution = "2201.5.0"
 
 [[platform.java11.dependency]]
 groupId = "io.ballerina.stdlib"
@@ -23,4 +23,8 @@ path = "./lib/sql-native-@sql.native.version@.jar"
 
 [[platform.java11.dependency]]
 path = "./lib/h2-@h2.connector.version@.jar"
+scope = "testOnly"
+
+[[platform.java11.dependency]]
+path = "../native-image-configs/build/libs/java.jdbc-native-image-configs-@project.version@.jar"
 scope = "testOnly"
