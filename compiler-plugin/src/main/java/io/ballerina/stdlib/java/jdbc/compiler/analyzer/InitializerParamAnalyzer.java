@@ -108,6 +108,7 @@ public class InitializerParamAnalyzer implements AnalysisTask<SyntaxNodeAnalysis
             }
         }
     }
+
     private void validateConnectionPool(SyntaxNodeAnalysisContext ctx, String name, ExpressionNode valueNode) {
             switch (name) {
                 case Constants.ConnectionPool.MAX_OPEN_CONNECTIONS:
