@@ -26,9 +26,12 @@ import io.ballerina.compiler.syntax.tree.MappingConstructorExpressionNode;
 import io.ballerina.compiler.syntax.tree.MappingFieldNode;
 import io.ballerina.compiler.syntax.tree.NamedArgumentNode;
 import io.ballerina.compiler.syntax.tree.Node;
+import io.ballerina.compiler.syntax.tree.NodeList;
 import io.ballerina.compiler.syntax.tree.PositionalArgumentNode;
+import io.ballerina.compiler.syntax.tree.RecordFieldWithDefaultValueNode;
 import io.ballerina.compiler.syntax.tree.SeparatedNodeList;
 import io.ballerina.compiler.syntax.tree.SpecificFieldNode;
+import io.ballerina.compiler.syntax.tree.SpreadFieldNode;
 import io.ballerina.compiler.syntax.tree.UnaryExpressionNode;
 import io.ballerina.projects.plugins.AnalysisTask;
 import io.ballerina.projects.plugins.SyntaxNodeAnalysisContext;
@@ -85,12 +88,28 @@ public class InitializerParamAnalyzer implements AnalysisTask<SyntaxNodeAnalysis
             // connection pool is null scenario
             return;
         }
-        SeparatedNodeList<MappingFieldNode> fields =
-                ((MappingConstructorExpressionNode) connectionPool).fields();
+        SeparatedNodeList<MappingFieldNode> fields = ((MappingConstructorExpressionNode) connectionPool).fields();
         for (MappingFieldNode field : fields) {
-            String name = ((SpecificFieldNode) field).fieldName().toString()
-                    .trim().replaceAll(UNNECESSARY_CHARS_REGEX, "");
-            ExpressionNode valueNode = ((SpecificFieldNode) field).valueExpr().get();
+            if (field instanceof SpecificFieldNode) {
+                SpecificFieldNode specificFieldNode = ((SpecificFieldNode) field);
+                validateConnectionPool(ctx, specificFieldNode.fieldName().toString().trim().
+                        replaceAll(UNNECESSARY_CHARS_REGEX, ""), specificFieldNode.valueExpr().get());
+            } else if (field instanceof SpreadFieldNode) {
+                NodeList<Node> recordFields = Utils.getSpreadFieldType(ctx, (SpreadFieldNode) field);
+                for (Node recordField : recordFields) {
+                    if (recordField instanceof RecordFieldWithDefaultValueNode) {
+                        RecordFieldWithDefaultValueNode fieldWithDefaultValueNode =
+                                (RecordFieldWithDefaultValueNode) recordField;
+                        validateConnectionPool(ctx, fieldWithDefaultValueNode.fieldName().toString().
+                                        trim().replaceAll(UNNECESSARY_CHARS_REGEX, ""),
+                                fieldWithDefaultValueNode.expression());
+                    }
+                }
+            }
+        }
+    }
+
+    private void validateConnectionPool(SyntaxNodeAnalysisContext ctx, String name, ExpressionNode valueNode) {
             switch (name) {
                 case Constants.ConnectionPool.MAX_OPEN_CONNECTIONS:
                     int maxOpenConnections = Integer.parseInt(getTerminalNodeValue(valueNode, "1"));
@@ -125,9 +144,7 @@ public class InitializerParamAnalyzer implements AnalysisTask<SyntaxNodeAnalysis
                     break;
                 default:
                     // Can ignore all other fields
-                    continue;
             }
-        }
     }
 
     private String getTerminalNodeValue(Node valueNode, String defaultValue) {
