@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Add compiler plugin validation to validate spread-field config initialization](https://github.com/ballerina-platform/ballerina-standard-library/issues/4594)
 
 ### Changed
+- [Support retrieval of enum types](https://github.com/ballerina-platform/ballerina-standard-library/issues/4588)
 
 ## [1.7.0] - 2023-02-20
 
