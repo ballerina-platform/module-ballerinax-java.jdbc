@@ -20,7 +20,7 @@ It is a simple project, which shows how to get user info by using the username a
 
     * Set the driver JAR path in the `Ballerina.toml` file.
       ```
-      [[platform.java11.dependency]]
+      [[platform.java17.dependency]]
       path = "PATH"
       ```
       Sample path format for macOS: `/Applications/CData/CData JDBC Driver for Facebook 2021/lib/cdata.jdbc.facebook.jar`

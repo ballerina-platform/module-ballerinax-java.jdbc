@@ -18,13 +18,13 @@ Follow one of the following ways to add the corresponding database JAR in the fi
 
 * Download the JAR and update the path
     ```
-    [[platform.java11.dependency]]
+    [[platform.java17.dependency]]
     path = "PATH"
     ```
 
 * Add JAR with a maven dependency params
     ```
-    [[platform.java11.dependency]]
+    [[platform.java17.dependency]]
     artifactId = "h2"
     version = "2.0.206"
     groupId = "com.h2database"
@@ -468,8 +468,8 @@ This repository only contains the source code for the library.
 
 ### Set up the prerequisites
 
-1. Download and install Java SE Development Kit (JDK) version 11 (from one of the following locations).
-   * [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+1. Download and install Java SE Development Kit (JDK) version 17 (from one of the following locations).
+   * [Oracle](https://www.oracle.com/java/technologies/downloads/)
    * [OpenJDK](https://adoptium.net/)
 
 2. Export GitHub personal access token with read package permissions as follows,

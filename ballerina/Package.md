@@ -11,13 +11,13 @@ Follow one of the following ways to add the corresponding database JAR in the fi
 
 * Download the JAR and update the path
     ```
-    [[platform.java11.dependency]]
+    [[platform.java17.dependency]]
     path = "PATH"
     ```
 
 * Add JAR with a maven dependency params
     ```
-    [[platform.java11.dependency]]
+    [[platform.java17.dependency]]
     artifactId = "h2"
     version = "2.0.206"
     groupId = "com.h2database"

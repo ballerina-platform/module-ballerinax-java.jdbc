@@ -6,7 +6,7 @@ version = "0.0.1"
 [build-options]
 cloud = "k8s"
 
-[[platform.java11.dependency]]
+[[platform.java17.dependency]]
 groupId = "org.postgresql"
 artifactId = "postgresql"
 version = "42.2.20"

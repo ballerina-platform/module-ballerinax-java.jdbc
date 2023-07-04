@@ -36,13 +36,13 @@ An example of creating the above and populating the table is shown in the [`setu
 Follow one of the following ways to add the Snowflake JDBC driver JAR in the `Ballerina.toml` file:
 * Download the JAR and update the path
     ```
-    [[platform.java11.dependency]]
+    [[platform.java17.dependency]]
     path = "PATH"
     ```
 
 * Replace the above path with a maven dependency parameter
     ```
-    [[platform.java11.dependency]]
+    [[platform.java17.dependency]]
     groupId = "net.snowflake"
     artifactId = "snowflake-jdbc"
     version = "3.13.5"

@@ -17,7 +17,7 @@
  */
 
 plugins {
-    id 'java'
+    id 'java-library'
     id 'checkstyle'
     id 'com.github.spotbugs'
     id 'jacoco'
@@ -33,7 +33,7 @@ dependencies {
     checkstyle project(':checkstyle')
     checkstyle "com.puppycrawl.tools:checkstyle:${puppycrawlCheckstyleVersion}"
 
-    jacocoRuntime "org.jacoco:org.jacoco.agent:0.8.6:runtime"
+    jacocoRuntime "org.jacoco:org.jacoco.agent:0.8.10:runtime"
 
     implementation project(':java.jdbc-compiler-plugin')
 
@@ -48,7 +48,7 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
 
 test {
     systemProperty "ballerina.offline.flag", "true"
@@ -73,7 +73,7 @@ test {
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled true
+        xml.required = true
     }
     sourceSets project(':java.jdbc-compiler-plugin').sourceSets.main
 }
