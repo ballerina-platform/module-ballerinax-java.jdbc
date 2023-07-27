@@ -23,11 +23,3 @@ groupId = "io.ballerina.stdlib"
 artifactId = "sql-native"
 version = "@sql.version@"
 path = "./lib/sql-native-@sql.native.version@.jar"
-
-[[platform.java11.dependency]]
-path = "./lib/h2-@h2.connector.version@.jar"
-scope = "testOnly"
-
-[[platform.java11.dependency]]
-path = "../native-image-configs/build/libs/java.jdbc-native-image-configs-@project.version@.jar"
-scope = "testOnly"
