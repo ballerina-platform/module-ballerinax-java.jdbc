@@ -17,6 +17,7 @@
 import ballerina/io;
 import ballerina/test;
 import ballerina/file;
+import ballerinax/h2.driver as _;
 
 string libPath = check file:getAbsolutePath("lib");
 string dbPath = check file:getAbsolutePath("target/databases");
