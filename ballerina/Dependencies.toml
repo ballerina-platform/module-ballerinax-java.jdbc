@@ -386,7 +386,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "h2.driver"
-version = "0.1.0"
+version = "1.0.0"
 scope = "testOnly"
 modules = [
 	{org = "ballerinax", packageName = "h2.driver", moduleName = "h2.driver"}
