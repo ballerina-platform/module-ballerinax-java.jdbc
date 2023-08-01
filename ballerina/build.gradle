@@ -74,7 +74,6 @@ task updateTomlFiles {
         newConfig = newConfig.replace('@toml.version@', tomlVersion)
         newConfig = newConfig.replace('@sql.version@', stdlibDependentSQLVersion)
         newConfig = newConfig.replace('@sql.native.version@', project.stdlibSqlVersion)
-        newConfig = newConfig.replace('@h2.connector.version@', project.h2DriverVersion)
         ballerinaTomlFile.text = newConfig
 
         def newCompilerPluginToml = compilerPluginTomlFilePlaceHolder.text.replace("@project.version@", project.version)
@@ -306,16 +305,12 @@ task removeTestDatabases() {
     }
 }
 
-
 updateTomlFiles.dependsOn copyStdlibs
 createTestDatabases.dependsOn updateTomlFiles
 
 build.dependsOn "generatePomFileForMavenPublication"
 build.dependsOn ":${packageName}-native:build"
 test.dependsOn ":${packageName}-native:build"
-
-build.dependsOn ":${packageName}-native-image-configs:build"
-test.dependsOn ":${packageName}-native-image-configs:build"
 
 build.dependsOn ":${packageName}-compiler-plugin:build"
 test.dependsOn ":${packageName}-compiler-plugin:build"
