@@ -5,7 +5,7 @@
 
 [ballerina]
 dependencies-toml-version = "2"
-distribution-version = "2201.7.0-20230619-175900-bb4e4544"
+distribution-version = "2201.7.0"
 
 [[package]]
 org = "ballerina"
@@ -54,7 +54,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "file"
-version = "1.8.0"
+version = "1.8.1"
 scope = "testOnly"
 dependencies = [
 	{org = "ballerina", name = "io"},
@@ -385,8 +385,17 @@ modules = [
 
 [[package]]
 org = "ballerinax"
+name = "h2.driver"
+version = "1.0.0"
+scope = "testOnly"
+modules = [
+	{org = "ballerinax", packageName = "h2.driver", moduleName = "h2.driver"}
+]
+
+[[package]]
+org = "ballerinax"
 name = "java.jdbc"
-version = "1.10.0"
+version = "1.10.1"
 dependencies = [
 	{org = "ballerina", name = "file"},
 	{org = "ballerina", name = "io"},
@@ -397,7 +406,8 @@ dependencies = [
 	{org = "ballerina", name = "sql"},
 	{org = "ballerina", name = "test"},
 	{org = "ballerina", name = "time"},
-	{org = "ballerinai", name = "transaction"}
+	{org = "ballerinai", name = "transaction"},
+	{org = "ballerinax", name = "h2.driver"}
 ]
 modules = [
 	{org = "ballerinax", packageName = "java.jdbc", moduleName = "java.jdbc"}
