@@ -25,9 +25,9 @@ version = "1.10.0"
 path = "./lib/sql-native-1.10.0.jar"
 
 [[platform.java17.dependency]]
-path = "./lib/h2-2.1.214.jar"
+path = "./lib/h2-@h2.connector.version@.jar"
 scope = "testOnly"
 
 [[platform.java17.dependency]]
-path = "../native-image-configs/build/libs/java.jdbc-native-image-configs-1.10.0-SNAPSHOT.jar"
+path = "../native-image-configs/build/libs/java.jdbc-native-image-configs-1.10.1-SNAPSHOT.jar"
 scope = "testOnly"
