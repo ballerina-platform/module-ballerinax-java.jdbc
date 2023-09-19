@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+## [1.10.0] - 2023-06-30
+
+### Added
 - [Add compiler plugin validation to validate spread-field config initialization](https://github.com/ballerina-platform/ballerina-standard-library/issues/4594)
 
 ### Changed
