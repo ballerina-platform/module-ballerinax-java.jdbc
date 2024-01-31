@@ -9,5 +9,6 @@ on: pull_request
 jobs:
   call_workflow:
     name: Run PR Build Workflow
-    uses: ballerina-platform/ballerina-standard-library/.github/workflows/pull-request-build-template.yml@main
+    if: ${{ github.repository_owner == 'ballerina-platform' }}
+    uses: ballerina-platform/ballerina-standard-library/.github/workflows/pull-request-build-template.yml@workflow-test
     secrets: inherit 
