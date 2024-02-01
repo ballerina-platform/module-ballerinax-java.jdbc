@@ -10,7 +10,7 @@
 This library provides the functionality that is required to access and manipulate data stored in any type of relational database,
 which is accessible via the Java Database Connectivity (JDBC) API.
 
-### Prerequisites
+### Prerequisite
 Add the JDBC driver corresponding to the database you are trying to interact with
 as a native library dependency in your Ballerina project's `Ballerina.toml` file.
 
