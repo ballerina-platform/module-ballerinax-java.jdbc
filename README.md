@@ -5,7 +5,7 @@
 [![Trivy](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/trivy-scan.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/trivy-scan.yml)
 [![GraalVM Check](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/build-with-bal-test-graalvm.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/actions/workflows/build-with-bal-test-graalvm.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-java.jdbc.svg)](https://github.com/ballerina-platform/module-ballerinax-java.jdbc/commits/master)
-[![Github issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-standard-library/module/java.jdbc.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-standard-library/labels/module%2Fjava.jdbc)
+[![Github issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/java.jdbc.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%2Fjava.jdbc)
 
 This library provides the functionality that is required to access and manipulate data stored in any type of relational database,
 which is accessible via the Java Database Connectivity (JDBC) API.
@@ -460,7 +460,7 @@ check result.close();
 
 ## Issues and projects 
 
-Issues and Projects tabs are disabled for this repository as this is part of the Ballerina Standard Library. To report bugs, request new features, start new discussions, view project boards, etc. please visit Ballerina Standard Library [parent repository](https://github.com/ballerina-platform/ballerina-standard-library). 
+Issues and Projects tabs are disabled for this repository as this is part of the Ballerina Standard Library. To report bugs, request new features, start new discussions, view project boards, etc. please visit Ballerina Standard Library [parent repository](https://github.com/ballerina-platform/ballerina-library). 
 
 This repository only contains the source code for the library.
 
