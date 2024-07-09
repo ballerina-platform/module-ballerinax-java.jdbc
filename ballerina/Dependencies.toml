@@ -5,7 +5,7 @@
 
 [ballerina]
 dependencies-toml-version = "2"
-distribution-version = "2201.9.0-20240405-165800-4b163f78"
+distribution-version = "2201.9.0"
 
 [[package]]
 org = "ballerina"
@@ -44,7 +44,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "crypto"
-version = "2.7.0"
+version = "2.7.2"
 scope = "testOnly"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
@@ -69,7 +69,7 @@ modules = [
 [[package]]
 org = "ballerina"
 name = "http"
-version = "2.11.0"
+version = "2.11.2"
 scope = "testOnly"
 dependencies = [
 	{org = "ballerina", name = "auth"},
@@ -295,7 +295,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "sql"
-version = "1.13.0"
+version = "1.13.2"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -396,7 +396,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "java.jdbc"
-version = "1.12.0"
+version = "2.0.0"
 dependencies = [
 	{org = "ballerina", name = "file"},
 	{org = "ballerina", name = "io"},
