@@ -1,13 +1,13 @@
 [package]
 org = "ballerinax"
 name = "java.jdbc"
-version = "2.0.0"
+version = "1.12.0"
 authors = ["Ballerina"]
 keywords = ["database", "client", "network", "SQL", "RDBMS", "JDBC"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-java.jdbc"
 icon = "icon.png"
 license = ["Apache-2.0"]
-distribution = "2201.9.0"
+distribution = "2201.10.0"
 
 [platform.java17]
 graalvmCompatible = true
@@ -15,11 +15,11 @@ graalvmCompatible = true
 [[platform.java17.dependency]]
 groupId = "io.ballerina.stdlib"
 artifactId = "java.jdbc-native"
-version = "2.0.0"
-path = "../native/build/libs/java.jdbc-native-2.0.0-SNAPSHOT.jar"
+version = "1.12.0"
+path = "../native/build/libs/java.jdbc-native-1.12.0-SNAPSHOT.jar"
 
 [[platform.java17.dependency]]
 groupId = "io.ballerina.stdlib"
 artifactId = "sql-native"
-version = "1.13.0"
-path = "./lib/sql-native-1.13.0.jar"
+version = "1.14.0"
+path = "./lib/sql-native-1.14.0-20240809-142900-0689c89.jar"
