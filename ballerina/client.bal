@@ -125,8 +125,8 @@ public isolated client class Client {
 #                          Some databases have limitations to support this. This should be configured
 #                          based on the database type.
 public type Options record {|
-    string? datasourceName = ();
-    map<anydata>? properties = ();
+    string datasourceName?;
+    map<anydata> properties?;
     Operations requestGeneratedKeys = ALL;
 |};
 
