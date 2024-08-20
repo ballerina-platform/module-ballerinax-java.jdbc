@@ -14,4 +14,4 @@ jobs:
     with:
       package-name: java.jdbc
       package-org: ballerinax
-      additional-build-flags: "-x :jdbc-examples:build"
+      additional-build-flags: "-x :java.jdbc-examples:build"
