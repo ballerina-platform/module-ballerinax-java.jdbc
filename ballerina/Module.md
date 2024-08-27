@@ -25,7 +25,7 @@ Follow one of the following ways to add the corresponding database JAR in the fi
 
 ### Client
 To access a database, you must first create a
-[`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) object.
+[`jdbc:Client`](https://central.ballerina.io/ballerinax/java.jdbc/latest#Client) object.
 The samples for creating a JDBC client can be found below.
 
 > **Tip**: The client should be used throughout the application lifetime.
@@ -53,9 +53,9 @@ jdbc:Client|sql:Error dbClient = new (
 ```
 
 In the sample below, the `jdbc:Client` uses the named parameters to pass all the attributes and provides the `options` property in the type of
-[`jdbc:Options`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/records/Options),
+[`jdbc:Options`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest#Options),
 and also uses the unshared connection pool in the type of
-[`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
+[`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest#ConnectionPool).
 For more information about connection pooling, see the [`sql` module](https://docs.central.ballerina.io/ballerina/sql/latest).
 
 E.g., The DB client creation for an H2 database will be as follows.
@@ -73,7 +73,7 @@ jdbc:Client|sql:Error dbClient = new (
 ```
 
 The `jdbc:Client` receives some custom properties within the
-[`jdbc:Options`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/records/Options)
+[`jdbc:Options`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest#Options)
 and those properties will be used by the defined `datasourceName`.
 As per the provided sample, the `org.h2.jdbcx.JdbcDataSource` datasource will be configured with a `loginTimeout`
 of `2000` milliseconds.
@@ -91,16 +91,16 @@ jdbc:Client|sql:Error dbClient = new (
 ```
 
 You can find more details about each property in the
-[`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) constructor.
+[`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest#Client) constructor.
 
-The [`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest/clients/Client) references
-[`sql:Client`](https://docs.central.ballerina.io/ballerina/sql/latest/clients/Client) and
+The [`jdbc:Client`](https://docs.central.ballerina.io/ballerinax/java.jdbc/latest#Client) references
+[`sql:Client`](https://docs.central.ballerina.io/ballerina/sql/latest#Client) and
 all the operations defined by the `sql:Client` will be supported by the `jdbc:Client` as well.
 
 #### Handle connection pools
 
 All database modules share the same connection pooling concept and there are three possible scenarios for
-connection pool handling. For its properties and possible values, see the [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest/records/ConnectionPool).
+connection pool handling. For its properties and possible values, see the [`sql:ConnectionPool`](https://docs.central.ballerina.io/ballerina/sql/latest#ConnectionPool).
 
 >**Note**: Connection pooling is used to optimize opening and closing connections to the database. However, the pool comes with an overhead. It is best to configure the connection pool properties as per the application need to get the best performance.
 
