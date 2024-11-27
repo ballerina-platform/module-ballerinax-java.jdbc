@@ -18,15 +18,15 @@ Follow one of the following ways to add the corresponding database JAR in the fi
 
 * Download the JAR and update the path
     ```
-    [[platform.java17.dependency]]
+    [[platform.java21.dependency]]
     path = "PATH"
     ```
 
 * Add JAR with a maven dependency params
     ```
-    [[platform.java17.dependency]]
+    [[platform.java21.dependency]]
     artifactId = "h2"
-    version = "2.0.206"
+    version = "2.2.220"
     groupId = "com.h2database"
     ```
 

@@ -48,6 +48,8 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+sourceCompatibility = JavaVersion.VERSION_21
+
 test {
     systemProperty "ballerina.offline.flag", "true"
     useTestNG() {
