@@ -3,4 +3,4 @@ id = "jdbc-compiler-plugin"
 class = "io.ballerina.stdlib.java.jdbc.compiler.JDBCCompilerPlugin"
 
 [[dependency]]
-path = "../compiler-plugin/build/libs/java.jdbc-compiler-plugin-1.13.0-SNAPSHOT.jar"
+path = "../compiler-plugin/build/libs/java.jdbc-compiler-plugin-1.13.0.jar"

@@ -16,7 +16,7 @@ graalvmCompatible = true
 groupId = "io.ballerina.stdlib"
 artifactId = "java.jdbc-native"
 version = "1.13.0"
-path = "../native/build/libs/java.jdbc-native-1.13.0-SNAPSHOT.jar"
+path = "../native/build/libs/java.jdbc-native-1.13.0.jar"
 
 [[platform.java21.dependency]]
 groupId = "io.ballerina.stdlib"
