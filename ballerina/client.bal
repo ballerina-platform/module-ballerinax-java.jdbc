@@ -110,7 +110,7 @@ public isolated client class Client {
         name: "nativeCall"
     } external;
 
-    # Closes the PostgreSQL client and shuts down the connection pool.
+    # Closes the JDBC client and shuts down the connection pool.
     # The client should be closed only at the end of the application lifetime, or when performing graceful stops in a service.
     #
     # + return - `sql:Error` if closing the client fails, else `()`
