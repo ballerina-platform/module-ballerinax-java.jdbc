@@ -120,7 +120,7 @@ public isolated client class Client {
     } external;
 }
 
-# Represent an additional set of configurations related to a database connection.
+# An additional set of options related to a database connection.
 #
 # + datasourceName - The driver class name to be used to get the connection
 # + properties - The database properties, which should be applied when getting the connection
@@ -141,7 +141,7 @@ public enum Operations {
     ALL
 }
 
-# Represents the configurations for the JDBC client to be passed internally within the module.
+# The configurations for the JDBC client to be passed internally within the module.
 #
 # + url - The JDBC URL for the database connection
 # + user - Database username
