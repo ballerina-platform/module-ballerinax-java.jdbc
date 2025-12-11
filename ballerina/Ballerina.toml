@@ -1,9 +1,9 @@
 [package]
 org = "ballerinax"
 name = "java.jdbc"
-version = "1.14.0"
+version = "1.14.1"
 authors = ["Ballerina"]
-keywords = ["database", "client", "network", "SQL", "RDBMS", "JDBC"]
+keywords = ["client", "network", "SQL", "RDBMS", "JDBC", "Vendor/Java", "Area/Database", "Type/Connector"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-java.jdbc"
 icon = "icon.png"
 license = ["Apache-2.0"]
@@ -15,8 +15,8 @@ graalvmCompatible = true
 [[platform.java21.dependency]]
 groupId = "io.ballerina.stdlib"
 artifactId = "java.jdbc-native"
-version = "1.14.0"
-path = "../native/build/libs/java.jdbc-native-1.14.0.jar"
+version = "1.14.1"
+path = "../native/build/libs/java.jdbc-native-1.14.1-SNAPSHOT.jar"
 
 [[platform.java21.dependency]]
 groupId = "io.ballerina.stdlib"
