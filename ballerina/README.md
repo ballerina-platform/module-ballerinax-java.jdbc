@@ -1,7 +1,14 @@
-## Package overview
+## Overview
 
-This package provides the functionality that is required to access and manipulate data stored in any type of relational database,
-which is accessible via the Java Database Connectivity (JDBC) API.
+This module provides the functionality that is required to access and manipulate data stored in any type of relational database, which is accessible via the Java Database Connectivity (JDBC) API.
+
+### Key Features
+
+- Access and manipulate data in any relational database via JDBC
+- Support for common SQL operations (Query, Execute, Batch)
+- Connection pooling for optimized resource management
+- Support for stored procedures and auto-generated keys
+- GraalVM compatible for native image builds
 
 ### Prerequisite
 Add the JDBC driver corresponding to the database you are trying to interact with
