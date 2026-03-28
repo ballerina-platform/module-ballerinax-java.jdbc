@@ -25,6 +25,7 @@ import io.ballerina.stdlib.sql.datasource.SQLDatasource;
 import io.ballerina.stdlib.sql.utils.ErrorGenerator;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -76,7 +77,8 @@ public class ClientProcessor {
                 .setDatasourceName(datasourceName)
                 .setOptions(properties)
                 .setPoolProperties(poolProperties)
-                .setConnectionPool(connectionPool, globalPool);
+                .setConnectionPool(connectionPool, globalPool)
+                .setMetricsTags(Map.of());
 
         boolean executeGKFlag = false;
         boolean batchExecuteGKFlag = false;
