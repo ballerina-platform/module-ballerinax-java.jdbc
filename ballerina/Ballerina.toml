@@ -21,5 +21,5 @@ path = "../native/build/libs/java.jdbc-native-1.14.2-SNAPSHOT.jar"
 [[platform.java21.dependency]]
 groupId = "io.ballerina.stdlib"
 artifactId = "sql-native"
-version = "1.18.0"
-path = "./lib/sql-native-1.18.0-SNAPSHOT.jar"
+version = "1.19.0"
+path = "./lib/sql-native-1.19.0-20260331-111100-8a9f7f8.jar"
