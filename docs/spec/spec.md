@@ -117,7 +117,6 @@ The JDBC module supports observability through connection pool metrics, reported
 
 ## 5.1. Metric tags
 
-The JDBC module does not set any tags because it is a generic connector that accepts only a raw JDBC URL string. Unlike database-specific connectors (e.g., MySQL, PostgreSQL) that receive structured `host`, `port`, and `database` parameters.
+The JDBC module does not set any tags because it is a generic connector that accepts only a raw JDBC URL string. Unlike database-specific connectors (e.g., MySQL, PostgreSQL) that receive structured `host`, `port`, and `database` parameters, the JDBC connector cannot reliably extract these components from the diverse range of JDBC URL formats (e.g., `jdbc:h2:mem:testdb`, `jdbc:oracle:thin:@host:1521:db`, `jdbc:sqlserver://host;databaseName=db`).
 
-Connection pool metrics are still emitted by the `sql` module and can be observed, but without database-specific
-
+Connection pool metrics are still emitted by the `sql` module and can be observed, but without database-specific tag filtering.
