@@ -22,8 +22,10 @@ The conforming implementation of the specification is released to Ballerina cent
 2. [Client](#2-client)  
    2.1. [Handle connection pools](#21-handle-connection-pools)  
    2.2. [Close the client](#22-close-the-client)
-3. [Queries and values](#3-queries-and-values)  
+3. [Queries and values](#3-queries-and-values)
 4. [Database operations](#4-database-operations)
+5. [Observability](#5-observability)
+   5.1. [Metric tags](#51-metric-tags)
 
 # 1. Overview
 
@@ -108,3 +110,14 @@ All the generic `sql` queries and values are supported. For more information, se
 5. Executes an SQL query, which calls a stored procedure. This can either return results or nil.
 
 For more information on Database operations see the [SQL specification](https://github.com/ballerina-platform/module-ballerina-sql/blob/master/docs/spec/spec.md#4-database-operations)
+
+# 5. Observability
+
+The JDBC module supports observability through connection pool metrics, reported via the `ballerina/observe` module. The metric names and lifecycle are defined by the `ballerina/sql` module. For more information on connection pool metrics, see the [SQL specification](https://github.com/ballerina-platform/module-ballerina-sql/blob/master/docs/spec/spec.md).
+
+## 5.1. Metric tags
+
+The JDBC module does not set any tags because it is a generic connector that accepts only a raw JDBC URL string. Unlike database-specific connectors (e.g., MySQL, PostgreSQL) that receive structured `host`, `port`, and `database` parameters.
+
+Connection pool metrics are still emitted by the `sql` module and can be observed, but without database-specific
+
