@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.15.0] - 2026-04-01
+## [1.15.0] - 2026-04-03
 
 ### Added
 - [Add metrics tags support for connection pool observability](https://github.com/ballerina-platform/ballerina-library/issues/7763)
