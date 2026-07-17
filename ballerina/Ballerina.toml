@@ -1,24 +1,24 @@
 [package]
 org = "ballerinax"
 name = "java.jdbc"
-version = "1.15.2"
+version = "1.15.1"
 authors = ["Ballerina"]
 keywords = ["Cost/Free", "Vendor/Oracle", "Area/Database", "Type/Connector"]
 repository = "https://github.com/ballerina-platform/module-ballerinax-java.jdbc"
 icon = "icon.png"
 license = ["Apache-2.0"]
-distribution = "2201.14.0"
+distribution = "2201.13.0"
 
-[platform.java25]
+[platform.java21]
 graalvmCompatible = true
 
-[[platform.java25.dependency]]
+[[platform.java21.dependency]]
 groupId = "io.ballerina.stdlib"
 artifactId = "java.jdbc-native"
-version = "1.15.2"
-path = "../native/build/libs/java.jdbc-native-1.15.2-SNAPSHOT.jar"
+version = "1.15.1"
+path = "../native/build/libs/java.jdbc-native-1.15.1.jar"
 
-[[platform.java25.dependency]]
+[[platform.java21.dependency]]
 groupId = "io.ballerina.stdlib"
 artifactId = "sql-native"
 version = "1.19.0"
