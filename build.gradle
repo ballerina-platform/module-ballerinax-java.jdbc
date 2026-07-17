@@ -31,6 +31,9 @@ allprojects {
     version = project.version
 
     apply plugin: 'jacoco'
+jacoco {
+    toolVersion = jacocoVersion
+}
     apply plugin: 'maven-publish'
 
     repositories {
@@ -63,6 +66,14 @@ allprojects {
 }
 
 subprojects {
+
+    plugins.withId('java') {
+        java {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(25)
+            }
+        }
+    }
 
     configurations {
         externalJars
@@ -124,7 +135,7 @@ release {
     }
 }
 
-task build {
+tasks.named('build') {
     dependsOn("${packageName}-native:build")
     dependsOn("${packageName}-compiler-plugin:build")
     dependsOn("${packageName}-ballerina:build")
