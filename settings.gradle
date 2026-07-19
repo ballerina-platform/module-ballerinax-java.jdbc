@@ -29,14 +29,13 @@ pluginManagement {
 }
 
 plugins {
-    id "com.gradle.enterprise" version "3.13.2"
+    id "com.gradle.develocity" version "3.19.2"
 }
 
 rootProject.name = 'ballerinax-java.jdbc'
 
 include ':checkstyle'
 include ':java.jdbc-native'
-include ':java.jdbc-native-image-configs'
 include ':java.jdbc-compiler-plugin'
 include ':java.jdbc-ballerina'
 include ':java.jdbc-examples'
@@ -49,9 +48,9 @@ project(':java.jdbc-ballerina').projectDir = file('ballerina')
 project(':java.jdbc-examples').projectDir = file('examples')
 project(':java.jdbc-compiler-plugin-tests').projectDir = file('compiler-plugin-tests')
 
-gradleEnterprise {
+develocity {
     buildScan {
-        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-        termsOfServiceAgree = 'yes'
+        termsOfUseUrl = 'https://gradle.com/terms-of-service'
+        termsOfUseAgree = 'yes'
     }
 }
