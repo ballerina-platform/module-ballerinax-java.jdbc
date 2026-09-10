@@ -16,9 +16,32 @@
  */
 
 import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
+
+abstract class BallerinaExecHelper {
+    @Inject abstract ExecOperations getExecOperations()
+}
+
+abstract class PatchBallerinaScriptsTask extends DefaultTask {
+    @Input abstract Property<String> getJballerinaToolsBinPath()
+    @Input abstract Property<String> getBallerinaRuntimeBinPath()
+
+    @TaskAction
+    void patch() {
+        [new File(jballerinaToolsBinPath.get()), new File(ballerinaRuntimeBinPath.get())].each { binDir ->
+            if (binDir.exists()) {
+                binDir.eachFile { file ->
+                    file.setExecutable(true)
+                }
+            }
+        }
+    }
+}
 
 buildscript {
     repositories {
+        mavenLocal()
         maven {
             url = 'https://maven.pkg.github.com/ballerina-platform/plugin-gradle'
             credentials {
@@ -82,8 +105,9 @@ task updateTomlFiles {
 }
 
 task commitTomlFiles {
+    def execHelper = project.objects.newInstance(BallerinaExecHelper)
     doLast {
-        project.exec {
+        execHelper.execOperations.exec {
             ignoreExitValue true
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                 commandLine 'cmd', '/c', "git commit -m \"[Automated] Update the native jar versions\" Ballerina.toml Dependencies.toml CompilerPlugin.toml"
@@ -231,6 +255,7 @@ queryComDbs.add(queryComplex)
 testDatabasesList.add(new DatabaseMeta('query-complex-params', 'query', queryComDbs))
 
 task createTestDatabases {
+    def execHelper = project.objects.newInstance(BallerinaExecHelper)
     List<DatabaseMeta> dbsNeeded = new ArrayList<DatabaseMeta>()
     def MainGroupList = ['connection', 'pool', 'transaction', 'execute', 'batch-execute', 'query', 'error']
     String[] tempGroups
@@ -264,7 +289,7 @@ task createTestDatabases {
             while (dbCount < dbList.size()) {
                 Database db = dbList[dbCount]
                 try {
-                    exec {
+                    execHelper.execOperations.exec {
                         if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                             commandLine 'cmd', '/c', "java -classpath $project.projectDir\\lib\\h2-${h2DriverVersion}.jar " +
                                     "org.h2.tools.RunScript -url jdbc:h2:$project.projectDir\\target\\databases\\${db.getDb()}" +
@@ -290,9 +315,10 @@ task createTestDatabases {
 }
 
 task removeTestDatabases() {
+    def execHelper = project.objects.newInstance(BallerinaExecHelper)
     doLast {
         try {
-            exec {
+            execHelper.execOperations.exec {
                 if (Os.isFamily(Os.FAMILY_WINDOWS)) {
                     commandLine 'cmd', '/c', "rmdir $project.projectDir\\target\\databases /s /q"
                 } else {
@@ -305,6 +331,13 @@ task removeTestDatabases() {
     }
 }
 
+task patchBallerinaScripts(type: PatchBallerinaScriptsTask) {
+    dependsOn 'unpackJballerinaTools'
+    outputs.upToDateWhen { !tasks.named('unpackJballerinaTools').get().didWork }
+    jballerinaToolsBinPath = layout.buildDirectory.dir("jballerina-tools-${project.ballerinaLangVersion}/bin").get().asFile.absolutePath
+    ballerinaRuntimeBinPath = "${rootProject.projectDir.absolutePath}/target/ballerina-runtime/bin"
+}
+
 updateTomlFiles.dependsOn copyStdlibs
 createTestDatabases.dependsOn updateTomlFiles
 
@@ -314,6 +347,10 @@ test.dependsOn ":${packageName}-native:build"
 
 build.dependsOn ":${packageName}-compiler-plugin:build"
 test.dependsOn ":${packageName}-compiler-plugin:build"
+
+build.dependsOn patchBallerinaScripts
+test.dependsOn patchBallerinaScripts
+copyStdlibs.dependsOn patchBallerinaScripts
 
 build.finalizedBy removeTestDatabases
 test.dependsOn createTestDatabases
